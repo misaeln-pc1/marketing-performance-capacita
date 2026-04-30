@@ -1,21 +1,11 @@
-# Project Context: Growth Capacita Ops 2026
-
-## 1. Visión del Proyecto
-Sistema de marketing sistémico para Capacita.cl (OTEC). El objetivo es transicionar de una gestión artesanal a un motor de crecimiento automatizado y modular que alimente campañas en Meta, Google y LinkedIn.
-
-## 2. Diferenciadores Críticos (Value Propositions)
-* **Ubicación:** Santiago Centro (a 2 cuadras de Metro Moneda).
-* **Infraestructura:** Sala para 20 personas, climatizada, notebook facilitado para cada alumno.
-* **Materiales:** Manual técnico impreso a color, pendrive con ejercicios prácticos.
-* **Garantía:** Evaluación inicial, final y seguimiento de aprendizaje a los 6 meses.
-
-## 3. Estado Actual
-* **Fase:** Lanzamiento Campaña Excel Básico-Intermedio Presencial (Mayo 2026).
-* **Canal Prioritario:** Meta Ads (Lead Forms).
-* **Perfiles activos:** Desbordado Operativo y Reinserción Laboral.
-
-## 4. Stack Tecnológico
-* **Estrategia/Código:** GitHub + Antigravity.
-* **Media:** Google Drive.
-* **CRM/Ventas:** Zoho CRM + SalesIQ.
-* **Automatización:** n8n / Zoho Social / Zoho Campaigns.
+# Project Context: Growth Capacita Ops 2026 (V2.0)
+## 1. Visión Sistémica
+Motor de crecimiento automatizado para Capacita.cl. Enfoque modular para escalar campañas manteniendo trazabilidad hacia Zoho CRM.
+## 2. Diferenciadores Críticos
+Ubicación en Santiago Centro (Metro Moneda), modelo "Zero Friction" (notebook provisto), manuales impresos a color y seguimiento a 6 meses.
+## 3. Estado de Ejecución
+Campaña Activa: SCL-EXCEL-META-MAY26. Target: 20 matriculados.
+## 4. Matriz de Buyer Personas
+1. Desbordado Operativo (Productividad). 2. Reinserción Laboral (Certificación). 3. Ascenso Visible. 4. Emprendedor Ordenador. 5. Senior Vigente.
+## 5. Stack Tecnológico y Flujo
+Entorno: Antigravity. Control de Versiones: GitHub. Ecosistema Operativo: Zoho CRM + n8n + Meta Ads.
