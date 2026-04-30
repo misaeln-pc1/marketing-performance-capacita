@@ -1,0 +1,14 @@
+{
+    "zoho_crm_module": "Leads",
+    "mapping": {
+        "First_Name": "{{meta_form.first_name}}",
+        "Last_Name": "{{meta_form.last_name}}",
+        "Email": "{{meta_form.email}}",
+        "Phone": "{{meta_form.phone_number}}",
+        "Lead_Source": "Meta Ads",
+        "Lead_Status": "Not Contacted",
+        "utm_campaign": "{{url.utm_campaign}}",
+        "utm_content": "{{url.utm_content}}",
+        "Buyer_Persona_Tag": "Evaluate from utm_content"
+    }
+}
