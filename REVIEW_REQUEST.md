@@ -1,15 +1,15 @@
 # Solicitud de Revisión (Review Request)
 
 ## ¿Qué se hizo?
-Se creó el workspace inicial de campaña Excel Básico–Intermedio Presencial en Santiago Centro.
+Se creó la ejecución inicial Meta Lead Ads v1 para la campaña Excel Básico–Intermedio Presencial en Santiago Centro.
 
 ## Rama
-`feat/excel-campaign-workspace-v1`
+`feat/meta-lead-ads-excel-v1`
 
 ## Archivos creados
-- `campaigns/excel-basico-intermedio-presencial-santiago/campaign-brief.md`
-- `campaigns/excel-basico-intermedio-presencial-santiago/audience-hypotheses.md`
-- `campaigns/excel-basico-intermedio-presencial-santiago/offer-message-map.md`
+- `campaigns/excel-basico-intermedio-presencial-santiago/meta-ads-structure-v1.md`
+- `campaigns/excel-basico-intermedio-presencial-santiago/lead-form-v1.md`
+- `campaigns/excel-basico-intermedio-presencial-santiago/ad-copy-v1.md`
 
 ## Archivos modificados
 - `TASK_STATUS.md`
@@ -21,14 +21,14 @@ Se creó el workspace inicial de campaña Excel Básico–Intermedio Presencial 
 - `git diff --check`
 
 ## Revisión solicitada
-Validar que el brief, las hipótesis de audiencia y el mapa de mensajes estén alineados con `PROJECT_CONTEXT.md`, sin mezclar B2C con empresa/SENCE y sin subir datos personales, secretos ni archivos pesados.
+Validar que la estructura Meta Ads, formulario Lead Ads y copies iniciales estén alineados con la campaña Excel presencial Santiago, sin mezclar B2C con empresa/SENCE, sin promesas exageradas y sin datos sensibles.
 
 ## Riesgos o dudas
 - Falta confirmar precio vigente.
 - Falta confirmar duración vigente.
 - Falta confirmar próxima fecha.
 - Falta confirmar URL de landing.
-- Falta confirmar piezas creativas disponibles.
+- Falta confirmar política de privacidad usada en Meta.
 - Falta confirmar flujo Zoho posterior al Lead Ad.
 
 ## Decisión solicitada
