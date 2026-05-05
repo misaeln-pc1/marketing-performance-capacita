@@ -2,12 +2,13 @@
 
 ## Estado Actual
 - **Estado:** Pendiente de revisión ChatGPT / PR
-- **Rama usada:** `init/control-docs-v1`
-- **Archivos modificados:** `PROJECT_CONTEXT.md`, `README.md`, `WORKFLOW.md`, `REPO_RULES.md`, `TASK_STATUS.md`, `REVIEW_REQUEST.md`
+- **Rama usada:** `feat/repo-structure-v1`
+- **Archivos modificados:** `TASK_STATUS.md`, `REVIEW_REQUEST.md`, `core/README.md`, `campaigns/README.md`, `automation/README.md`, `templates/README.md`, `assets/README.md`, `references/README.md`
 
 ## Registro de Actividad
-- **Última acción:** Creación y actualización de la documentación base para asegurar la estructura metodológica.
-- **Próxima acción recomendada:** Crear Pull Request y solicitar revisión final de ChatGPT antes del merge.
+- **Última acción previa:** Creación y actualización de la documentación base.
+- **Última acción actual:** Se creó estructura mínima v1. Carpetas creadas: `core/`, `campaigns/`, `automation/`, `templates/`, `assets/`, `references/` (cada una con README.md).
+- **Próxima acción recomendada:** Revisión de ChatGPT antes de mergear la rama `feat/repo-structure-v1`.
 
 ## Notas Adicionales
 - **Bloqueos o dudas abiertas:** Ninguno por el momento.
