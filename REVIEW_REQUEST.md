@@ -1,30 +1,34 @@
 # Solicitud de Revisión (Review Request)
 
-**¿Qué se hizo (Nuevo PR)?**
-Se creó la estructura mínima v1 del repositorio para materializar la arquitectura base.
+**¿Qué se hizo (Campaña Excel)?**
+Se creó el workspace inicial de campaña Excel presencial Santiago.
 
 **Rama creada:**
-`feat/repo-structure-v1`
+`feat/excel-campaign-workspace-v1`
 
-**Archivos agregados:**
-- `core/README.md`
-- `campaigns/README.md`
-- `automation/README.md`
-- `templates/README.md`
-- `assets/README.md`
-- `references/README.md`
+**Archivos creados:**
+- `campaigns/excel-basico-intermedio-presencial-santiago/campaign-brief.md`
+- `campaigns/excel-basico-intermedio-presencial-santiago/audience-hypotheses.md`
+- `campaigns/excel-basico-intermedio-presencial-santiago/offer-message-map.md`
 
 **Archivos modificados:**
 - `TASK_STATUS.md`
 - `REVIEW_REQUEST.md`
 
 **Validaciones ejecutadas:**
-- `git status` y `git pull` limpios en main.
-- Creación correcta de rama.
+- `git status` limpio.
+- Creación correcta de rama y archivos.
 - `git diff --stat` y `git diff --check` sin errores.
 
-**Riesgos o dudas:**
-Ninguno. No se tocaron archivos sensibles, ni datos personales, ni código real.
+**Dudas o pendientes:**
+Ninguno.
+
+**Solicitud de revisión:**
+Revisión crítica por ChatGPT del brief, audiencias y mapa de mensajes antes del merge.
+
+---
+**¿Qué se hizo (PR Anterior)?**
+Se creó la estructura mínima v1 del repositorio para materializar la arquitectura base.
 
 ---
 **¿Qué se hizo (PR Anterior)?**
