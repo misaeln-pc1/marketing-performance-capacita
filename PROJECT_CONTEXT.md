@@ -4,7 +4,12 @@
 Marketing Performance Capacita — repositorio maestro liviano, reutilizable y mantenible para metodología comercial-publicitaria.
 
 **Fuentes de Verdad:**
-Este repositorio centraliza la estrategia, campañas, buyer personas, customer journey, activos reutilizables, tracking, formularios, nurturing y aprendizajes comerciales.
+- **GitHub:** fuente versionada para estrategia, estructura, documentación, briefs, plantillas y aprendizajes comerciales.
+- **Zoho CRM:** fuente oficial para leads, contactos, deals, seguimiento comercial y resultados reales.
+- **Google Drive:** fuente para fotos, videos, creatividades finales, exports pesados y archivos multimedia.
+- **Meta Ads / Google Ads / LinkedIn Ads:** fuentes oficiales para campañas activas, públicos, anuncios, presupuestos y métricas operativas.
+
+Este repositorio no reemplaza Zoho CRM, Google Drive ni las plataformas publicitarias.
 
 **Arquitectura Base:**
 - `core/`: inteligencia comercial reutilizable.
@@ -25,12 +30,16 @@ Este repositorio centraliza la estrategia, campañas, buyer personas, customer j
 2. Reinserción Laboral.
 
 **Reglas de Alcance:**
-- Actuar solo como ejecutor operativo sobre archivos.
-- No redefinir la estrategia general.
-- No agregar sobreingeniería.
+- No subir datos personales al repositorio.
+- No subir credenciales, tokens ni claves.
+- No subir fotos, videos ni archivos pesados.
+- No duplicar Zoho CRM, Google Drive ni plataformas Ads.
+- No crear carpetas o archivos sin utilidad práctica.
+- No modificar landing de producción sin hipótesis documentada.
+- Evitar sobreingeniería: priorizar estructura simple, reusable y mantenible.
 
 **Rol de ChatGPT:**
 Actuar como arquitecto/auditor del proyecto, definiendo arquitectura y criterios.
 
 **Rol de Antigravity:**
-Actuar como ejecutor operativo sobre archivos, actualizando estado y preparando revisiones.
+Actuar como ejecutor operativo sobre archivos, actualizando estado y preparando revisiones. No debe redefinir la estrategia general ni ampliar el alcance sin instrucción explícita.
