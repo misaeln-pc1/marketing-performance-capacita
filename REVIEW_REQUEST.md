@@ -22,6 +22,15 @@ Se creó la ejecución inicial Meta Lead Ads v1 para la campaña Excel Básico�
 
 ## Revisión solicitada
 Validar que la estructura Meta Ads, formulario Lead Ads y copies iniciales estén alineados con la campaña Excel presencial Santiago, sin mezclar B2C con empresa/SENCE, sin promesas exageradas y sin datos sensibles.
+Solicitud adicional de revisión del set creativo visual v1:
+- Carpeta creada.
+- JPG finales agregados.
+- README creado.
+- Decisión explícita de no subir PNG pesados.
+- Decisión de no incluir video por ahora.
+- Decisión estratégica de 4 anuncios activos.
+- Riesgo controlado de reinserción/CV: no prometer empleo.
+- Pendientes comerciales.
 
 ## Riesgos o dudas
 - Falta confirmar precio vigente.
