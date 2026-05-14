@@ -24,6 +24,15 @@ Puedes crear o modificar archivos solo dentro de:
 - `src/data/journeys.json`: journeys mínimos.
 - `src/data/zohoStack.json`: rol de cada aplicación Zoho.
 
+## Mapas de relación e impacto
+
+Estos documentos expanden la visión del proyecto para analizar dependencias y riesgos operativos.
+
+- `RELACIONES_PROYECTOS.md`: mapa visual de cómo interactúan los proyectos y la infraestructura.
+- `INFRAESTRUCTURA_COMPARTIDA.md`: tabla de activos tecnológicos compartidos y su impacto.
+- `MATRIZ_IMPACTO.md`: guía para entender las consecuencias de realizar cambios en el sistema.
+- `FICHAS_PROYECTOS.md`: fichas detalladas por cada proyecto o sistema involucrado.
+
 ## Reglas duras
 
 1. No modificar archivos fuera de `/leads-machine/` sin autorización explícita.
