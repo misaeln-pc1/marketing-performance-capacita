@@ -1,0 +1,359 @@
+{
+  "nodes": [
+    {
+      "id": "project-context",
+      "type": "file",
+      "file": "marketing-performance-capacita/PROJECT_CONTEXT.md",
+      "x": 0,
+      "y": 0,
+      "width": 340,
+      "height": 140,
+      "label": "Project Context"
+    },
+    {
+      "id": "task-status",
+      "type": "file",
+      "file": "marketing-performance-capacita/TASK_STATUS.md",
+      "x": 0,
+      "y": 200,
+      "width": 340,
+      "height": 140,
+      "label": "Task Status"
+    },
+    {
+      "id": "review-request",
+      "type": "file",
+      "file": "marketing-performance-capacita/REVIEW_REQUEST.md",
+      "x": 0,
+      "y": 400,
+      "width": 340,
+      "height": 140,
+      "label": "Review Request"
+    },
+    {
+      "id": "campaign-brief",
+      "type": "file",
+      "file": "marketing-performance-capacita/campaigns/excel-basico-intermedio-presencial-santiago/campaign-brief.md",
+      "x": 460,
+      "y": 0,
+      "width": 360,
+      "height": 140,
+      "label": "Campana Excel Presencial"
+    },
+    {
+      "id": "audience-hypotheses",
+      "type": "file",
+      "file": "marketing-performance-capacita/campaigns/excel-basico-intermedio-presencial-santiago/audience-hypotheses.md",
+      "x": 460,
+      "y": -360,
+      "width": 360,
+      "height": 140,
+      "label": "Hipotesis de Audiencia"
+    },
+    {
+      "id": "offer-message-map",
+      "type": "file",
+      "file": "marketing-performance-capacita/campaigns/excel-basico-intermedio-presencial-santiago/offer-message-map.md",
+      "x": 460,
+      "y": -180,
+      "width": 360,
+      "height": 140,
+      "label": "Oferta y Mensajes"
+    },
+    {
+      "id": "ad-copy",
+      "type": "file",
+      "file": "marketing-performance-capacita/campaigns/excel-basico-intermedio-presencial-santiago/ad-copy-v1.md",
+      "x": 460,
+      "y": 180,
+      "width": 360,
+      "height": 140,
+      "label": "Ad Copy v1"
+    },
+    {
+      "id": "lead-form",
+      "type": "file",
+      "file": "marketing-performance-capacita/campaigns/excel-basico-intermedio-presencial-santiago/lead-form-v1.md",
+      "x": 920,
+      "y": 0,
+      "width": 360,
+      "height": 140,
+      "label": "Lead Form v1"
+    },
+    {
+      "id": "meta-ads-structure",
+      "type": "file",
+      "file": "marketing-performance-capacita/campaigns/excel-basico-intermedio-presencial-santiago/meta-ads-structure-v1.md",
+      "x": 920,
+      "y": -180,
+      "width": 360,
+      "height": 140,
+      "label": "Meta Ads Structure v1"
+    },
+    {
+      "id": "automation-readme",
+      "type": "file",
+      "file": "marketing-performance-capacita/automation/README.md",
+      "x": 920,
+      "y": 360,
+      "width": 360,
+      "height": 140,
+      "label": "Automation README"
+    },
+    {
+      "id": "creatives-readme",
+      "type": "file",
+      "file": "marketing-performance-capacita/assets/meta-ads/excel-presencial-santiago/creatives-v1/README.md",
+      "x": 460,
+      "y": 360,
+      "width": 360,
+      "height": 140,
+      "label": "Creatividades v1"
+    },
+    {
+      "id": "references-readme",
+      "type": "file",
+      "file": "marketing-performance-capacita/references/README.md",
+      "x": 0,
+      "y": 600,
+      "width": 340,
+      "height": 140,
+      "label": "Referencias"
+    },
+    {
+      "id": "buyer-desbordado",
+      "type": "text",
+      "text": "Buyer Persona: Desbordado Operativo",
+      "x": -460,
+      "y": -180,
+      "width": 360,
+      "height": 120
+    },
+    {
+      "id": "buyer-reinsercion",
+      "type": "text",
+      "text": "Buyer Persona: Reinsercion Laboral",
+      "x": -460,
+      "y": 0,
+      "width": 360,
+      "height": 120
+    },
+    {
+      "id": "meta-ads-lead-form",
+      "type": "text",
+      "text": "Meta Ads Lead Form",
+      "x": 1380,
+      "y": -180,
+      "width": 320,
+      "height": 120
+    },
+    {
+      "id": "zoho-crm",
+      "type": "text",
+      "text": "Zoho CRM",
+      "x": 1380,
+      "y": 0,
+      "width": 320,
+      "height": 120
+    },
+    {
+      "id": "email-inicial",
+      "type": "text",
+      "text": "Email inicial",
+      "x": 1780,
+      "y": -120,
+      "width": 320,
+      "height": 120
+    },
+    {
+      "id": "whatsapp-rescate",
+      "type": "text",
+      "text": "WhatsApp rescate",
+      "x": 1780,
+      "y": 60,
+      "width": 320,
+      "height": 120
+    },
+    {
+      "id": "seguimiento-comercial",
+      "type": "text",
+      "text": "Seguimiento comercial",
+      "x": 1780,
+      "y": 240,
+      "width": 320,
+      "height": 120
+    },
+    {
+      "id": "zoho-campaigns",
+      "type": "text",
+      "text": "Zoho Campaigns / Marketing Automation",
+      "x": 1380,
+      "y": 360,
+      "width": 360,
+      "height": 120
+    },
+    {
+      "id": "n8n-futuro",
+      "type": "text",
+      "text": "n8n / automatizacion futura",
+      "x": 1380,
+      "y": 540,
+      "width": 360,
+      "height": 120
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge-context-campaign",
+      "fromNode": "project-context",
+      "fromSide": "right",
+      "toNode": "campaign-brief",
+      "toSide": "left",
+      "label": "contexto"
+    },
+    {
+      "id": "edge-status-campaign",
+      "fromNode": "task-status",
+      "fromSide": "right",
+      "toNode": "campaign-brief",
+      "toSide": "left",
+      "label": "estado"
+    },
+    {
+      "id": "edge-review-campaign",
+      "fromNode": "review-request",
+      "fromSide": "right",
+      "toNode": "campaign-brief",
+      "toSide": "left",
+      "label": "revision"
+    },
+    {
+      "id": "edge-buyer-desbordado-campaign",
+      "fromNode": "buyer-desbordado",
+      "fromSide": "right",
+      "toNode": "campaign-brief",
+      "toSide": "left",
+      "label": "Buyer Personas"
+    },
+    {
+      "id": "edge-buyer-reinsercion-campaign",
+      "fromNode": "buyer-reinsercion",
+      "fromSide": "right",
+      "toNode": "campaign-brief",
+      "toSide": "left",
+      "label": "Buyer Personas"
+    },
+    {
+      "id": "edge-audience-campaign",
+      "fromNode": "audience-hypotheses",
+      "fromSide": "bottom",
+      "toNode": "campaign-brief",
+      "toSide": "top",
+      "label": "audiencias"
+    },
+    {
+      "id": "edge-offer-campaign",
+      "fromNode": "offer-message-map",
+      "fromSide": "bottom",
+      "toNode": "campaign-brief",
+      "toSide": "top",
+      "label": "mensaje"
+    },
+    {
+      "id": "edge-campaign-adcopy",
+      "fromNode": "campaign-brief",
+      "fromSide": "bottom",
+      "toNode": "ad-copy",
+      "toSide": "top",
+      "label": "copy"
+    },
+    {
+      "id": "edge-creatives-meta",
+      "fromNode": "creatives-readme",
+      "fromSide": "right",
+      "toNode": "meta-ads-structure",
+      "toSide": "left",
+      "label": "Creatividades -> Meta Ads"
+    },
+    {
+      "id": "edge-meta-lead-form",
+      "fromNode": "meta-ads-structure",
+      "fromSide": "right",
+      "toNode": "lead-form",
+      "toSide": "left",
+      "label": "Meta Ads -> Lead Form"
+    },
+    {
+      "id": "edge-campaign-lead-form",
+      "fromNode": "campaign-brief",
+      "fromSide": "right",
+      "toNode": "lead-form",
+      "toSide": "left",
+      "label": "Campana Excel -> Lead Form"
+    },
+    {
+      "id": "edge-lead-form-meta-label",
+      "fromNode": "lead-form",
+      "fromSide": "right",
+      "toNode": "meta-ads-lead-form",
+      "toSide": "left",
+      "label": "formulario"
+    },
+    {
+      "id": "edge-lead-form-zoho",
+      "fromNode": "lead-form",
+      "fromSide": "right",
+      "toNode": "zoho-crm",
+      "toSide": "left",
+      "label": "Lead Form -> Zoho CRM"
+    },
+    {
+      "id": "edge-zoho-email",
+      "fromNode": "zoho-crm",
+      "fromSide": "right",
+      "toNode": "email-inicial",
+      "toSide": "left",
+      "label": "Zoho CRM -> Email inicial"
+    },
+    {
+      "id": "edge-zoho-whatsapp",
+      "fromNode": "zoho-crm",
+      "fromSide": "right",
+      "toNode": "whatsapp-rescate",
+      "toSide": "left",
+      "label": "Zoho CRM -> WhatsApp rescate"
+    },
+    {
+      "id": "edge-zoho-seguimiento",
+      "fromNode": "zoho-crm",
+      "fromSide": "right",
+      "toNode": "seguimiento-comercial",
+      "toSide": "left",
+      "label": "Zoho CRM -> seguimiento comercial"
+    },
+    {
+      "id": "edge-automation-zoho-campaigns",
+      "fromNode": "automation-readme",
+      "fromSide": "right",
+      "toNode": "zoho-campaigns",
+      "toSide": "left",
+      "label": "Automatizacion -> Zoho Campaigns"
+    },
+    {
+      "id": "edge-automation-n8n",
+      "fromNode": "automation-readme",
+      "fromSide": "right",
+      "toNode": "n8n-futuro",
+      "toSide": "left",
+      "label": "Automatizacion -> n8n futuro"
+    },
+    {
+      "id": "edge-references-campaign",
+      "fromNode": "references-readme",
+      "fromSide": "right",
+      "toNode": "campaign-brief",
+      "toSide": "left",
+      "label": "referencias"
+    }
+  ]
+}
