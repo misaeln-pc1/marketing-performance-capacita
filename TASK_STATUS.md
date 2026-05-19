@@ -2,44 +2,41 @@
 
 ## Estado Actual
 
-- **Estado:** Se documentó aprendizaje de campaña v1, se preparó estrategia v2 enfocada en calidad de leads y se corrigió la trazabilidad de nombres de anuncios.
-- **PR mergeado previo:** #5 - `feature/meta-excel-presencial-creatives-v1` -> `main`.
-- **Rama actual de trabajo:** `docs/meta-excel-quality-v2`.
-- **Campaña base observada:** `META_LEADS_EXCEL_PRESENCIAL_SANTIAGO_B2C_V1`.
-- **Conjunto observado:** `AS01_B2C_SANTIAGO_PRESENCIAL`.
-- **Anuncios canónicos:** `AD01_DESBORDADO_REPORTE`, `AD02_DESBORDADO_PLANILLAS`, `AD03_PRESENCIAL_GUIADO`, `AD04_REINSERCION_CV`.
+- **Estado:** Se documentó un estándar permanente de producción de assets Meta Ads para evitar rehacer manualmente tamaños y variantes de video en cada campaña.
+- **Rama actual de trabajo:** `docs/meta-asset-production-standard`.
+- **Estándar creado:** `assets/meta-ads/PRODUCTION_STANDARD_META_ADS.md`.
+- **Campaña base de referencia:** Excel Básico-Intermedio Presencial Santiago Centro.
+- **Anuncios canónicos Excel v2:** `AD01_DESBORDADO_REPORTE`, `AD02_DESBORDADO_PLANILLAS`, `AD03_PRESENCIAL_GUIADO`, `AD04_REINSERCION_CV`.
 
 ## Registro de Actividad
 
-- **Última acción previa:** Creatividades v1 mergeadas a `main` y campaña inicial lista para configuración/publicación.
-- **Aprendizaje nuevo:** La campaña v1 generó volumen, pero con baja respuesta/contactabilidad. El problema no parece ser la atracción, sino la baja intención generada por formulario instantáneo con poca fricción.
-- **Decisión estratégica:** No optimizar solo por CPL bruto. Medir costo por lead respondido y costo por matrícula.
-- **Estrategia v2:** Comparar Lead Form filtrado vs Click a WhatsApp, manteniendo dolores por anuncio y agregando filtro visual de pago/presencialidad.
-- **Corrección de naming:** La v2 queda alineada con los nombres canónicos existentes en `creatives-v1`.
-- **Brief creativo v2:** Se agregó matriz para producir piezas 4:5 con filtro visual explícito: curso presencial pagado, sin matrícula y Santiago Centro.
+- **Última acción previa:** Se documentó aprendizaje v1, estrategia de calidad v2 y brief `creatives-v2` para Excel Presencial Santiago.
+- **Problema operativo detectado:** Cada creatividad necesita múltiples tamaños y una variante de video vertical, lo que generaba fricción si se resolvía manualmente campaña por campaña.
+- **Decisión operativa:** Crear un estándar reusable para Meta Ads con 3 tamaños estáticos obligatorios y 1 video 9:16 obligatorio por creatividad.
+- **Regla de producción:** Trabajar desde un template maestro con 4 artboards por creatividad: 4:5, 1:1, 9:16 y video 9:16. No reconstruir cada asset desde cero.
+- **Regla de repo:** El repo guarda brief, checklist, naming e índice; no guarda PSD, Canva, PNG pesados, videos pesados ni fuentes editables.
+- **Actualización Excel v2:** El brief `creatives-v2` queda enlazado al estándar y mantiene el sello: curso presencial pagado, sin matrícula y Santiago Centro.
 
 ## Próxima Acción Recomendada
 
-Preparar y revisar la prueba v2:
+Aplicar el estándar al producir visuales finales de Excel Presencial v2:
 
-1. Lead Form filtrado con una pregunta fuerte y señal visible de pago.
-2. WhatsApp con mensaje prellenado por dolor.
-3. Medición mínima en Zoho CRM para atribución, intención y resultado comercial.
-4. Producir y revisar visuales finales v2 a partir del brief creativo antes de subirlos a Meta.
+1. Crear template maestro fuera del repo.
+2. Producir 4 artboards por anuncio/dolor.
+3. Exportar 3 JPG estáticos y 1 MP4 vertical por creatividad.
+4. Revisar legibilidad móvil y cortes en placements antes de cargar en Meta Ads.
 
 ## Pendientes / Bloqueos
 
-- Activar medio de pago en Meta Ads Manager.
-- Confirmar precio, fecha y duración vigentes.
-- Confirmar política de privacidad usada en formularios Meta.
-- Confirmar qué campos entrega Zoho Social al crear leads en Zoho CRM.
-- Confirmar si WhatsApp quedará manual, Zoho Desk, Zoho CRM, n8n u otro flujo.
-- Definir si se usará presupuesto por conjunto para comparar calidad de forma controlada.
-- Producir/revisar visuales finales v2 desde el brief, sin subir PNG fuente, PSD, Canva, videos ni binarios pesados.
+- Confirmar herramienta operativa para templates maestros y exports fuera del repo.
+- Confirmar ubicación externa para masters y exports pesados.
+- Producir/revisar visuales finales v2 desde el brief y el estándar.
+- Mantener pendientes de campaña: precio, fecha, duración, política de privacidad, campos Zoho Social y flujo WhatsApp.
 
 ## Notas de Alcance
 
-- No crear estructura nueva innecesaria.
+- No crear estructura duplicada de campaña.
+- No subir assets binarios pesados.
 - No subir datos reales de leads.
-- No subir capturas, exportaciones CRM ni archivos pesados.
+- No subir capturas, exportaciones CRM, secretos ni credenciales.
 - No modificar campañas reales desde el repositorio.
