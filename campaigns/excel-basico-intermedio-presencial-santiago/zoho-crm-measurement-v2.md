@@ -47,6 +47,15 @@ Si no se quieren crear demasiados campos, partir con estos:
 
 La atribución debe basarse en el nombre del anuncio si Zoho Social lo entrega.
 
+Nombres canónicos:
+
+| Anuncio | Dolor inferido | Buyer persona inferida |
+|---|---|---|
+| `AD01_DESBORDADO_REPORTE` | Reportes | Desbordado Operativo |
+| `AD02_DESBORDADO_PLANILLAS` | Planillas | Desbordado Operativo |
+| `AD03_PRESENCIAL_GUIADO` | Guía presencial | Acompañamiento |
+| `AD04_REINSERCION_CV` | CV / nuevo trabajo | Reinserción Laboral |
+
 Regla sugerida:
 
 | `Meta_Ad_Name` contiene | `Dolor_Inferido` | `Buyer_Persona_Inferida` |

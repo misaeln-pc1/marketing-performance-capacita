@@ -30,13 +30,13 @@ Mantener la lógica de cuatro dolores:
 
 - `AD01_DESBORDADO_REPORTE`.
 - `AD02_DESBORDADO_PLANILLAS`.
-- `AD03_APRENDER_CON_GUIA`.
-- `AD04_CV_REINSERCION_LABORAL`.
+- `AD03_PRESENCIAL_GUIADO`.
+- `AD04_REINSERCION_CV`.
 
 Si el presupuesto diario es bajo, reducir la prueba inicial a dos dolores:
 
 - `AD01_DESBORDADO_REPORTE`.
-- `AD04_CV_REINSERCION_LABORAL`.
+- `AD04_REINSERCION_CV`.
 
 ## Filtro visual obligatorio
 
@@ -49,16 +49,16 @@ Frase base recomendada:
 
 Variantes para probar:
 
-1. Curso Excel presencial / Sin matrícula · Santiago Centro.
+1. Curso Excel presencial / Curso pagado · sin matrícula · Santiago Centro.
 2. Excel presencial / Pago único del curso · sin matrícula.
 3. Aprende Excel con profesor / Curso pagado · Santiago Centro.
-4. Excel para el trabajo / Presencial · sin matrícula.
+4. Excel para el trabajo / Curso presencial pagado · sin matrícula.
 5. Fortalece tu CV con Excel / Curso presencial pagado.
-6. Excel básico–intermedio / Práctica guiada · sin matrícula.
+6. Excel básico–intermedio / Curso pagado · práctica guiada · sin matrícula.
 7. Aprende Excel paso a paso / Con profesor · presencial.
 8. Excel presencial en Santiago Centro / Pago único · sin matrícula.
 
-No usar lenguaje que sugiera gratuidad.
+No usar lenguaje que sugiera gratuidad. La frase "sin matrícula" no debe usarse aislada: siempre debe ir acompañada de "curso pagado", "pagado" o una señal equivalente de pago.
 
 ## Lead Form v2
 
@@ -88,8 +88,8 @@ Usar mensajes prellenados por dolor:
 |---|---|
 | `AD01_DESBORDADO_REPORTE` | Hola, quiero información del curso Excel presencial para mejorar reportes en mi trabajo. |
 | `AD02_DESBORDADO_PLANILLAS` | Hola, quiero información del curso Excel presencial para ordenar planillas. |
-| `AD03_APRENDER_CON_GUIA` | Hola, quiero información del curso Excel presencial con profesor. |
-| `AD04_CV_REINSERCION_LABORAL` | Hola, quiero información del curso Excel presencial para fortalecer mi CV. |
+| `AD03_PRESENCIAL_GUIADO` | Hola, quiero información del curso Excel presencial con profesor. |
+| `AD04_REINSERCION_CV` | Hola, quiero información del curso Excel presencial para fortalecer mi CV. |
 
 Primera respuesta sugerida:
 

@@ -11,8 +11,8 @@ Estructura observada:
 - Anuncios:
   - `AD01_DESBORDADO_REPORTE`.
   - `AD02_DESBORDADO_PLANILLAS`.
-  - `AD03_APRENDER_CON_GUIA`.
-  - `AD04_CV_REINSERCION_LABORAL`.
+  - `AD03_PRESENCIAL_GUIADO`.
+  - `AD04_REINSERCION_CV`.
 - Formato: Meta Lead Ads con formulario instantáneo.
 
 ## Aprendizaje principal
@@ -37,8 +37,8 @@ Por lo tanto, el costo por lead bruto no debe ser la métrica principal de éxit
 |---|---|---|
 | `AD01_DESBORDADO_REPORTE` | reportes y carga laboral | Desbordado Operativo |
 | `AD02_DESBORDADO_PLANILLAS` | planillas y desorden operativo | Desbordado Operativo |
-| `AD03_APRENDER_CON_GUIA` | necesidad de guía presencial | Alumno que requiere acompañamiento |
-| `AD04_CV_REINSERCION_LABORAL` | CV y actualización laboral | Reinserción Laboral |
+| `AD03_PRESENCIAL_GUIADO` | necesidad de guía presencial | Alumno que requiere acompañamiento |
+| `AD04_REINSERCION_CV` | CV y actualización laboral | Reinserción Laboral |
 
 La creatividad ya entrega una señal de dolor. No conviene repetir demasiadas preguntas en el formulario.
 
@@ -63,8 +63,7 @@ Mover el filtro fuerte al anuncio visible:
 
 - curso presencial;
 - Santiago Centro;
-- curso pagado;
-- sin matrícula;
+- curso pagado sin matrícula;
 - valor desde si está confirmado.
 
 El formulario debe quedar corto y con una pregunta orientada a intención.
