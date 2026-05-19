@@ -1,14 +1,36 @@
 # Estado de Tareas
 
 ## Estado Actual
-- **Estado:** Creatividades v1 mergeadas a `main`; campaña lista para configuración/publicación en Meta Ads Manager.
-- **PR mergeado:** #5 — `feature/meta-excel-presencial-creatives-v1` → `main`
-- **Archivos disponibles:** `TASK_STATUS.md`, `REVIEW_REQUEST.md`, `assets/meta-ads/excel-presencial-santiago/creatives-v1/README.md`, JPG finales en `assets/meta-ads/excel-presencial-santiago/creatives-v1/final-jpg/`
+- **Estado:** Se documentó aprendizaje de campaña v1 y se preparó estrategia v2 enfocada en calidad de leads.
+- **PR mergeado previo:** #5 — `feature/meta-excel-presencial-creatives-v1` → `main`.
+- **Rama actual de trabajo:** `docs/meta-excel-quality-v2`.
+- **Campaña base observada:** `META_LEADS_EXCEL_PRESENCIAL_SANTIAGO_B2C_V1`.
+- **Conjunto observado:** `AS01_B2C_SANTIAGO_PRESENCIAL`.
+- **Anuncios observados:** `AD01_DESBORDADO_REPORTE`, `AD02_DESBORDADO_PLANILLAS`, `AD03_APRENDER_CON_GUIA`, `AD04_CV_REINSERCION_LABORAL`.
 
 ## Registro de Actividad
-- **Última acción previa:** Se creó ejecución inicial Meta Lead Ads v1 (`meta-ads-structure-v1.md`, `lead-form-v1.md`, `ad-copy-v1.md`).
-- **Última acción actual:** Se aprobó y documentó el set creativo visual v1 para Meta Ads de Excel Básico–Intermedio Presencial Santiago Centro. La estructura queda como 4 anuncios activos + 1 creatividad de reserva. Se versionan solo JPG finales optimizados; PNG/fuentes pesadas quedan fuera del repo. Video descartado temporalmente.
-- **Próxima acción recomendada:** Configurar y publicar la prueba inicial en Meta Ads Manager: 1 campaña, 1 conjunto de anuncios, 4 anuncios activos y 1 formulario Lead Ads. No crear más arquitectura ni nuevas creatividades antes de obtener datos reales.
+- **Última acción previa:** Creatividades v1 mergeadas a `main` y campaña inicial lista para configuración/publicación.
+- **Aprendizaje nuevo:** La campaña v1 generó volumen, pero con baja respuesta/contactabilidad. El problema no parece ser la atracción, sino la baja intención generada por formulario instantáneo con poca fricción.
+- **Decisión estratégica:** No optimizar solo por CPL bruto. Medir costo por lead respondido y costo por matrícula.
+- **Estrategia v2:** Comparar Lead Form filtrado vs Click a WhatsApp, manteniendo dolores por anuncio y agregando filtro visual de pago/presencialidad.
 
-## Notas Adicionales
-- **Bloqueos o dudas abiertas:** Confirmar política de privacidad para Meta Lead Ads, responsable comercial del seguimiento y destino operativo de los leads. No hay bloqueo documental ni de assets para publicar.
+## Próxima Acción Recomendada
+Preparar y revisar la prueba v2:
+
+1. Lead Form filtrado con una pregunta fuerte y señal visible de pago.
+2. WhatsApp con mensaje prellenado por dolor.
+3. Medición mínima en Zoho CRM para atribución, intención y resultado comercial.
+
+## Pendientes / Bloqueos
+- Activar medio de pago en Meta Ads Manager.
+- Confirmar precio, fecha y duración vigentes.
+- Confirmar política de privacidad usada en formularios Meta.
+- Confirmar qué campos entrega Zoho Social al crear leads en Zoho CRM.
+- Confirmar si WhatsApp quedará manual, Zoho Desk, Zoho CRM, n8n u otro flujo.
+- Definir si se usará presupuesto por conjunto para comparar calidad de forma controlada.
+
+## Notas de Alcance
+- No crear estructura nueva innecesaria.
+- No subir datos reales de leads.
+- No subir capturas, exportaciones CRM ni archivos pesados.
+- No modificar campañas reales desde el repositorio.
