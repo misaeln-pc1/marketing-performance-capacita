@@ -1,76 +1,92 @@
-# Solicitud de Revisión (Review Request)
+# Solicitud de Revision
 
-## ¿Qué se hizo?
+## Que se hizo
 
-Se documentó el aprendizaje de la campaña Meta Ads / Facebook Ads v1 para Excel Básico-Intermedio Presencial Santiago Centro, se preparó una estrategia v2 enfocada en calidad de leads, se corrigió el naming canónico de anuncios y se agregó el brief/matriz de creatividades v2.
+Se documento la decision operativa de Meta Ads V3 para el curso Excel presencial pagado en Santiago Centro, usando la carpeta existente de la campana Excel presencial.
+
+La V3 queda definida como una campana nueva de trafico a landing, separada de las versiones anteriores con Lead Ads/formulario instantaneo.
 
 ## Rama
 
-`docs/meta-excel-quality-v2`
+`docs/meta-ads-v3-landing-traffic`
 
 ## Archivos creados
 
-- `campaigns/excel-basico-intermedio-presencial-santiago/lead-quality-learnings-v1.md`
-- `campaigns/excel-basico-intermedio-presencial-santiago/meta-ads-quality-test-v2.md`
-- `campaigns/excel-basico-intermedio-presencial-santiago/zoho-crm-measurement-v2.md`
-- `assets/meta-ads/excel-presencial-santiago/creatives-v2/README.md`
+- `campaigns/excel-basico-intermedio-presencial-santiago/meta-ads-landing-traffic-v3.md`
+- `campaigns/excel-basico-intermedio-presencial-santiago/meta-ads-v3-measurement-checklist.md`
+- `references/meta-ads-official-references.md`
 
 ## Archivos modificados
 
 - `TASK_STATUS.md`
 - `REVIEW_REQUEST.md`
-- `campaigns/excel-basico-intermedio-presencial-santiago/lead-quality-learnings-v1.md`
-- `campaigns/excel-basico-intermedio-presencial-santiago/meta-ads-quality-test-v2.md`
-- `campaigns/excel-basico-intermedio-presencial-santiago/zoho-crm-measurement-v2.md`
 
 ## Decisiones registradas
 
-- La campaña v1 generó volumen, pero baja respuesta/contactabilidad.
-- El problema principal se interpreta como baja intención del formulario instantáneo, no como falla total de atracción.
-- Se mantiene la lógica de 4 anuncios por dolor:
-  1. `AD01_DESBORDADO_REPORTE`.
-  2. `AD02_DESBORDADO_PLANILLAS`.
-  3. `AD03_PRESENCIAL_GUIADO`.
-  4. `AD04_REINSERCION_CV`.
-- Se corrige la trazabilidad para usar como canónicos los nombres existentes en `creatives-v1`.
-- El dolor/persona debe inferirse desde el anuncio cuando sea posible.
-- La v2 debe comparar dos rutas:
-  - Lead Form filtrado.
-  - Click a WhatsApp.
-- El filtro fuerte debe moverse a imagen/copy: curso presencial pagado, sin matrícula y Santiago Centro.
-- `sin matrícula` no debe usarse aislado; siempre debe ir junto a `curso pagado` o `pagado`.
-- Se agrega brief/matriz `creatives-v2` para producir visuales finales sin subir fuentes pesadas ni binarios.
-- La métrica prioritaria deja de ser CPL bruto y pasa a ser costo por lead respondido y costo por matrícula.
-- Para una prueba limpia, se recomienda revisar/desactivar anuncios multianunciante si Meta lo permite.
-- No se recomienda cargar todas las métricas de Meta en cada lead de Zoho CRM; Zoho debe registrar atribución básica, intención y resultado comercial.
+- Campana nueva: `META_TRAFFIC_EXCEL_PRESENCIAL_SANTIAGO_B2C_V3`.
+- No mezclar V3 con campanas anteriores de leads/formularios.
+- Objetivo Meta Ads: Trafico.
+- Tipo: campana manual de trafico.
+- Conjunto: `AS01_LANDING_PAGADO_EXCEL_PRESENCIAL`.
+- Ubicacion de conversion: Sitio web.
+- Objetivo de rendimiento: Maximizar visitas a la pagina de destino.
+- CTA: Cotizar.
+- Presupuesto inicial documentado: CLP $5.000 a $8.000 diarios por 24-48 horas.
+- Anuncio inicial: `AD01_REEL_9X16_LANDING_PAGADO`.
+- Formato inicial: solo video 9:16, 1080x1920.
+- 1:1 queda pendiente como `AD02_FEED_1X1_LANDING_PAGADO`.
+- 16:9 queda pendiente como `AD03_HORIZONTAL_16X9_LANDING_PAGADO`.
 
-## Revisión solicitada
+## Criterio estrategico
 
-Validar que la estrategia v2:
+V1/V2 con formulario instantaneo produjo volumen, pero baja respuesta comercial. V3 usa la landing como filtro: precio, fechas, modalidad presencial, Santiago Centro y alternativas de pago deben aparecer antes del contacto por WhatsApp o formulario.
 
-- no duplique estructura existente;
-- reutilice la campaña Excel presencial ya creada;
-- no mezcle B2C con empresa/SENCE/OTIC;
-- no avance hacia CRM técnico profundo;
-- no proponga automatizaciones complejas antes de confirmar qué datos entrega Zoho Social;
-- no incluya datos personales, secretos, capturas ni archivos pesados;
-- mantenga foco en ads, leads, buyer persona, customer journey y aprendizaje comercial;
-- use naming canónico consistente con `creatives-v1`;
-- incluya un brief `creatives-v2` suficiente para producir piezas finales sin sugerir gratuidad ni prometer empleo.
+La hipotesis es menor volumen y mayor intencion. No evaluar exito por clics solamente.
 
-## Riesgos o dudas
+## Checklist documentado
 
-- Falta confirmar precio vigente.
-- Falta confirmar duración vigente.
-- Falta confirmar próxima fecha.
-- Falta activar/validar medio de pago Meta.
-- Falta confirmar política de privacidad de Meta Lead Ads.
-- Falta verificar qué campos Zoho Social transfiere realmente a Zoho CRM.
-- Falta definir si WhatsApp será manual, Zoho Desk, Zoho CRM, n8n u otro flujo.
-- Falta decidir presupuesto por conjunto para comparar Form vs WhatsApp sin sesgo de asignación automática.
-- Falta producir/revisar visuales finales v2 a partir del brief.
+Se agrego checklist para revisar:
 
-## Decisión solicitada
+- impresiones;
+- clics en enlace;
+- visitas a pagina de destino;
+- CTR;
+- costo por visita a landing;
+- clics en WhatsApp dentro de landing;
+- formularios enviados desde landing;
+- consultas reales por fecha/cupo;
+- inscritos reales;
+- observacion comercial sobre calidad del lead.
+
+## Referencias
+
+Se agregaron referencias oficiales Meta sobre:
+
+- objetivo Trafico / landing page views;
+- Reels y video 9:16;
+- Advantage+ Creative / enhancements;
+- Advantage+ Placements.
+
+## Revision solicitada
+
+Validar que:
+
+- la decision V3 queda clara y separada de V1/V2;
+- la configuracion Meta Ads es suficiente para ejecutar el test;
+- el naming es consistente;
+- el checklist permite medir calidad y no solo volumen;
+- el backlog 1:1 y 16:9 queda registrado sin activarse en el lanzamiento inicial;
+- no se creo estructura duplicada;
+- no se subieron assets pesados, datos personales ni secretos.
+
+## Riesgos o pendientes
+
+- Falta confirmar precio, fecha y cupos vigentes antes de publicar.
+- Falta confirmar analitica de clics internos en landing.
+- Falta confirmar traspaso de UTM a Zoho CRM desde formularios de landing.
+- No hay resultados V3 documentados aun.
+
+## Decision solicitada
 
 - [ ] APROBADO CON OBSERVACIONES
 - [ ] CORREGIR ANTES DE MERGE

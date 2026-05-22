@@ -6,9 +6,10 @@ Mejorar la calidad del lead mediante un filtro visual explícito de pago, presen
 
 ## Formato base
 
-- Formato principal: 4:5.
-- Resolución: 1080x1350 px.
-- Variantes futuras: 1:1 y 9:16.
+- Seguir el estándar reusable: `assets/meta-ads/PRODUCTION_STANDARD_META_ADS.md`.
+- Estáticos obligatorios: 4:5 1080x1350 px, 1:1 1080x1080 px y 9:16 1080x1920 px.
+- Video obligatorio: 9:16 1080x1920 px, MP4 H.264, 10-15 s recomendado, con motion simple desde imagen estática.
+- Trabajar desde template maestro con 4 artboards por creatividad: 4:5, 1:1, 9:16 y video 9:16.
 
 ## Regla visual fija
 
@@ -50,3 +51,14 @@ Mantener los 4 anuncios/dolores canónicos:
 ## Uso en test
 
 Las mismas 4 piezas visuales deben usarse tanto en el conjunto Lead Form como en el conjunto WhatsApp. La diferencia del test debe ser la ruta de conversión, no una creatividad distinta.
+
+## Checklist de salida
+
+Por cada anuncio/dolor, producir fuera del repo:
+
+- 1 JPG 4:5.
+- 1 JPG 1:1.
+- 1 JPG 9:16.
+- 1 MP4 9:16.
+
+No subir al repo PNG fuente, PSD, Canva, videos ni binarios pesados.
