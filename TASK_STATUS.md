@@ -2,41 +2,54 @@
 
 ## Estado Actual
 
-- **Estado:** Se documentó un estándar permanente de producción de assets Meta Ads para evitar rehacer manualmente tamaños y variantes de video en cada campaña.
-- **Rama actual de trabajo:** `docs/meta-asset-production-standard`.
-- **Estándar creado:** `assets/meta-ads/PRODUCTION_STANDARD_META_ADS.md`.
-- **Campaña base de referencia:** Excel Básico-Intermedio Presencial Santiago Centro.
-- **Anuncios canónicos Excel v2:** `AD01_DESBORDADO_REPORTE`, `AD02_DESBORDADO_PLANILLAS`, `AD03_PRESENCIAL_GUIADO`, `AD04_REINSERCION_CV`.
+- **Estado:** Se documento la decision operativa de Meta Ads V3 para Excel presencial Santiago como test de trafico a landing.
+- **Rama actual de trabajo:** `docs/meta-ads-v3-landing-traffic`.
+- **Campana V3 documentada:** `META_TRAFFIC_EXCEL_PRESENCIAL_SANTIAGO_B2C_V3`.
+- **Carpeta reutilizada:** `campaigns/excel-basico-intermedio-presencial-santiago/`.
+- **Landing documentada:** `https://capacita.cl/curso-de-excel-presencial-en-santiago`.
 
 ## Registro de Actividad
 
-- **Última acción previa:** Se documentó aprendizaje v1, estrategia de calidad v2 y brief `creatives-v2` para Excel Presencial Santiago.
-- **Problema operativo detectado:** Cada creatividad necesita múltiples tamaños y una variante de video vertical, lo que generaba fricción si se resolvía manualmente campaña por campaña.
-- **Decisión operativa:** Crear un estándar reusable para Meta Ads con 3 tamaños estáticos obligatorios y 1 video 9:16 obligatorio por creatividad.
-- **Regla de producción:** Trabajar desde un template maestro con 4 artboards por creatividad: 4:5, 1:1, 9:16 y video 9:16. No reconstruir cada asset desde cero.
-- **Regla de repo:** El repo guarda brief, checklist, naming e índice; no guarda PSD, Canva, PNG pesados, videos pesados ni fuentes editables.
-- **Actualización Excel v2:** El brief `creatives-v2` queda enlazado al estándar y mantiene el sello: curso presencial pagado, sin matrícula y Santiago Centro.
+- Se mantuvo la estructura existente de la campana Excel presencial, sin crear un proyecto nuevo ni una carpeta duplicada.
+- Se documento que V3 debe ser una campana nueva, separada de las pruebas anteriores con Lead Ads/formulario instantaneo.
+- Se registro el motivo: V1/V2 generaron volumen pero baja respuesta, por lo que V3 prueba una landing con friccion comercial antes del contacto.
+- Se documento configuracion Meta Ads V3:
+  - objetivo Trafico;
+  - campana manual de trafico;
+  - conjunto `AS01_LANDING_PAGADO_EXCEL_PRESENCIAL`;
+  - ubicacion de conversion Sitio web;
+  - objetivo de rendimiento Maximizar visitas a la pagina de destino;
+  - CTA Cotizar;
+  - presupuesto test CLP $5.000 a $8.000 diarios por 24-48 horas.
+- Se documento el anuncio inicial `AD01_REEL_9X16_LANDING_PAGADO` como video 9:16, 1080x1920, sin activar inicialmente versiones 1:1 ni 16:9.
+- Se registro backlog para posibles pruebas posteriores:
+  - `AD02_FEED_1X1_LANDING_PAGADO`;
+  - `AD03_HORIZONTAL_16X9_LANDING_PAGADO`.
+- Se creo checklist de medicion V3 con metricas publicitarias y comerciales.
+- Se agrego archivo de referencias oficiales Meta Ads para Trafico, Reels/9:16, Advantage+ Creative y Advantage+ Placements.
 
-## Próxima Acción Recomendada
+## Proxima Accion Recomendada
 
-Aplicar el estándar al producir visuales finales de Excel Presencial v2:
+Antes de publicar en Meta Ads:
 
-1. Crear template maestro fuera del repo.
-2. Producir 4 artboards por anuncio/dolor.
-3. Exportar 3 JPG estáticos y 1 MP4 vertical por creatividad.
-4. Revisar legibilidad móvil y cortes en placements antes de cargar en Meta Ads.
+1. Confirmar que la landing muestra precio, fechas, modalidad presencial, Santiago Centro y alternativas de pago.
+2. Confirmar que WhatsApp/formulario quedan dentro de la landing.
+3. Confirmar que el anuncio inicial usa solo video 9:16.
+4. Confirmar que las mejoras automaticas y destinos alternativos quedan desactivados.
+5. Ejecutar test 24-48 horas y evaluar calidad comercial, no solo clics.
 
 ## Pendientes / Bloqueos
 
-- Confirmar herramienta operativa para templates maestros y exports fuera del repo.
-- Confirmar ubicación externa para masters y exports pesados.
-- Producir/revisar visuales finales v2 desde el brief y el estándar.
-- Mantener pendientes de campaña: precio, fecha, duración, política de privacidad, campos Zoho Social y flujo WhatsApp.
+- Confirmar fecha, precio y cupos vigentes antes de publicar.
+- Confirmar herramienta de analitica para clics internos en WhatsApp/formulario dentro de landing.
+- Confirmar si Zoho CRM recibira UTM desde formularios de landing.
+- No hay resultados documentados aun para V3; cualquier metrica debe agregarse solo cuando exista dato real.
 
 ## Notas de Alcance
 
-- No crear estructura duplicada de campaña.
+- No crear estructura duplicada de campana.
 - No subir assets binarios pesados.
 - No subir datos reales de leads.
 - No subir capturas, exportaciones CRM, secretos ni credenciales.
-- No modificar campañas reales desde el repositorio.
+- No modificar campanas reales desde el repositorio.
+- No modificar landing de produccion desde el repositorio.
