@@ -2,8 +2,8 @@
 
 ## Estado Actual
 
-- **Estado:** Se preparo auditoria documental V1 de Meta Ads y puente de performance pagada.
-- **Rama actual de trabajo:** `docs/meta-ads-v1-audit`.
+- **Estado:** Se documento la decision operativa de Meta Ads V3 para Excel presencial Santiago como test de trafico a landing.
+- **Rama actual de trabajo:** `docs/meta-ads-v3-landing-traffic`.
 - **Campana V3 documentada:** `META_TRAFFIC_EXCEL_PRESENCIAL_SANTIAGO_B2C_V3`.
 - **Carpeta reutilizada:** `campaigns/excel-basico-intermedio-presencial-santiago/`.
 - **Landing documentada:** `https://capacita.cl/curso-de-excel-presencial-en-santiago`.
@@ -27,18 +27,16 @@
   - `AD03_HORIZONTAL_16X9_LANDING_PAGADO`.
 - Se creo checklist de medicion V3 con metricas publicitarias y comerciales.
 - Se agrego archivo de referencias oficiales Meta Ads para Trafico, Reels/9:16, Advantage+ Creative y Advantage+ Placements.
-- Se creo `docs/audits/META_ADS_CAMPAIGN_AUDIT_V1.md` sin inventar metricas faltantes.
-- Se creo `docs/audits/PAID_ADS_PERFORMANCE_BRIDGE_V1.md` para documentar trazabilidad Meta -> landing/formulario -> Zoho CRM -> contacto -> matricula.
 
 ## Proxima Accion Recomendada
 
-Antes de tomar decisiones de optimizacion:
+Antes de publicar en Meta Ads:
 
-1. Preparar exportacion agregada Meta Ads sin datos personales.
-2. Preparar exportacion agregada Zoho CRM sin datos personales.
-3. Confirmar captura de UTMs y `f_ads_fbclid` desde landing/formulario hacia CRM.
-4. Definir lead calificado para calcular CPQL.
-5. Evaluar calidad comercial, no solo CPL.
+1. Confirmar que la landing muestra precio, fechas, modalidad presencial, Santiago Centro y alternativas de pago.
+2. Confirmar que WhatsApp/formulario quedan dentro de la landing.
+3. Confirmar que el anuncio inicial usa solo video 9:16.
+4. Confirmar que las mejoras automaticas y destinos alternativos quedan desactivados.
+5. Ejecutar test 24-48 horas y evaluar calidad comercial, no solo clics.
 
 ## Pendientes / Bloqueos
 
@@ -46,7 +44,6 @@ Antes de tomar decisiones de optimizacion:
 - Confirmar herramienta de analitica para clics internos en WhatsApp/formulario dentro de landing.
 - Confirmar si Zoho CRM recibira UTM desde formularios de landing.
 - No hay resultados documentados aun para V3; cualquier metrica debe agregarse solo cuando exista dato real.
-- No hay CSV agregado versionado para calcular CPL, CPQL, CPA, tasa de contacto o tasa de matricula.
 
 ## Notas de Alcance
 
