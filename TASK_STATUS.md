@@ -2,8 +2,8 @@
 
 ## Estado Actual
 
-- **Estado:** Se preparo auditoria documental V1 de Meta Ads y puente de performance pagada.
-- **Rama actual de trabajo:** `docs/meta-ads-v1-audit`.
+- **Estado:** Validacion Google Ads MCP read-only bloqueada por falta de herramienta disponible/autenticada.
+- **Rama actual de trabajo:** `docs/google-ads-mcp-readonly-audit`.
 - **Campana V3 documentada:** `META_TRAFFIC_EXCEL_PRESENCIAL_SANTIAGO_B2C_V3`.
 - **Carpeta reutilizada:** `campaigns/excel-basico-intermedio-presencial-santiago/`.
 - **Landing documentada:** `https://capacita.cl/curso-de-excel-presencial-en-santiago`.
@@ -29,16 +29,17 @@
 - Se agrego archivo de referencias oficiales Meta Ads para Trafico, Reels/9:16, Advantage+ Creative y Advantage+ Placements.
 - Se creo `docs/audits/META_ADS_CAMPAIGN_AUDIT_V1.md` sin inventar metricas faltantes.
 - Se creo `docs/audits/PAID_ADS_PERFORMANCE_BRIDGE_V1.md` para documentar trazabilidad Meta -> landing/formulario -> Zoho CRM -> contacto -> matricula.
+- Se documento bloqueo de Google Ads MCP read-only en `docs/google-ads/GOOGLE_ADS_MCP_READONLY_AUDIT.md`.
 
 ## Proxima Accion Recomendada
 
 Antes de tomar decisiones de optimizacion:
 
-1. Preparar exportacion agregada Meta Ads sin datos personales.
-2. Preparar exportacion agregada Zoho CRM sin datos personales.
-3. Confirmar captura de UTMs y `f_ads_fbclid` desde landing/formulario hacia CRM.
-4. Definir lead calificado para calcular CPQL.
-5. Evaluar calidad comercial, no solo CPL.
+1. Habilitar Google Ads MCP en modo solo lectura fuera del repositorio.
+2. Confirmar autenticacion sin guardar secretos, tokens ni `.env`.
+3. Reintentar listado de cuentas, metadata de campaign y GAQL minima.
+4. Si funciona, registrar solo resultados agregados y anonimizados.
+5. Mantener prohibidas mutaciones de campañas, bids, presupuestos, assets, anuncios, conversiones y estados.
 
 ## Pendientes / Bloqueos
 
@@ -47,6 +48,7 @@ Antes de tomar decisiones de optimizacion:
 - Confirmar si Zoho CRM recibira UTM desde formularios de landing.
 - No hay resultados documentados aun para V3; cualquier metrica debe agregarse solo cuando exista dato real.
 - No hay CSV agregado versionado para calcular CPL, CPQL, CPA, tasa de contacto o tasa de matricula.
+- Google Ads MCP no esta disponible o no autentica en el entorno actual.
 
 ## Notas de Alcance
 
