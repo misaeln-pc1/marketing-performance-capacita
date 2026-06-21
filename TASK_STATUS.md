@@ -2,9 +2,10 @@
 
 ## Estado Actual
 
-- **Estado:** Clasificación Marketing / GTM-RevOps documentada y pendiente de revisión por PR correctivo.
-- **Rama actual de trabajo:** `docs/fix-marketing-gtm-classification-followup-2026-06-21`.
-- **Documento nuevo en revisión:** `docs/MARKETING_GTM_REVOPS_CLASSIFICATION.md`.
+- **Estado:** Plan de migración archivo/carpeta Marketing -> GTM/RevOps documentado en PR.
+- **Rama actual de trabajo:** `docs/marketing-file-level-migration-plan-2026-06-21`.
+- **Documento nuevo en revisión:** `docs/MARKETING_FILE_LEVEL_MIGRATION_PLAN.md`.
+- **Documento base anterior:** `docs/MARKETING_GTM_REVOPS_CLASSIFICATION.md`.
 - **Campaña V3 documentada:** `META_TRAFFIC_EXCEL_PRESENCIAL_SANTIAGO_B2C_V3`.
 - **Carpeta reutilizada:** `campaigns/excel-basico-intermedio-presencial-santiago/`.
 - **Landing documentada:** `https://capacita.cl/curso-de-excel-presencial-en-santiago`.
@@ -32,15 +33,21 @@
 - Se creó `docs/audits/PAID_ADS_PERFORMANCE_BRIDGE_V1.md` para documentar trazabilidad Meta -> landing/formulario -> Zoho CRM -> contacto -> matrícula.
 - Se documentó bloqueo de Google Ads MCP read-only en `docs/google-ads/GOOGLE_ADS_MCP_READONLY_AUDIT.md`.
 - Se documentó la clasificación conceptual Marketing / GTM-RevOps / Skills / Edge / Zoho / WhatsApp+n8n en `docs/MARKETING_GTM_REVOPS_CLASSIFICATION.md`.
-- Se registró incidencia operativa: creación accidental directa en `main` de documentación vacía/de prueba, corregida inmediatamente con contenido válido. Esta rama correctiva evita nuevos cambios directos a `main`.
+- Se registró incidencia operativa: creación accidental directa en `main` de documentación vacía/de prueba, corregida inmediatamente con contenido válido.
+- Se agregó plan de migración archivo/carpeta en `docs/MARKETING_FILE_LEVEL_MIGRATION_PLAN.md`, sin mover archivos reales.
 
 ## Próxima Acción Recomendada
 
 Antes de mover o reordenar archivos:
 
-1. Revisar y mergear el PR correctivo de clasificación Marketing / GTM-RevOps.
-2. Revisar `core/`, `references/` y `automation/` archivo por archivo.
-3. Decidir qué queda como referencia en Marketing y qué se convierte en fuente canónica en GTM/RevOps dentro de Global.
+1. Revisar y mergear el PR del plan de migración archivo/carpeta.
+2. Crear en `capacita-global-control` la carpeta `docs/gtm-revops/` con canónicos iniciales.
+3. Migrar o sintetizar por PR separado:
+   - buyer personas;
+   - value propositions;
+   - customer journey;
+   - segmentation rules;
+   - nurturing, scoring y touch strategy.
 4. No mover archivos físicos sin un PR específico posterior.
 5. Mantener Marketing como ejecución de campañas y performance; GTM/RevOps como dueño de la lógica comercial transversal.
 
@@ -53,6 +60,7 @@ Antes de mover o reordenar archivos:
 - No hay CSV agregado versionado para calcular CPL, CPQL, CPA, tasa de contacto o tasa de matrícula.
 - Google Ads MCP no está disponible o no autentica en el entorno actual.
 - Clasificación GTM/RevOps requiere revisión humana antes de cualquier migración física.
+- Falta PR posterior en Global para crear canónicos GTM/RevOps.
 
 ## Notas de Alcance
 
