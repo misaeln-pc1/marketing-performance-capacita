@@ -10,6 +10,7 @@ Registro de decisiones operativas del repo `marketing-performance-capacita`.
 | 2026-06-21 | GTM/RevOps es dueño de buyer persona, value persona, segmentación, journey, scoring, nurturing y touch strategy. Marketing queda como ejecución de campañas y performance. | Frontera Marketing / GTM-RevOps | Amarillo | `docs/MARKETING_GTM_REVOPS_CLASSIFICATION.md` |
 | 2026-06-21 | No mover archivos reales desde Marketing a GTM/RevOps en esta fase. Cualquier migración física debe hacerse por PR posterior específico y revisado. | Migración documental | Amarillo | `docs/MARKETING_GTM_REVOPS_CLASSIFICATION.md` |
 | 2026-06-21 | Registrar como incidencia la creación accidental directa en `main` de archivos documentales durante la clasificación, y corregir mediante rama/PR correctivo. | Gobernanza GitHub | Amarillo | Rama `docs/fix-marketing-gtm-classification-followup-2026-06-21` |
+| 2026-06-21 | Aprobar plan de migración archivo/carpeta: no mover carpetas completas; separar verdad canónica, ejecución táctica y ejecución técnica por PRs posteriores. | Migración Marketing -> GTM/RevOps | Amarillo | `docs/MARKETING_FILE_LEVEL_MIGRATION_PLAN.md` |
 
 ## Reglas derivadas
 
@@ -20,3 +21,4 @@ Registro de decisiones operativas del repo `marketing-performance-capacita`.
 - Capacita Zoho Deluge Core implementa código CRM/Deluge.
 - WhatsApp + n8n + Zoho implementa workflows, webhooks y mensajería.
 - No subir PII, secretos, `.env`, tokens, binarios, exportaciones CRM ni métricas sensibles sin anonimizar.
+- La migración se ejecutará en fases: inventario, creación de canónicos GTM/RevOps, extracción por bloque y limpieza física controlada.
