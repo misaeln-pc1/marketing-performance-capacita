@@ -1,45 +1,38 @@
-# Solicitud de Revision
+# REVIEW_REQUEST
 
-## Que se hizo
+## PR objetivo
 
-Se intento validar Google Ads MCP en modo solo lectura para auditar campanas Google Ads sin copy/paste manual.
+Corrección documental posterior a la clasificación Marketing / GTM-RevOps.
 
-La validacion quedo bloqueada porque Google Ads MCP no esta disponible o no esta autenticado en este entorno. No se ejecutaron consultas Google Ads, no se obtuvo metadata y no se generaron metricas.
+## Resumen
 
-## Rama
+Este cambio deja el repo `marketing-performance-capacita` alineado con la frontera global aprobada entre Marketing (Campañas & Growth), GTM/RevOps, Skills/AI OS, Capacita Edge, Capacita Zoho Deluge Core y WhatsApp + n8n + Zoho.
 
-`docs/google-ads-mcp-readonly-audit`
+También registra la incidencia operativa ocurrida durante la ejecución: se creó documentación directamente en `main` por error. El contenido fue reemplazado por una clasificación válida y este PR agrega la trazabilidad faltante.
 
-## Archivos creados
+## Archivos esperados
 
-- `docs/google-ads/GOOGLE_ADS_MCP_READONLY_AUDIT.md`
+- `TASK_STATUS.md`: actualiza estado, próxima acción, bloqueos y reglas de alcance.
+- `DECISIONES.md`: crea registro de decisiones del repo.
+- `REVIEW_REQUEST.md`: actualiza esta solicitud de revisión.
+- `docs/.gitkeep`: se elimina porque `docs/` ya contiene documentación real.
 
-## Archivos modificados
+## No se toca
 
-- `TASK_STATUS.md`
-- `REVIEW_REQUEST.md`
-- `CHANGELOG_AGENT.md`
+- No se modifican campañas reales.
+- No se toca Meta Ads, Google Ads, Zoho, n8n, WhatsApp, Cloudflare ni producción.
+- No se suben datos personales, credenciales, archivos de configuración sensible ni binarios.
+- No se mueven archivos reales entre carpetas.
+- No se renombra el repo.
 
-## Revision solicitada
+## Validación esperada
 
-Validar criticamente:
+- Solo cambios documentales y eliminación de `.gitkeep` redundante.
+- `marketing-performance-capacita` mantiene su nombre físico.
+- Marketing queda como ejecución de campañas/performance.
+- GTM/RevOps queda como fuente de estrategia comercial transversal.
+- Skills / AI OS queda como biblioteca de capacidades reutilizables.
 
-- que el bloqueo de Google Ads MCP esta documentado con claridad;
-- que no se inventaron metricas;
-- que no se guardaron secretos, tokens, `.env`, customer IDs sensibles ni credenciales;
-- que no se tocaron campanas reales;
-- que no hubo mutaciones;
-- que el siguiente paso minimo es habilitar Google Ads MCP read-only fuera del repositorio.
+## Recomendación
 
-## Riesgos o pendientes
-
-- Falta Google Ads MCP disponible/autenticado.
-- Falta poder listar cuentas accesibles en modo lectura.
-- Falta GAQL minima de campañas.
-- Falta cualquier metrica agregada real de Google Ads.
-- Falta trazabilidad Google Ads -> CRM para CPQL/CPA real.
-
-## Decision solicitada
-
-- [ ] APROBADO CON OBSERVACIONES
-- [ ] CORREGIR ANTES DE MERGE
+Mergear si el diff confirma que solo se actualizaron documentos y se eliminó el `.gitkeep` redundante.
