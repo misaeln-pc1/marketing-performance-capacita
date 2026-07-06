@@ -1,0 +1,3 @@
+automation/google-ads-readonly/output/*
+!automation/google-ads-readonly/output/.gitkeep
+scripts/google_ads_readonly/__pycache__/
