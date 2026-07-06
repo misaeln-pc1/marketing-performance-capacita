@@ -109,12 +109,13 @@ def generate_keyword_ideas(
 ):
     client = build_client(config_path, env_config)
     googleads_service = client.get_service("GoogleAdsService")
+    geo_target_constant_service = client.get_service("GeoTargetConstantService")
     keyword_plan_idea_service = client.get_service("KeywordPlanIdeaService")
     request = client.get_type("GenerateKeywordIdeasRequest")
     request.customer_id = customer_id
     request.language = googleads_service.language_constant_path(language_id)
     request.geo_target_constants.extend(
-        googleads_service.geo_target_constant_path(geo_id) for geo_id in geo_target_constants
+        geo_target_constant_service.geo_target_constant_path(geo_id) for geo_id in geo_target_constants
     )
     request.keyword_seed.keywords.extend(seed_keywords)
     request.include_adult_keywords = False
