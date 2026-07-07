@@ -38,8 +38,8 @@
 
 ## Google Ads Read-Only
 
-- Se preparo plan V0.1 de pipeline Google Ads read-only local, sin MCP y sin ejecucion de API.
-- La rama de este trabajo es `docs/google-ads-readonly-pipeline-v01`.
+- Se preparo plan V0.1 de pipeline Google Ads read-only local, sin MCP y sin ejecucion de API inicial.
+- PR #14 `docs: plan Google Ads read-only pipeline` fue mergeado a `main`.
 - Se documento un pipeline local basado en Google Ads API Python client con configuracion externa y guardas de seguridad.
 - Se agrego la carpeta minima `automation/google-ads-readonly/` con runbook, semillas iniciales y `output/` local ignorado por git.
 - Se prepararon tres scripts read-only:
@@ -47,6 +47,13 @@
   - `generate_keyword_ideas.py` para ideas de keywords desde semillas CSV;
   - `export_campaign_summary.py` como scaffold bloqueado hasta aprobar su contrato de reporte.
 - Se corrigio `generate_keyword_ideas.py` para construir resource names de idioma y geo siguiendo el patron oficial del cliente Python y para imprimir metricas si la API las entrega.
+- Se instalo localmente la libreria `google-ads`.
+- Se preparo `google-ads.yaml` fuera del repo y se valido que no mezcla metodos de autenticacion.
+- Se regenero ADC/OAuth con scope Google Ads.
+- `list_accessible_customers.py` funciono en modo read-only.
+- `generate_keyword_ideas.py` alcanzo Google Ads API pero quedo bloqueado por nivel de acceso de prueba del token.
+- Se envio solicitud de Google Ads API Basic Access desde API Center del MCC de Capacita.
+- Se documento la solicitud en `docs/google-ads/GOOGLE_ADS_BASIC_ACCESS_REQUEST_LOG.md`.
 
 ## Proxima Accion Recomendada
 
@@ -65,11 +72,14 @@ Antes de mover o reordenar archivos:
 
 ## Proxima Accion Recomendada: Google Ads Read-Only
 
-1. Instalar `google-ads` localmente fuera de esta tarea.
-2. Preparar credenciales locales fuera del repo.
-3. Validar primero cuentas accesibles en modo read-only.
-4. Ejecutar ideas de keywords con geo e idioma aprobados.
-5. Definir contrato estricto del resumen agregado antes de habilitar su implementacion.
+1. Esperar respuesta de Google sobre Basic Access.
+2. Mientras tanto, avanzar por Keyword Planner manual si se requiere radar comercial inmediato.
+3. Cuando Basic Access sea aprobado, repetir prueba minima local:
+   - `list_accessible_customers.py`;
+   - `generate_keyword_ideas.py`;
+   - export local no versionado.
+4. Documentar solo resultados agregados o anonimizados.
+5. Mantener `export_campaign_summary.py` bloqueado hasta aprobar contrato de reporte.
 
 ## Pendientes / Bloqueos
 
@@ -78,11 +88,11 @@ Antes de mover o reordenar archivos:
 - Confirmar si Zoho CRM recibira UTM desde formularios de landing.
 - No hay resultados documentados aun para V3; cualquier metrica debe agregarse solo cuando exista dato real.
 - No hay CSV agregado versionado para calcular CPL, CPQL, CPA, tasa de contacto o tasa de matricula.
-- Google Ads MCP no esta disponible o no autentica en el entorno actual.
+- Google Ads MCP no se usara para esta linea porque Codex no expuso tools invocables de forma confiable.
 - Clasificacion GTM/RevOps requiere revision humana antes de cualquier migracion fisica.
 - Falta PR posterior en Global para crear canonicos GTM/RevOps.
 - El script de resumen de campanas queda bloqueado hasta decidir si el reporte se acepta con GAQL read-only o con export UI fuera del repo.
-- No se ejecuto la API de Google Ads, por lo que no hay validacion de credenciales ni de permisos reales.
+- Basic Access de Google Ads API esta pendiente de aprobacion.
 - No hay outputs reales ni agregados versionados todavia para la linea Google Ads read-only.
 - Sigue pendiente la union comercial Google Ads -> landing -> CRM -> matricula para CPQL real.
 

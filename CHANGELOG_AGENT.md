@@ -12,3 +12,11 @@
 - Se agregaron runbook, semillas iniciales y carpeta de output vacia para trabajo local.
 - Se agregaron tres scripts esqueleto con configuracion externa y guardas para evitar secretos versionados y mutaciones.
 - Se corrigio `generate_keyword_ideas.py` para usar resource names de idioma y geo segun el patron oficial del cliente Python y para imprimir metricas de ideas si la API las entrega.
+
+## 2026-07-06
+
+- PR #14 fue mergeado a `main` con el pipeline local Google Ads read-only.
+- Se valido ejecucion local hasta llamada API read-only.
+- La consulta de ideas de keywords contra cuenta real quedo bloqueada por nivel de acceso de prueba.
+- Se envio solicitud de Google Ads API Basic Access desde API Center del MCC de Capacita.
+- Se documento el estado en `docs/google-ads/GOOGLE_ADS_BASIC_ACCESS_REQUEST_LOG.md`.
