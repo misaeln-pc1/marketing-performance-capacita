@@ -2,10 +2,9 @@
 
 ## Estado Actual
 
-- **Estado vigente del repo:** Plan de migracion archivo/carpeta Marketing -> GTM/RevOps documentado en PR.
-- **Rama vigente documentada:** `docs/marketing-file-level-migration-plan-2026-06-21`.
-- **Documento nuevo en revision:** `docs/MARKETING_FILE_LEVEL_MIGRATION_PLAN.md`.
-- **Documento base anterior:** `docs/MARKETING_GTM_REVOPS_CLASSIFICATION.md`.
+- **Estado vigente del repo:** Diagnostico Google Ads historico read-only en PR para revisar gasto/clicks/leads antes de tocar campanas reales.
+- **Rama vigente documentada:** `docs/google-ads-history-diagnosis-v01`.
+- **Documento nuevo en revision:** `docs/google-ads/GOOGLE_ADS_HISTORY_DIAGNOSIS_CONTRACT_V01.md`.
 - **Campana V3 documentada:** `META_TRAFFIC_EXCEL_PRESENCIAL_SANTIAGO_B2C_V3`.
 - **Carpeta reutilizada:** `campaigns/excel-basico-intermedio-presencial-santiago/`.
 - **Landing documentada:** `https://capacita.cl/curso-de-excel-presencial-en-santiago`.
@@ -41,51 +40,51 @@
 - Se preparo plan V0.1 de pipeline Google Ads read-only local, sin MCP y sin ejecucion de API inicial.
 - PR #14 `docs: plan Google Ads read-only pipeline` fue mergeado a `main`.
 - PR #16 `docs: log Google Ads Basic Access request` fue mergeado a `main`.
+- PR #17 documento aprobacion Basic Access y radar Excel V0.
 - Google aprobo Basic Access para el Developer Token asociado al MCC de Capacita.
 - Se documento un pipeline local basado en Google Ads API Python client con configuracion externa y guardas de seguridad.
 - Se agrego la carpeta minima `automation/google-ads-readonly/` con runbook, semillas iniciales y `output/` local ignorado por git.
-- Se prepararon tres scripts read-only:
+- Se prepararon scripts read-only:
   - `list_accessible_customers.py` para listado de cuentas accesibles;
   - `generate_keyword_ideas.py` para ideas de keywords desde semillas CSV;
-  - `export_campaign_summary.py` como scaffold bloqueado hasta aprobar su contrato de reporte.
+  - `export_campaign_summary.py` como scaffold bloqueado hasta aprobar su contrato de reporte;
+  - `export_search_history.py` para exportar diagnostico historico real de Search Terms, Keywords, Landing Pages y Campaign Daily.
 - Se corrigio `generate_keyword_ideas.py` para construir resource names de idioma y geo siguiendo el patron oficial del cliente Python y para imprimir metricas si la API las entrega.
 - Se instalo localmente la libreria `google-ads`.
 - Se preparo `google-ads.yaml` fuera del repo y se valido que no mezcla metodos de autenticacion.
 - Se regenero ADC/OAuth con scope Google Ads.
 - `list_accessible_customers.py` funciono en modo read-only y mostro 2 cuentas accesibles con IDs enmascarados.
 - `generate_keyword_ideas.py` funciono en modo read-only despues de Basic Access y genero output TSV local no versionado.
-- El primer barrido devolvio volumen bajo/cero para varias semillas muy especificas; esto valida la API, pero no basta para concluir baja demanda real.
-- Se documento la aprobacion y primera ejecucion en:
-  - `docs/google-ads/GOOGLE_ADS_BASIC_ACCESS_REQUEST_LOG.md`;
-  - `docs/google-ads/GOOGLE_ADS_KEYWORD_IDEAS_FIRST_RUN_LOG.md`.
+- Primer barrido: valido API, pero fue demasiado estrecho para lectura comercial.
+- Segundo barrido usando keywords reales de Google Ads como semillas genero radar local con 1676 filas.
+- Lectura V0: existe demanda capturable para Excel, pero la demanda estrictamente presencial/local aparece baja si se usa solo como keyword directa.
+- Nuevo diagnostico V0.1: extraer historico real de terminos, keywords, landing pages y campanas para explicar gasto alto/clicks/leads bajos antes de modificar pauta.
 
 ## Proxima Accion Recomendada
 
 Antes de mover o reordenar archivos:
 
-1. Revisar y mergear el PR del plan de migracion archivo/carpeta.
-2. Crear en `capacita-global-control` la carpeta `docs/gtm-revops/` con canonicos iniciales.
-3. Migrar o sintetizar por PR separado:
-   - buyer personas;
-   - value propositions;
-   - customer journey;
-   - segmentation rules;
-   - nurturing, scoring y touch strategy.
-4. No mover archivos fisicos sin un PR especifico posterior.
-5. Mantener Marketing como ejecucion de campanas y performance; GTM/RevOps como dueno de la logica comercial transversal.
+1. Revisar y mergear PR vigente de diagnostico Google Ads historico read-only.
+2. Ejecutar localmente `export_search_history.py` con rango 30-90 dias.
+3. Mantener outputs CSV en local no versionado.
+4. Analizar top gasto/clicks sin conversion y decidir negativas/landing/grupos solo con evidencia.
 
 ## Proxima Accion Recomendada: Google Ads Read-Only
 
-1. Hacer segundo barrido de keyword ideas con semillas mas amplias.
-2. Validar si el geo target actual es demasiado estrecho antes de interpretar volumen bajo como baja demanda.
-3. Separar resultados por capas:
-   - presencial/local;
-   - curso sin modalidad;
-   - dolor/solucion;
-   - B2B/empresa.
-4. Guardar TSV bruto solo local no versionado.
-5. Documentar en repo solo resumen agregado y anonimo.
-6. Mantener `export_campaign_summary.py` bloqueado hasta aprobar contrato de reporte.
+1. Exportar historial real:
+   - search terms;
+   - keywords;
+   - landing pages;
+   - campaign daily.
+2. Construir resumen agregado:
+   - gasto sin conversion;
+   - clicks sin lead;
+   - negativas obvias;
+   - landings mal alineadas;
+   - keywords buenas/caras.
+3. No depender solo de Keyword Planner ni Keyword Ideas.
+4. No tocar campanas reales hasta revisar el diagnostico.
+5. Mantener `export_campaign_summary.py` bloqueado hasta aprobar contrato de reporte separado.
 
 ## Pendientes / Bloqueos
 
