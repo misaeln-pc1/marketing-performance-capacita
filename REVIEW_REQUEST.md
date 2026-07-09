@@ -2,71 +2,64 @@
 
 ## PR objetivo
 
-Documentar la aprobacion de Google Ads API Basic Access y la primera ejecucion local exitosa de Keyword Ideas en modo read-only.
+Preparar diagnostico historico Google Ads read-only para explicar gasto alto, clicks y baja llegada de leads antes de modificar campanas reales.
 
 ## Contexto vigente del repo
 
-El repo mantiene una linea acotada para Google Ads read-only orientada al radar comercial de cursos presenciales en Santiago Centro.
+El repo mantiene Google Ads como linea comercial-publicitaria read-only para radar, aprendizaje de campanas y diagnostico de performance.
 
-La linea vigente:
+El usuario reporta:
 
-- no usa MCP;
-- usa pipeline local Python read-only;
-- mantiene `google-ads.yaml`, scripts `.ps1`, outputs TSV y credenciales fuera del repo;
-- no toca campanas reales ni configuraciones de Google Ads;
-- documenta solo estado, metodologia, guardrails y resultados agregados/sanitizados.
+- gasto diario aproximado CLP $20.000;
+- 16-18 clicks aprox.;
+- 0-2 leads aprox.;
+- sospecha de errores en keywords, landing, calidad post-click, competencia o estructura de campana.
 
 ## Resumen del PR
 
-Este PR actualiza el estado posterior al PR #16:
+Este PR agrega:
 
-- Google aprobo Basic Access para el Developer Token asociado al MCC de Capacita.
-- `list_accessible_customers.py` funciono y mostro 2 cuentas accesibles enmascaradas.
-- `generate_keyword_ideas.py` funciono localmente contra la cuenta publicitaria real.
-- El output bruto quedo local y no versionado.
-- El primer barrido mostro volumen bajo/cero para semillas muy especificas, por lo que se recomienda ampliar semillas y validar geografia antes de sacar conclusiones comerciales.
+- contrato V0.1 de diagnostico historico Google Ads read-only;
+- script `export_search_history.py` para exportar localmente:
+  - search terms;
+  - keywords;
+  - landing pages;
+  - campaign daily;
+- actualizacion del runbook con comando local;
+- actualizacion de `TASK_STATUS.md` y `CHANGELOG_AGENT.md`.
 
 ## Rama
 
-`docs/google-ads-basic-access-approved-2026-07-08`
+`docs/google-ads-history-diagnosis-v01`
 
 ## Archivos creados
 
-- `docs/google-ads/GOOGLE_ADS_KEYWORD_IDEAS_FIRST_RUN_LOG.md`
+- `docs/google-ads/GOOGLE_ADS_HISTORY_DIAGNOSIS_CONTRACT_V01.md`
+- `scripts/google_ads_readonly/export_search_history.py`
 
 ## Archivos modificados
 
-- `docs/google-ads/GOOGLE_ADS_BASIC_ACCESS_REQUEST_LOG.md`
+- `automation/google-ads-readonly/GOOGLE_ADS_READONLY_RUNBOOK.md`
 - `TASK_STATUS.md`
 - `CHANGELOG_AGENT.md`
 - `REVIEW_REQUEST.md`
 
-## No se toca
-
-- No se sube `google-ads.yaml`.
-- No se suben tokens, OAuth JSON, refresh tokens ni access tokens.
-- No se suben customer IDs completos.
-- No se sube TSV bruto ni outputs reales.
-- No se modifica `main` directo.
-- No se ejecuta MCP.
-- No se ejecuta `export_campaign_summary.py`.
-- No se crean ni modifican campanas, presupuestos, bids, anuncios, assets, conversiones ni configuraciones.
-
 ## Validacion esperada
 
-- Cambios documentales solamente.
-- Sin secretos ni IDs completos.
-- Sin outputs reales.
-- Sin archivos binarios.
-- Sin mutaciones de Google Ads.
-- Siguiente accion acotada: segundo barrido con semillas mas amplias y salida local no versionada.
+- Script solo read-only.
+- Requiere `--execute` para llamar API.
+- Lee config externa fuera del repo.
+- Escribe CSV solo en `automation/google-ads-readonly/output/` o ruta local externa.
+- No crea ni modifica campanas.
+- No toca presupuestos, bids, anuncios, keywords, negativas, assets, conversiones ni configuraciones.
+- No versiona outputs, customer IDs completos, tokens, YAML ni PII.
 
 ## Riesgos o pendientes
 
-- El primer output no es suficiente para decidir inversion porque usa semillas demasiado especificas.
-- Falta validar si el geo target actual estrecha demasiado la demanda.
-- Falta construir un radar agregado por curso/intencion/volumen/competencia.
-- Falta definir contrato antes de habilitar cualquier resumen de campanas.
+- No se ejecuto el script desde GitHub; debe probarse localmente.
+- Algunas consultas GAQL pueden requerir ajuste si la cuenta/campana no tiene datos o si una vista no soporta un campo esperado.
+- Los CSV brutos pueden contener nombres de campanas, grupos, terminos y URLs; deben quedar solo local.
+- El diagnostico aun no resuelve tracking Zoho/CRM; solo entrega evidencia Google Ads.
 
 ## Decision solicitada
 
