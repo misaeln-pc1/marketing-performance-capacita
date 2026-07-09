@@ -2,7 +2,7 @@
 
 ## PR objetivo
 
-Documentar la aprobacion de Google Ads API Basic Access y la primera ejecucion local exitosa de Keyword Ideas en modo read-only.
+Documentar la aprobacion de Google Ads API Basic Access, la primera ejecucion local exitosa de Keyword Ideas y el radar sanitizado V0 para Excel presencial Santiago.
 
 ## Contexto vigente del repo
 
@@ -12,7 +12,7 @@ La linea vigente:
 
 - no usa MCP;
 - usa pipeline local Python read-only;
-- mantiene `google-ads.yaml`, scripts `.ps1`, outputs TSV y credenciales fuera del repo;
+- mantiene `google-ads.yaml`, scripts `.ps1`, outputs TSV/CSV y credenciales fuera del repo;
 - no toca campanas reales ni configuraciones de Google Ads;
 - documenta solo estado, metodologia, guardrails y resultados agregados/sanitizados.
 
@@ -24,7 +24,9 @@ Este PR actualiza el estado posterior al PR #16:
 - `list_accessible_customers.py` funciono y mostro 2 cuentas accesibles enmascaradas.
 - `generate_keyword_ideas.py` funciono localmente contra la cuenta publicitaria real.
 - El output bruto quedo local y no versionado.
-- El primer barrido mostro volumen bajo/cero para semillas muy especificas, por lo que se recomienda ampliar semillas y validar geografia antes de sacar conclusiones comerciales.
+- Primer barrido: valido API, pero uso semillas demasiado especificas.
+- Segundo barrido con keywords reales de Google Ads como semillas genero radar local con 1676 filas.
+- Se documento lectura comercial V0: usar demanda general de Excel con filtro presencial en anuncio/landing; no depender solo de keywords `presencial`/`santiago`.
 
 ## Rama
 
@@ -33,6 +35,7 @@ Este PR actualiza el estado posterior al PR #16:
 ## Archivos creados
 
 - `docs/google-ads/GOOGLE_ADS_KEYWORD_IDEAS_FIRST_RUN_LOG.md`
+- `docs/google-ads/GOOGLE_ADS_RADAR_EXCEL_PRESENCIAL_V0_SUMMARY.md`
 
 ## Archivos modificados
 
@@ -46,7 +49,7 @@ Este PR actualiza el estado posterior al PR #16:
 - No se sube `google-ads.yaml`.
 - No se suben tokens, OAuth JSON, refresh tokens ni access tokens.
 - No se suben customer IDs completos.
-- No se sube TSV bruto ni outputs reales.
+- No se suben TSV/CSV brutos ni outputs reales.
 - No se modifica `main` directo.
 - No se ejecuta MCP.
 - No se ejecuta `export_campaign_summary.py`.
@@ -59,13 +62,13 @@ Este PR actualiza el estado posterior al PR #16:
 - Sin outputs reales.
 - Sin archivos binarios.
 - Sin mutaciones de Google Ads.
-- Siguiente accion acotada: segundo barrido con semillas mas amplias y salida local no versionada.
+- Siguiente accion acotada: crear lista accionable filtrada para Search, todavia sin tocar campanas reales.
 
 ## Riesgos o pendientes
 
-- El primer output no es suficiente para decidir inversion porque usa semillas demasiado especificas.
+- El radar V0 confirma demanda, pero requiere validacion comercial antes de ejecutar pauta nueva.
 - Falta validar si el geo target actual estrecha demasiado la demanda.
-- Falta construir un radar agregado por curso/intencion/volumen/competencia.
+- Falta definir estructura de grupos de anuncios y negativas iniciales.
 - Falta definir contrato antes de habilitar cualquier resumen de campanas.
 
 ## Decision solicitada
