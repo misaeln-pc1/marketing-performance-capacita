@@ -27,4 +27,12 @@
 - Se valido `list_accessible_customers.py` con 2 cuentas accesibles enmascaradas.
 - Se ejecuto `generate_keyword_ideas.py` localmente en modo read-only y genero output TSV local no versionado.
 - Se documento que el primer barrido devuelve volumen bajo/cero para semillas muy especificas y que se requiere ampliar semillas/geografia antes de sacar conclusiones comerciales.
+- Se genero radar local V0 con 1676 ideas procesadas usando keywords reales de Google Ads como semillas.
+- Se documento lectura V0: captar demanda general de Excel y filtrar presencial en anuncio/landing, no depender solo de keywords `presencial` o `santiago`.
 - Se mantiene bloqueado `export_campaign_summary.py` hasta aprobar contrato de reporte agregado.
+
+## 2026-07-09
+
+- Se definio contrato V0.1 para diagnostico historico Google Ads read-only orientado a explicar gasto alto, clicks y baja llegada de leads.
+- Se agrego `export_search_history.py` para exportar localmente Search Terms, Keywords, Landing Pages y Campaign Daily via GAQL read-only.
+- Se actualizo runbook local para diagnostico historico sin subir CSV brutos ni tocar campanas reales.
