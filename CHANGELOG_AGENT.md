@@ -20,3 +20,11 @@
 - La consulta de ideas de keywords contra cuenta real quedo bloqueada por nivel de acceso de prueba.
 - Se envio solicitud de Google Ads API Basic Access desde API Center del MCC de Capacita.
 - Se documento el estado en `docs/google-ads/GOOGLE_ADS_BASIC_ACCESS_REQUEST_LOG.md`.
+
+## 2026-07-08
+
+- Google aprobo Basic Access para el Developer Token asociado al MCC de Capacita.
+- Se valido `list_accessible_customers.py` con 2 cuentas accesibles enmascaradas.
+- Se ejecuto `generate_keyword_ideas.py` localmente en modo read-only y genero output TSV local no versionado.
+- Se documento que el primer barrido devuelve volumen bajo/cero para semillas muy especificas y que se requiere ampliar semillas/geografia antes de sacar conclusiones comerciales.
+- Se mantiene bloqueado `export_campaign_summary.py` hasta aprobar contrato de reporte agregado.
