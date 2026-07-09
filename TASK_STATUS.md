@@ -40,6 +40,8 @@
 
 - Se preparo plan V0.1 de pipeline Google Ads read-only local, sin MCP y sin ejecucion de API inicial.
 - PR #14 `docs: plan Google Ads read-only pipeline` fue mergeado a `main`.
+- PR #16 `docs: log Google Ads Basic Access request` fue mergeado a `main`.
+- Google aprobo Basic Access para el Developer Token asociado al MCC de Capacita.
 - Se documento un pipeline local basado en Google Ads API Python client con configuracion externa y guardas de seguridad.
 - Se agrego la carpeta minima `automation/google-ads-readonly/` con runbook, semillas iniciales y `output/` local ignorado por git.
 - Se prepararon tres scripts read-only:
@@ -50,10 +52,12 @@
 - Se instalo localmente la libreria `google-ads`.
 - Se preparo `google-ads.yaml` fuera del repo y se valido que no mezcla metodos de autenticacion.
 - Se regenero ADC/OAuth con scope Google Ads.
-- `list_accessible_customers.py` funciono en modo read-only.
-- `generate_keyword_ideas.py` alcanzo Google Ads API pero quedo bloqueado por nivel de acceso de prueba del token.
-- Se envio solicitud de Google Ads API Basic Access desde API Center del MCC de Capacita.
-- Se documento la solicitud en `docs/google-ads/GOOGLE_ADS_BASIC_ACCESS_REQUEST_LOG.md`.
+- `list_accessible_customers.py` funciono en modo read-only y mostro 2 cuentas accesibles con IDs enmascarados.
+- `generate_keyword_ideas.py` funciono en modo read-only despues de Basic Access y genero output TSV local no versionado.
+- El primer barrido devolvio volumen bajo/cero para varias semillas muy especificas; esto valida la API, pero no basta para concluir baja demanda real.
+- Se documento la aprobacion y primera ejecucion en:
+  - `docs/google-ads/GOOGLE_ADS_BASIC_ACCESS_REQUEST_LOG.md`;
+  - `docs/google-ads/GOOGLE_ADS_KEYWORD_IDEAS_FIRST_RUN_LOG.md`.
 
 ## Proxima Accion Recomendada
 
@@ -72,14 +76,16 @@ Antes de mover o reordenar archivos:
 
 ## Proxima Accion Recomendada: Google Ads Read-Only
 
-1. Esperar respuesta de Google sobre Basic Access.
-2. Mientras tanto, avanzar por Keyword Planner manual si se requiere radar comercial inmediato.
-3. Cuando Basic Access sea aprobado, repetir prueba minima local:
-   - `list_accessible_customers.py`;
-   - `generate_keyword_ideas.py`;
-   - export local no versionado.
-4. Documentar solo resultados agregados o anonimizados.
-5. Mantener `export_campaign_summary.py` bloqueado hasta aprobar contrato de reporte.
+1. Hacer segundo barrido de keyword ideas con semillas mas amplias.
+2. Validar si el geo target actual es demasiado estrecho antes de interpretar volumen bajo como baja demanda.
+3. Separar resultados por capas:
+   - presencial/local;
+   - curso sin modalidad;
+   - dolor/solucion;
+   - B2B/empresa.
+4. Guardar TSV bruto solo local no versionado.
+5. Documentar en repo solo resumen agregado y anonimo.
+6. Mantener `export_campaign_summary.py` bloqueado hasta aprobar contrato de reporte.
 
 ## Pendientes / Bloqueos
 
@@ -92,8 +98,7 @@ Antes de mover o reordenar archivos:
 - Clasificacion GTM/RevOps requiere revision humana antes de cualquier migracion fisica.
 - Falta PR posterior en Global para crear canonicos GTM/RevOps.
 - El script de resumen de campanas queda bloqueado hasta decidir si el reporte se acepta con GAQL read-only o con export UI fuera del repo.
-- Basic Access de Google Ads API esta pendiente de aprobacion.
-- No hay outputs reales ni agregados versionados todavia para la linea Google Ads read-only.
+- No hay outputs reales versionados para la linea Google Ads read-only.
 - Sigue pendiente la union comercial Google Ads -> landing -> CRM -> matricula para CPQL real.
 
 ## Notas de Alcance

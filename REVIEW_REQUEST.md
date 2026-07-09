@@ -2,76 +2,71 @@
 
 ## PR objetivo
 
-Google Ads read-only pipeline local para operar sin MCP, manteniendo intacta la trazabilidad vigente de Marketing / GTM / RevOps.
+Documentar la aprobacion de Google Ads API Basic Access y la primera ejecucion local exitosa de Keyword Ideas en modo read-only.
 
 ## Contexto vigente del repo
 
-El repo ya tiene una linea documental activa para:
+El repo mantiene una linea acotada para Google Ads read-only orientada al radar comercial de cursos presenciales en Santiago Centro.
 
-- Marketing como ejecucion de campanas, pauta, performance y aprendizajes tacticos.
-- GTM/RevOps como destino canonico futuro de buyer persona, segmentacion, journey, scoring, nurturing y touch strategy.
-- Skills / AI OS y repos tecnicos como capas separadas de implementacion.
+La linea vigente:
 
-Este PR no reemplaza ese estado. Agrega un bloque nuevo y acotado para Google Ads read-only.
+- no usa MCP;
+- usa pipeline local Python read-only;
+- mantiene `google-ads.yaml`, scripts `.ps1`, outputs TSV y credenciales fuera del repo;
+- no toca campanas reales ni configuraciones de Google Ads;
+- documenta solo estado, metodologia, guardrails y resultados agregados/sanitizados.
 
 ## Resumen del PR
 
-Se preparo una alternativa propia, simple y read-only al Google Ads MCP para poder operar fuera de MCP cuando Codex no expone tools invocables.
+Este PR actualiza el estado posterior al PR #16:
 
-Se documentaron los guardrails, el flujo local, las semillas iniciales y tres scripts Python esqueleto con configuracion externa y validaciones de seguridad.
-
-Ademas, `generate_keyword_ideas.py` se corrigio para:
-
-- construir `language` y `geo_target_constants` con resource names segun el patron oficial del cliente Python;
-- mantener `KeywordPlanIdeaService` solo para `generate_keyword_ideas`;
-- imprimir, si la API los entrega, `text`, `avg_monthly_searches`, `competition`, `low_top_of_page_bid_micros` y `high_top_of_page_bid_micros`.
+- Google aprobo Basic Access para el Developer Token asociado al MCC de Capacita.
+- `list_accessible_customers.py` funciono y mostro 2 cuentas accesibles enmascaradas.
+- `generate_keyword_ideas.py` funciono localmente contra la cuenta publicitaria real.
+- El output bruto quedo local y no versionado.
+- El primer barrido mostro volumen bajo/cero para semillas muy especificas, por lo que se recomienda ampliar semillas y validar geografia antes de sacar conclusiones comerciales.
 
 ## Rama
 
-`docs/google-ads-readonly-pipeline-v01`
+`docs/google-ads-basic-access-approved-2026-07-08`
 
 ## Archivos creados
 
-- `docs/google-ads/GOOGLE_ADS_READONLY_PIPELINE_PLAN.md`
-- `automation/google-ads-readonly/README.md`
-- `automation/google-ads-readonly/GOOGLE_ADS_READONLY_RUNBOOK.md`
-- `automation/google-ads-readonly/keyword_seeds_presencial_santiago.csv`
-- `automation/google-ads-readonly/output/.gitkeep`
-- `scripts/google_ads_readonly/list_accessible_customers.py`
-- `scripts/google_ads_readonly/generate_keyword_ideas.py`
-- `scripts/google_ads_readonly/export_campaign_summary.py`
-- `.gitignore`
+- `docs/google-ads/GOOGLE_ADS_KEYWORD_IDEAS_FIRST_RUN_LOG.md`
 
 ## Archivos modificados
 
+- `docs/google-ads/GOOGLE_ADS_BASIC_ACCESS_REQUEST_LOG.md`
 - `TASK_STATUS.md`
-- `REVIEW_REQUEST.md`
 - `CHANGELOG_AGENT.md`
+- `REVIEW_REQUEST.md`
 
 ## No se toca
 
-- No se mueven archivos reales de Marketing / GTM / RevOps.
-- No se renombran carpetas existentes.
+- No se sube `google-ads.yaml`.
+- No se suben tokens, OAuth JSON, refresh tokens ni access tokens.
+- No se suben customer IDs completos.
+- No se sube TSV bruto ni outputs reales.
 - No se modifica `main` directo.
-- No se ejecuta Google Ads API en esta tarea.
 - No se ejecuta MCP.
-- No se modifican campanas reales.
-- No se suben secretos, `.env`, OAuth JSON, `google-ads.yaml` real, customer IDs reales, PII ni exports reales.
+- No se ejecuta `export_campaign_summary.py`.
+- No se crean ni modifican campanas, presupuestos, bids, anuncios, assets, conversiones ni configuraciones.
 
 ## Validacion esperada
 
-- El alcance se mantiene read-only.
-- `export_campaign_summary.py` sigue bloqueado.
-- `automation/google-ads-readonly/output/` queda ignorado por git, excepto `.gitkeep`.
-- La configuracion se lee solo desde env vars o rutas externas al repo.
-- La salida de keyword ideas queda lista para mostrar metricas historicas si la API las devuelve.
+- Cambios documentales solamente.
+- Sin secretos ni IDs completos.
+- Sin outputs reales.
+- Sin archivos binarios.
+- Sin mutaciones de Google Ads.
+- Siguiente accion acotada: segundo barrido con semillas mas amplias y salida local no versionada.
 
 ## Riesgos o pendientes
 
-- Falta probar localmente con credenciales externas fuera del repo.
-- Falta definir el contrato del resumen agregado de campanas.
-- Falta decidir si ese resumen aceptara GAQL read-only o quedara fuera de la V0.1.
-- Falta unir resultados Ads con CRM agregado para CPQL real.
+- El primer output no es suficiente para decidir inversion porque usa semillas demasiado especificas.
+- Falta validar si el geo target actual estrecha demasiado la demanda.
+- Falta construir un radar agregado por curso/intencion/volumen/competencia.
+- Falta definir contrato antes de habilitar cualquier resumen de campanas.
 
 ## Decision solicitada
 
