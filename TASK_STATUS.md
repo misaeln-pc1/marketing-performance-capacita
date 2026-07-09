@@ -54,10 +54,13 @@
 - Se regenero ADC/OAuth con scope Google Ads.
 - `list_accessible_customers.py` funciono en modo read-only y mostro 2 cuentas accesibles con IDs enmascarados.
 - `generate_keyword_ideas.py` funciono en modo read-only despues de Basic Access y genero output TSV local no versionado.
-- El primer barrido devolvio volumen bajo/cero para varias semillas muy especificas; esto valida la API, pero no basta para concluir baja demanda real.
-- Se documento la aprobacion y primera ejecucion en:
+- Primer barrido: valido API, pero fue demasiado estrecho para lectura comercial.
+- Segundo barrido usando keywords reales de Google Ads como semillas genero radar local con 1676 filas.
+- Lectura V0: existe demanda capturable para Excel, pero la demanda estrictamente presencial/local aparece baja si se usa solo como keyword directa.
+- Se documento la aprobacion, primera ejecucion y radar V0 en:
   - `docs/google-ads/GOOGLE_ADS_BASIC_ACCESS_REQUEST_LOG.md`;
-  - `docs/google-ads/GOOGLE_ADS_KEYWORD_IDEAS_FIRST_RUN_LOG.md`.
+  - `docs/google-ads/GOOGLE_ADS_KEYWORD_IDEAS_FIRST_RUN_LOG.md`;
+  - `docs/google-ads/GOOGLE_ADS_RADAR_EXCEL_PRESENCIAL_V0_SUMMARY.md`.
 
 ## Proxima Accion Recomendada
 
@@ -76,14 +79,13 @@ Antes de mover o reordenar archivos:
 
 ## Proxima Accion Recomendada: Google Ads Read-Only
 
-1. Hacer segundo barrido de keyword ideas con semillas mas amplias.
+1. Crear lista accionable filtrada para campana Search:
+   - grupo Excel general con filtro presencial en anuncio/landing;
+   - grupo presencial local;
+   - negativas iniciales.
 2. Validar si el geo target actual es demasiado estrecho antes de interpretar volumen bajo como baja demanda.
-3. Separar resultados por capas:
-   - presencial/local;
-   - curso sin modalidad;
-   - dolor/solucion;
-   - B2B/empresa.
-4. Guardar TSV bruto solo local no versionado.
+3. No depender solo de keywords con `presencial` o `santiago`; usar keywords generales con copy presencial.
+4. Guardar TSV/CSV bruto solo local no versionado.
 5. Documentar en repo solo resumen agregado y anonimo.
 6. Mantener `export_campaign_summary.py` bloqueado hasta aprobar contrato de reporte.
 
