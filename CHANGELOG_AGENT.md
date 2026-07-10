@@ -30,11 +30,21 @@
 ## 2026-07-10
 
 - Se verificó el merge del contrato corporativo GTM/RevOps en Global PR #88.
-- Se abrió issue #19 para alinear Marketing con los canónicos.
+- Se abrió issue #19 y se mergeó Marketing PR #20 para alinear el repo con los canónicos.
 - Se creó `docs/GTM_CONSUMPTION_BRIDGE.md`.
 - Se creó `templates/CAMPAIGN_BRIEF_GTM.md`.
 - Se actualizaron README, contexto y carpetas para eliminar propiedad paralela de buyer personas, journey y propuesta de valor.
 - Se creó `campaigns/excel-basico-intermedio-presencial-santiago/gtm-baseline-v1.md` como primer consumidor.
 - Se registró `BP-001` primario y `BP-002` secundario para el antecedente V3.
 - Se detectó que futuros experimentos deben separar productividad y empleabilidad si se desea atribuir resultados por perfil.
+- Se abrió issue #21 para preparar los briefs operativos de los buyer personas activos.
+- Se creó el índice `campaigns/excel-basico-intermedio-presencial-santiago/briefs/README.md`.
+- Se crearon cuatro briefs v1.0.0:
+  - `BP-001 — Desbordado Operativo`;
+  - `BP-002 — Reinserción Laboral`;
+  - `BP-003 — Coordinador B2B`;
+  - `BP-004 — Dueño o Jefatura PyME`.
+- Se dejó `BP-000` como control y no como audiencia de campaña.
+- Se separaron los carriles B2C y B2B y se documentaron requisitos previos de activación.
+- Se priorizó `BP-001` como primer desarrollo creativo recomendado y `BP-002` como segunda prueba.
 - No se tocaron campañas, landing, CRM, Cloudflare, n8n, WhatsApp, datos reales ni producción.
