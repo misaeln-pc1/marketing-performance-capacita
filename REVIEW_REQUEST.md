@@ -2,74 +2,78 @@
 
 ## PR objetivo
 
-Alinear Marketing con el contrato corporativo GTM/RevOps mergeado en Global PR #88 y aplicar el primer baseline a Excel presencial V3.
+Crear un paquete de briefs operativos para los cuatro buyer personas activos de GTM/RevOps, aplicado a Excel presencial Santiago.
 
 ## Issue
 
-[#19 — Alinear Marketing con canónicos GTM y pilotear brief Excel presencial](https://github.com/misaeln-pc1/marketing-performance-capacita/issues/19)
+[#21 — Crear briefs operativos para los buyer personas activos](https://github.com/misaeln-pc1/marketing-performance-capacita/issues/21)
 
-## Problema
+## Contexto
 
-El repo ya había aprobado la separación Marketing / GTM, pero README, contexto y carpetas seguían describiendo buyer personas, journey y propuesta de valor como contenido propio. Faltaba una regla operativa para que cada campaña consumiera el canónico sin duplicarlo.
+Global PR #88 dejó buyer personas versionados y Marketing PR #20 dejó el contrato de consumo. Faltaba transformar ese baseline en documentos concretos para comenzar trabajo creativo y campañas sin mezclar perfiles ni redefinir GTM.
 
 ## Cambios
 
-- Crea `docs/GTM_CONSUMPTION_BRIDGE.md`.
-- Crea `templates/CAMPAIGN_BRIEF_GTM.md`.
-- Crea `campaigns/excel-basico-intermedio-presencial-santiago/gtm-baseline-v1.md`.
-- Actualiza:
-  - `README.md`;
-  - `PROJECT_CONTEXT.md`;
-  - `core/README.md`;
-  - `references/README.md`;
-  - `campaigns/README.md`;
-  - `automation/README.md`;
-  - `TASK_STATUS.md`;
-  - `DECISIONES.md`;
-  - `CHANGELOG_AGENT.md`;
-  - `REVIEW_REQUEST.md`.
+Crea:
+
+- `campaigns/excel-basico-intermedio-presencial-santiago/briefs/README.md`;
+- `BRIEF_BP001_DESBORDADO_OPERATIVO_V1.md`;
+- `BRIEF_BP002_REINSERCION_LABORAL_V1.md`;
+- `BRIEF_BP003_COORDINADOR_B2B_V1.md`;
+- `BRIEF_BP004_JEFATURA_PYME_V1.md`.
+
+Actualiza:
+
+- `campaigns/README.md`;
+- `TASK_STATUS.md`;
+- `DECISIONES.md`;
+- `CHANGELOG_AGENT.md`;
+- `REVIEW_REQUEST.md`.
 
 ## Criterio aplicado
 
-- GTM/RevOps define buyer personas, propuesta de valor, journey y reglas transversales.
-- Marketing selecciona perfiles, formula hipótesis, adapta copy/CTA, mide y aprende.
-- Toda campaña registra ID/versión o documento/sección/versión.
-- Marketing no inventa IDs ni redefine el canónico.
-- Los resultados históricos conservan el baseline con que fueron diseñados.
+- Existen cuatro buyer personas activos: `BP-001` a `BP-004`.
+- `BP-000` es control para evidencia insuficiente y no una audiencia.
+- Cada brief tiene un buyer persona primario, una hipótesis, una promesa, CTA, rutas creativas, targeting táctico, claims, destino, métricas y pendientes.
+- `BP-001` y `BP-002` se preparan para creatividad B2C inmediata.
+- `BP-003` y `BP-004` quedan condicionados a oferta, landing, formulario y ruta CRM B2B.
+- No se mezclan B2C y B2B en campaña o medición común.
 
-## Hallazgo del piloto
+## Orden recomendado
 
-La campaña V3 existente combina `BP-001` y `BP-002` en un copy general. Se conserva como antecedente, pero futuros tests deberían separar:
+1. `BP-001 — Desbordado Operativo`.
+2. `BP-002 — Reinserción Laboral`.
+3. `BP-003 — Coordinador B2B`.
+4. `BP-004 — Dueño o Jefatura PyME`.
 
-- productividad / `BP-001`;
-- empleabilidad / `BP-002`.
-
-Esto permite atribuir aprendizaje al mensaje sin cambiar simultáneamente oferta y landing.
+El orden no cambia el estado canónico de los perfiles. Es una decisión operativa basada en la preparación actual de oferta y landing.
 
 ## No se toca
 
-- No se modifican campañas reales, presupuestos, bids, anuncios o plataformas Ads.
-- No se modifica landing, Cloudflare, formularios, Zoho, n8n o WhatsApp.
-- No se suben datos personales, exports, credenciales, tokens, IDs completos ni binarios.
-- No se modifica `main` directo.
+- No se crean ni modifican campañas reales.
+- No se modifican presupuestos, pujas, anuncios, públicos o plataformas Ads.
+- No se modifica landing, Cloudflare, Zoho, n8n, WhatsApp o formularios reales.
+- No se suben datos personales, exports, credenciales, tokens, IDs completos o binarios.
 - No se inventan métricas o resultados.
+- No se garantizan empleo, productividad, ahorro o ROI.
 
 ## Validación esperada
 
 - Cambios Markdown solamente.
-- Rama basada en `main`.
+- Rama basada en `main` después del merge de PR #20.
 - Sin borrados ni renombres.
-- Sin implementación productiva.
-- Marketing deja de presentarse como fuente canónica.
-- El piloto Excel V3 referencia versiones GTM vigentes.
+- Cuatro briefs independientes y un índice.
+- Referencias GTM versionadas.
+- Claims y datos pendientes visibles.
+- Estado y decisiones actualizados.
 
 ## Riesgo
 
-**Amarillo metodológico:** esta estructura condiciona futuras campañas y automatizaciones. Se mitiga con versionado, `BP-000`, separación entre canónico e hipótesis y revisión humana antes de producción.
+**Amarillo metodológico:** los briefs condicionan futuras campañas. Se mitiga con un perfil por prueba, separación B2C/B2B, versionado, claims limitados y autorización previa a producción.
 
 ## Siguiente paso después del merge
 
-Usar la plantilla para preparar el primer test nuevo y decidir una sola variante inicial: productividad (`BP-001`) o empleabilidad (`BP-002`).
+Confirmar los datos tácticos del curso y comenzar desarrollo creativo con `BP-001`, sin activar campañas hasta validar landing, tracking y autorización.
 
 ## Decisión solicitada
 
