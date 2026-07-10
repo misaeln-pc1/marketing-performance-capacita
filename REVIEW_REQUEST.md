@@ -2,73 +2,76 @@
 
 ## PR objetivo
 
-Documentar la aprobacion de Google Ads API Basic Access y la primera ejecucion local exitosa de Keyword Ideas en modo read-only.
+Alinear Marketing con el contrato corporativo GTM/RevOps mergeado en Global PR #88 y aplicar el primer baseline a Excel presencial V3.
 
-## Contexto vigente del repo
+## Issue
 
-El repo mantiene una linea acotada para Google Ads read-only orientada al radar comercial de cursos presenciales en Santiago Centro.
+[#19 — Alinear Marketing con canónicos GTM y pilotear brief Excel presencial](https://github.com/misaeln-pc1/marketing-performance-capacita/issues/19)
 
-La linea vigente:
+## Problema
 
-- no usa MCP;
-- usa pipeline local Python read-only;
-- mantiene `google-ads.yaml`, scripts `.ps1`, outputs TSV y credenciales fuera del repo;
-- no toca campanas reales ni configuraciones de Google Ads;
-- documenta solo estado, metodologia, guardrails y resultados agregados/sanitizados.
+El repo ya había aprobado la separación Marketing / GTM, pero README, contexto y carpetas seguían describiendo buyer personas, journey y propuesta de valor como contenido propio. Faltaba una regla operativa para que cada campaña consumiera el canónico sin duplicarlo.
 
-## Resumen del PR
+## Cambios
 
-Este PR actualiza el estado posterior al PR #16:
+- Crea `docs/GTM_CONSUMPTION_BRIDGE.md`.
+- Crea `templates/CAMPAIGN_BRIEF_GTM.md`.
+- Crea `campaigns/excel-basico-intermedio-presencial-santiago/gtm-baseline-v1.md`.
+- Actualiza:
+  - `README.md`;
+  - `PROJECT_CONTEXT.md`;
+  - `core/README.md`;
+  - `references/README.md`;
+  - `campaigns/README.md`;
+  - `automation/README.md`;
+  - `TASK_STATUS.md`;
+  - `DECISIONES.md`;
+  - `CHANGELOG_AGENT.md`;
+  - `REVIEW_REQUEST.md`.
 
-- Google aprobo Basic Access para el Developer Token asociado al MCC de Capacita.
-- `list_accessible_customers.py` funciono y mostro 2 cuentas accesibles enmascaradas.
-- `generate_keyword_ideas.py` funciono localmente contra la cuenta publicitaria real.
-- El output bruto quedo local y no versionado.
-- El primer barrido mostro volumen bajo/cero para semillas muy especificas, por lo que se recomienda ampliar semillas y validar geografia antes de sacar conclusiones comerciales.
+## Criterio aplicado
 
-## Rama
+- GTM/RevOps define buyer personas, propuesta de valor, journey y reglas transversales.
+- Marketing selecciona perfiles, formula hipótesis, adapta copy/CTA, mide y aprende.
+- Toda campaña registra ID/versión o documento/sección/versión.
+- Marketing no inventa IDs ni redefine el canónico.
+- Los resultados históricos conservan el baseline con que fueron diseñados.
 
-`docs/google-ads-basic-access-approved-2026-07-08`
+## Hallazgo del piloto
 
-## Archivos creados
+La campaña V3 existente combina `BP-001` y `BP-002` en un copy general. Se conserva como antecedente, pero futuros tests deberían separar:
 
-- `docs/google-ads/GOOGLE_ADS_KEYWORD_IDEAS_FIRST_RUN_LOG.md`
+- productividad / `BP-001`;
+- empleabilidad / `BP-002`.
 
-## Archivos modificados
-
-- `docs/google-ads/GOOGLE_ADS_BASIC_ACCESS_REQUEST_LOG.md`
-- `TASK_STATUS.md`
-- `CHANGELOG_AGENT.md`
-- `REVIEW_REQUEST.md`
+Esto permite atribuir aprendizaje al mensaje sin cambiar simultáneamente oferta y landing.
 
 ## No se toca
 
-- No se sube `google-ads.yaml`.
-- No se suben tokens, OAuth JSON, refresh tokens ni access tokens.
-- No se suben customer IDs completos.
-- No se sube TSV bruto ni outputs reales.
+- No se modifican campañas reales, presupuestos, bids, anuncios o plataformas Ads.
+- No se modifica landing, Cloudflare, formularios, Zoho, n8n o WhatsApp.
+- No se suben datos personales, exports, credenciales, tokens, IDs completos ni binarios.
 - No se modifica `main` directo.
-- No se ejecuta MCP.
-- No se ejecuta `export_campaign_summary.py`.
-- No se crean ni modifican campanas, presupuestos, bids, anuncios, assets, conversiones ni configuraciones.
+- No se inventan métricas o resultados.
 
-## Validacion esperada
+## Validación esperada
 
-- Cambios documentales solamente.
-- Sin secretos ni IDs completos.
-- Sin outputs reales.
-- Sin archivos binarios.
-- Sin mutaciones de Google Ads.
-- Siguiente accion acotada: segundo barrido con semillas mas amplias y salida local no versionada.
+- Cambios Markdown solamente.
+- Rama basada en `main`.
+- Sin borrados ni renombres.
+- Sin implementación productiva.
+- Marketing deja de presentarse como fuente canónica.
+- El piloto Excel V3 referencia versiones GTM vigentes.
 
-## Riesgos o pendientes
+## Riesgo
 
-- El primer output no es suficiente para decidir inversion porque usa semillas demasiado especificas.
-- Falta validar si el geo target actual estrecha demasiado la demanda.
-- Falta construir un radar agregado por curso/intencion/volumen/competencia.
-- Falta definir contrato antes de habilitar cualquier resumen de campanas.
+**Amarillo metodológico:** esta estructura condiciona futuras campañas y automatizaciones. Se mitiga con versionado, `BP-000`, separación entre canónico e hipótesis y revisión humana antes de producción.
 
-## Decision solicitada
+## Siguiente paso después del merge
 
-- [ ] APROBADO CON OBSERVACIONES
+Usar la plantilla para preparar el primer test nuevo y decidir una sola variante inicial: productividad (`BP-001`) o empleabilidad (`BP-002`).
+
+## Decisión solicitada
+
+- [ ] APROBADO PARA MERGE
 - [ ] CORREGIR ANTES DE MERGE
