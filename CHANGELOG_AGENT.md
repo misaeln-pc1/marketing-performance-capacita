@@ -2,29 +2,39 @@
 
 ## 2026-05-26
 
-- Se preparo auditoria documental V1 de Meta Ads sin usar API, sin tocar campanas reales y sin inventar metricas faltantes.
-- Se agrego puente de performance pagada para trazar Meta -> landing/formulario -> Zoho CRM -> contacto -> matricula.
-- Se intento validar Google Ads MCP read-only; quedo bloqueado porque no hay herramienta MCP disponible/autenticada en el entorno.
+- Se preparó auditoría documental V1 de Meta Ads sin usar API, sin tocar campañas reales y sin inventar métricas faltantes.
+- Se agregó puente de performance pagada para trazar Meta → landing/formulario → Zoho CRM → contacto → matrícula.
+- Se intentó validar Google Ads MCP read-only; quedó bloqueado porque no había herramienta MCP disponible/autenticada.
 
 ## 2026-07-05
 
-- Se preparo plan V0.1 para un pipeline Google Ads read-only local sin depender de MCP.
-- Se agregaron runbook, semillas iniciales y carpeta de output vacia para trabajo local.
-- Se agregaron tres scripts esqueleto con configuracion externa y guardas para evitar secretos versionados y mutaciones.
-- Se corrigio `generate_keyword_ideas.py` para usar resource names de idioma y geo segun el patron oficial del cliente Python y para imprimir metricas de ideas si la API las entrega.
+- Se preparó plan V0.1 para pipeline Google Ads read-only local sin depender de MCP.
+- Se agregaron runbook, semillas iniciales y carpeta de output local.
+- Se agregaron scripts esqueleto con configuración externa y guardas de seguridad.
+- Se corrigió `generate_keyword_ideas.py` según el patrón oficial del cliente Python.
 
 ## 2026-07-06
 
-- PR #14 fue mergeado a `main` con el pipeline local Google Ads read-only.
-- Se valido ejecucion local hasta llamada API read-only.
-- La consulta de ideas de keywords contra cuenta real quedo bloqueada por nivel de acceso de prueba.
-- Se envio solicitud de Google Ads API Basic Access desde API Center del MCC de Capacita.
-- Se documento el estado en `docs/google-ads/GOOGLE_ADS_BASIC_ACCESS_REQUEST_LOG.md`.
+- PR #14 fue mergeado con el pipeline Google Ads read-only.
+- Se validó ejecución local hasta llamada API read-only.
+- Se solicitó Google Ads API Basic Access.
 
 ## 2026-07-08
 
-- Google aprobo Basic Access para el Developer Token asociado al MCC de Capacita.
-- Se valido `list_accessible_customers.py` con 2 cuentas accesibles enmascaradas.
-- Se ejecuto `generate_keyword_ideas.py` localmente en modo read-only y genero output TSV local no versionado.
-- Se documento que el primer barrido devuelve volumen bajo/cero para semillas muy especificas y que se requiere ampliar semillas/geografia antes de sacar conclusiones comerciales.
-- Se mantiene bloqueado `export_campaign_summary.py` hasta aprobar contrato de reporte agregado.
+- Google aprobó Basic Access.
+- `list_accessible_customers.py` mostró dos cuentas accesibles enmascaradas.
+- `generate_keyword_ideas.py` generó output TSV local no versionado.
+- Se documentó que las primeras semillas eran demasiado específicas para concluir demanda.
+- `export_campaign_summary.py` permaneció bloqueado.
+
+## 2026-07-10
+
+- Se verificó el merge del contrato corporativo GTM/RevOps en Global PR #88.
+- Se abrió issue #19 para alinear Marketing con los canónicos.
+- Se creó `docs/GTM_CONSUMPTION_BRIDGE.md`.
+- Se creó `templates/CAMPAIGN_BRIEF_GTM.md`.
+- Se actualizaron README, contexto y carpetas para eliminar propiedad paralela de buyer personas, journey y propuesta de valor.
+- Se creó `campaigns/excel-basico-intermedio-presencial-santiago/gtm-baseline-v1.md` como primer consumidor.
+- Se registró `BP-001` primario y `BP-002` secundario para el antecedente V3.
+- Se detectó que futuros experimentos deben separar productividad y empleabilidad si se desea atribuir resultados por perfil.
+- No se tocaron campañas, landing, CRM, Cloudflare, n8n, WhatsApp, datos reales ni producción.

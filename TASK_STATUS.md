@@ -1,115 +1,81 @@
 # Estado de Tareas
 
-## Estado Actual
+Fecha de revisión: 2026-07-10
 
-- **Estado vigente del repo:** Plan de migracion archivo/carpeta Marketing -> GTM/RevOps documentado en PR.
-- **Rama vigente documentada:** `docs/marketing-file-level-migration-plan-2026-06-21`.
-- **Documento nuevo en revision:** `docs/MARKETING_FILE_LEVEL_MIGRATION_PLAN.md`.
-- **Documento base anterior:** `docs/MARKETING_GTM_REVOPS_CLASSIFICATION.md`.
-- **Campana V3 documentada:** `META_TRAFFIC_EXCEL_PRESENCIAL_SANTIAGO_B2C_V3`.
-- **Carpeta reutilizada:** `campaigns/excel-basico-intermedio-presencial-santiago/`.
-- **Landing documentada:** `https://capacita.cl/curso-de-excel-presencial-en-santiago`.
+## Estado actual
 
-## Registro de Actividad
+- **Estado:** alineación operativa Marketing → GTM en ejecución documental.
+- **Issue dueño:** [#19](https://github.com/misaeln-pc1/marketing-performance-capacita/issues/19).
+- **Rama:** `docs/marketing-gtm-consumption-pilot-v1`.
+- **Canónico GTM disponible:** Global PR #88 mergeado.
+- **Campaña piloto:** `META_TRAFFIC_EXCEL_PRESENCIAL_SANTIAGO_B2C_V3`.
+- **Landing asociada:** `https://capacita.cl/curso-de-excel-presencial-en-santiago`.
 
-- Se mantuvo la estructura existente de la campana Excel presencial, sin crear un proyecto nuevo ni una carpeta duplicada.
-- Se documento que V3 debe ser una campana nueva, separada de las pruebas anteriores con Lead Ads/formulario instantaneo.
-- Se registro el motivo: V1/V2 generaron volumen pero baja respuesta, por lo que V3 prueba una landing con friccion comercial antes del contacto.
-- Se documento configuracion Meta Ads V3:
-  - objetivo Trafico;
-  - campana manual de trafico;
-  - conjunto `AS01_LANDING_PAGADO_EXCEL_PRESENCIAL`;
-  - ubicacion de conversion Sitio web;
-  - objetivo de rendimiento Maximizar visitas a la pagina de destino;
-  - CTA Cotizar;
-  - presupuesto test CLP $5.000 a $8.000 diarios por 24-48 horas.
-- Se documento el anuncio inicial `AD01_REEL_9X16_LANDING_PAGADO` como video 9:16, 1080x1920, sin activar inicialmente versiones 1:1 ni 16:9.
-- Se registro backlog para posibles pruebas posteriores:
-  - `AD02_FEED_1X1_LANDING_PAGADO`;
-  - `AD03_HORIZONTAL_16X9_LANDING_PAGADO`.
-- Se creo checklist de medicion V3 con metricas publicitarias y comerciales.
-- Se agrego archivo de referencias oficiales Meta Ads para Trafico, Reels/9:16, Advantage+ Creative y Advantage+ Placements.
-- Se creo `docs/audits/META_ADS_CAMPAIGN_AUDIT_V1.md` sin inventar metricas faltantes.
-- Se creo `docs/audits/PAID_ADS_PERFORMANCE_BRIDGE_V1.md` para documentar trazabilidad Meta -> landing/formulario -> Zoho CRM -> contacto -> matricula.
-- Se documento bloqueo de Google Ads MCP read-only en `docs/google-ads/GOOGLE_ADS_MCP_READONLY_AUDIT.md`.
-- Se documento la clasificacion conceptual Marketing / GTM-RevOps / Skills / Edge / Zoho / WhatsApp+n8n en `docs/MARKETING_GTM_REVOPS_CLASSIFICATION.md`.
-- Se registro incidencia operativa: creacion accidental directa en `main` de documentacion vacia/de prueba, corregida inmediatamente con contenido valido.
-- Se agrego plan de migracion archivo/carpeta en `docs/MARKETING_FILE_LEVEL_MIGRATION_PLAN.md`, sin mover archivos reales.
+## Resultado preparado
 
-## Google Ads Read-Only
+- Se creó `docs/GTM_CONSUMPTION_BRIDGE.md`.
+- Se creó `templates/CAMPAIGN_BRIEF_GTM.md`.
+- Se alinearon README, contexto y carpetas para que Marketing no sea fuente canónica de buyer personas, journey o propuesta de valor.
+- Se aplicó el contrato a la campaña Excel V3 en `campaigns/excel-basico-intermedio-presencial-santiago/gtm-baseline-v1.md`.
+- Se registró `BP-001` como perfil primario y `BP-002` como secundario para el antecedente V3.
+- Se detectó que el copy V3 mezcla ambos perfiles; futuros tests deberían separar productividad y empleabilidad para obtener aprendizaje interpretable.
+- No se modificaron campañas, landing, CRM, tracking o producción.
 
-- Se preparo plan V0.1 de pipeline Google Ads read-only local, sin MCP y sin ejecucion de API inicial.
-- PR #14 `docs: plan Google Ads read-only pipeline` fue mergeado a `main`.
-- PR #16 `docs: log Google Ads Basic Access request` fue mergeado a `main`.
-- Google aprobo Basic Access para el Developer Token asociado al MCC de Capacita.
-- Se documento un pipeline local basado en Google Ads API Python client con configuracion externa y guardas de seguridad.
-- Se agrego la carpeta minima `automation/google-ads-readonly/` con runbook, semillas iniciales y `output/` local ignorado por git.
-- Se prepararon tres scripts read-only:
-  - `list_accessible_customers.py` para listado de cuentas accesibles;
-  - `generate_keyword_ideas.py` para ideas de keywords desde semillas CSV;
-  - `export_campaign_summary.py` como scaffold bloqueado hasta aprobar su contrato de reporte.
-- Se corrigio `generate_keyword_ideas.py` para construir resource names de idioma y geo siguiendo el patron oficial del cliente Python y para imprimir metricas si la API las entrega.
-- Se instalo localmente la libreria `google-ads`.
-- Se preparo `google-ads.yaml` fuera del repo y se valido que no mezcla metodos de autenticacion.
-- Se regenero ADC/OAuth con scope Google Ads.
-- `list_accessible_customers.py` funciono en modo read-only y mostro 2 cuentas accesibles con IDs enmascarados.
-- `generate_keyword_ideas.py` funciono en modo read-only despues de Basic Access y genero output TSV local no versionado.
-- El primer barrido devolvio volumen bajo/cero para varias semillas muy especificas; esto valida la API, pero no basta para concluir baja demanda real.
-- Se documento la aprobacion y primera ejecucion en:
-  - `docs/google-ads/GOOGLE_ADS_BASIC_ACCESS_REQUEST_LOG.md`;
-  - `docs/google-ads/GOOGLE_ADS_KEYWORD_IDEAS_FIRST_RUN_LOG.md`.
+## Regla operativa vigente
 
-## Proxima Accion Recomendada
+Cada campaña nueva o revisada debe:
 
-Antes de mover o reordenar archivos:
+1. registrar IDs/versiones GTM o documento/sección/versión;
+2. separar baseline corporativo de hipótesis táctica;
+3. definir público, copy, CTA, destino y medición;
+4. documentar claims y datos tácticos por confirmar;
+5. devolver evidencia agregada a GTM cuando pueda cambiar el canónico.
 
-1. Revisar y mergear el PR del plan de migracion archivo/carpeta.
-2. Crear en `capacita-global-control` la carpeta `docs/gtm-revops/` con canonicos iniciales.
-3. Migrar o sintetizar por PR separado:
-   - buyer personas;
-   - value propositions;
-   - customer journey;
-   - segmentation rules;
-   - nurturing, scoring y touch strategy.
-4. No mover archivos fisicos sin un PR especifico posterior.
-5. Mantener Marketing como ejecucion de campanas y performance; GTM/RevOps como dueno de la logica comercial transversal.
+## Próxima acción recomendada
 
-## Proxima Accion Recomendada: Google Ads Read-Only
+Después del merge de este PR:
 
-1. Hacer segundo barrido de keyword ideas con semillas mas amplias.
-2. Validar si el geo target actual es demasiado estrecho antes de interpretar volumen bajo como baja demanda.
-3. Separar resultados por capas:
-   - presencial/local;
-   - curso sin modalidad;
-   - dolor/solucion;
-   - B2B/empresa.
-4. Guardar TSV bruto solo local no versionado.
-5. Documentar en repo solo resumen agregado y anonimo.
-6. Mantener `export_campaign_summary.py` bloqueado hasta aprobar contrato de reporte.
+1. usar `templates/CAMPAIGN_BRIEF_GTM.md` para el siguiente trabajo real de Marketing;
+2. definir si el primer test nuevo será:
+   - variante `BP-001` productividad;
+   - variante `BP-002` empleabilidad;
+3. mantener oferta y landing constantes si se quiere aislar el efecto del mensaje;
+4. confirmar fecha, precio, cupos, equipamiento y condiciones antes de publicar;
+5. ejecutar cualquier cambio real de campaña solo con aprobación explícita.
 
-## Pendientes / Bloqueos
+## Google Ads read-only
+
+Estado preservado:
+
+- Basic Access aprobado.
+- `list_accessible_customers.py` validó dos cuentas accesibles enmascaradas.
+- `generate_keyword_ideas.py` funcionó en modo read-only y dejó output local no versionado.
+- El primer barrido usó semillas demasiado específicas; no permite concluir baja demanda.
+- `export_campaign_summary.py` permanece bloqueado hasta aprobar contrato de reporte.
+
+Próxima acción de esa línea:
+
+1. segundo barrido con semillas más amplias;
+2. validar geografía;
+3. separar presencial/local, curso general, dolor/solución y B2B;
+4. documentar solo resumen agregado y anónimo;
+5. mantener outputs, credenciales e IDs completos fuera del repo.
+
+## Pendientes y bloqueos
 
 - Confirmar fecha, precio y cupos vigentes antes de publicar.
-- Confirmar herramienta de analitica para clics internos en WhatsApp/formulario dentro de landing.
-- Confirmar si Zoho CRM recibira UTM desde formularios de landing.
-- No hay resultados documentados aun para V3; cualquier metrica debe agregarse solo cuando exista dato real.
-- No hay CSV agregado versionado para calcular CPL, CPQL, CPA, tasa de contacto o tasa de matricula.
-- Google Ads MCP no se usara para esta linea porque Codex no expuso tools invocables de forma confiable.
-- Clasificacion GTM/RevOps requiere revision humana antes de cualquier migracion fisica.
-- Falta PR posterior en Global para crear canonicos GTM/RevOps.
-- El script de resumen de campanas queda bloqueado hasta decidir si el reporte se acepta con GAQL read-only o con export UI fuera del repo.
-- No hay outputs reales versionados para la linea Google Ads read-only.
-- Sigue pendiente la union comercial Google Ads -> landing -> CRM -> matricula para CPQL real.
+- Confirmar medición de clics internos, formularios y WhatsApp en la landing.
+- Confirmar trazabilidad UTM hacia Zoho CRM.
+- No existe todavía unión completa Ads → landing → CRM → matrícula para CPQL/CPA real.
+- No hay evidencia suficiente para cambiar los buyer personas canónicos.
+- Los campos y workflows Zoho deben definirse posteriormente en `Capacita-Zoho-Deluge-Core`.
+- La skill draft de buyer-persona signals en AI OS sigue pendiente de corrección antes de uso.
 
-## Notas de Alcance
+## Límites
 
-- No crear estructura duplicada de campana.
-- No subir assets binarios pesados.
-- No subir datos reales de leads.
-- No subir capturas, exportaciones CRM, secretos ni credenciales.
-- No modificar campanas reales desde el repositorio.
-- No modificar landing de produccion desde el repositorio.
-- No mover archivos reales de Marketing hacia GTM/RevOps sin PR posterior especifico.
-- No usar MCP para la linea Google Ads read-only.
-- No ejecutar mutaciones ni cambios sobre Google Ads reales.
-- No tocar `main` directo.
+- No trabajar directo en `main`.
+- No crear campañas duplicadas.
+- No subir PII, exports, capturas sensibles, secretos, credenciales o binarios.
+- No modificar campañas, presupuesto, bids, anuncios, landing, CRM o producción desde documentación.
+- No inventar métricas, IDs GTM, API names o resultados.
+- No copiar canónicos completos cuando basta una referencia versionada.
