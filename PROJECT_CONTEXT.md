@@ -1,45 +1,69 @@
 # Project Context: Marketing Performance Capacita
 
-**Visión del Proyecto:**
-Marketing Performance Capacita — repositorio maestro liviano, reutilizable y mantenible para metodología comercial-publicitaria.
+## Visión
 
-**Fuentes de Verdad:**
-- **GitHub:** fuente versionada para estrategia, estructura, documentación, briefs, plantillas y aprendizajes comerciales.
-- **Zoho CRM:** fuente oficial para leads, contactos, deals, seguimiento comercial y resultados reales.
-- **Google Drive:** fuente para fotos, videos, creatividades finales, exports pesados y archivos multimedia.
-- **Meta Ads / Google Ads / LinkedIn Ads:** fuentes oficiales para campañas activas, públicos, anuncios, presupuestos y métricas operativas.
+Repositorio operativo y liviano de **Marketing (Campañas & Growth)** para ejecutar y aprender de campañas comerciales-publicitarias de Capacita.
 
-Este repositorio no reemplaza Zoho CRM, Google Drive ni las plataformas publicitarias.
+## Fuentes de verdad
 
-**Arquitectura Base:**
-- `core/`: inteligencia comercial reutilizable.
+- **GTM / RevOps en Global:** buyer personas, propuestas de valor, segmentación transversal, customer journey, scoring, nurturing, touch strategy y criterios comerciales.
+- **Este repositorio:** campañas, hipótesis tácticas, targeting, copies, activos documentales, medición y aprendizajes agregados.
+- **Zoho CRM:** leads, contactos, deals, seguimiento comercial y resultados reales.
+- **Google Drive:** fotos, videos, creatividades finales, exports pesados y archivos multimedia.
+- **Meta Ads / Google Ads / LinkedIn Ads:** campañas activas, públicos, anuncios, presupuestos y métricas operativas.
+- **Capacita Edge:** landings, formularios, SEO técnico y eventos frontend.
+
+Este repositorio no reemplaza ninguna de esas fuentes.
+
+## Contrato de consumo
+
+Toda campaña nueva o revisada debe aplicar:
+
+- `docs/GTM_CONSUMPTION_BRIDGE.md`;
+- `templates/CAMPAIGN_BRIEF_GTM.md`.
+
+Debe registrar:
+
+- buyer persona e versión;
+- propuesta de valor y etapa del journey;
+- hipótesis táctica diferenciada;
+- CTA, destino y medición;
+- aprendizaje que podría volver a GTM.
+
+## Arquitectura base
+
 - `campaigns/`: ejecución específica por campaña y canal.
-- `automation/`: tracking, Zoho, n8n, SalesIQ, WhatsApp y flujos.
-- `templates/`: plantillas reutilizables.
-- `assets/`: índice a fotos, videos y archivos pesados en Google Drive.
-- `references/`: metodología, bibliografía, customer journey, buyer persona, JTBD y notas estratégicas.
+- `docs/`: auditorías, metodología local y puentes.
+- `automation/`: requerimientos de tracking y automatización; no implementación productiva.
+- `templates/`: plantillas específicas de Marketing.
+- `assets/`: índice a recursos externos.
+- `core/`: índice de consumo y aplicación local.
+- `references/`: bibliografía y notas metodológicas aplicadas.
 
-**Campaña Inicial:**
+## Campaña inicial
+
 - Curso: Excel Básico–Intermedio Presencial en Santiago Centro.
-- Canal inicial: Meta Ads / Facebook / Instagram.
-- Formato recomendado: Lead Ads.
-- Diferencial principal: experiencia presencial práctica, cómoda y confiable: sala en Santiago Centro, cercanía al metro, notebook facilitado, coffee break, manual impreso, pendrive, aire acondicionado, diploma, evaluación inicial, final y seguimiento a los 6 meses.
+- Canales documentados: Meta Ads y radar Google Ads read-only.
+- Buyer personas canónicos:
+  - `BP-001 — Desbordado Operativo`, v1.0.0;
+  - `BP-002 — Reinserción Laboral`, v1.0.0.
+- Propuestas aplicadas: capacitación práctica y guiada; experiencia presencial céntrica; productividad; empleabilidad; reducción de fricción logística.
+- Journey inicial: visitante/audiencia fría hacia lead identificado.
 
-**Buyer Personas Prioritarios:**
-1. Desbordado Operativo.
-2. Reinserción Laboral.
+Los detalles de precio, fechas, cupos, dirección, medios de pago y materiales exactos son datos tácticos que deben confirmarse antes de publicar.
 
-**Reglas de Alcance:**
-- No subir datos personales al repositorio.
-- No subir credenciales, tokens ni claves.
-- No subir fotos, videos ni archivos pesados.
-- No duplicar Zoho CRM, Google Drive ni plataformas Ads.
-- No crear carpetas o archivos sin utilidad práctica.
-- No modificar landing de producción sin hipótesis documentada.
-- Evitar sobreingeniería: priorizar estructura simple, reusable y mantenible.
+## Reglas de alcance
 
-**Rol de ChatGPT:**
-Actuar como arquitecto/auditor del proyecto, definiendo arquitectura y criterios.
+- No redefinir en Marketing los canónicos GTM/RevOps.
+- No copiar evidencia privada de Global o CRM al repo público.
+- No subir datos personales, credenciales, tokens, fotos, videos o archivos pesados.
+- No modificar landing o campañas de producción sin hipótesis documentada y autorización.
+- No crear archivos sin utilidad práctica.
+- Priorizar estructura simple, reutilizable y mantenible.
 
-**Rol de Antigravity:**
-Actuar como ejecutor operativo sobre archivos, actualizando estado y preparando revisiones. No debe redefinir la estrategia general ni ampliar el alcance sin instrucción explícita.
+## Roles
+
+- **GTM / RevOps:** dueño del modelo comercial corporativo.
+- **Marketing:** dueño de la aplicación táctica y el aprendizaje de campañas.
+- **ChatGPT / Atlas:** auditor de arquitectura, límites, trazabilidad y riesgos.
+- **Agente ejecutor:** modifica archivos acotados en rama/PR sin redefinir estrategia ni tocar producción.
