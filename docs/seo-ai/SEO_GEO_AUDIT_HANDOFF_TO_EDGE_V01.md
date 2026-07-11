@@ -57,6 +57,9 @@ Marketing define consultas, intención, benchmark, impacto comercial y evidencia
 
 ## Relación
 
-- Marketing PR #29;
-- Edge issue #27 sobre GTM/atribución;
+- Marketing PR #31: metodología SEO/GEO y benchmark;
+- Edge issue #28: auditoría técnica dueña;
+- Edge issue #27: GTM/atribución;
 - benchmark `docs/seo-ai/AI_VISIBILITY_QUERY_BENCHMARK_V01.md`.
+
+Este handoff no reemplaza el issue técnico ni autoriza cambios productivos.
