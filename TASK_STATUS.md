@@ -1,103 +1,129 @@
 # Estado de Tareas
 
-Fecha de revisión: 2026-07-10
+Fecha de revisión: 2026-07-12
 
-## Estado actual
+## Prioridad activa
 
-- **Estado:** paquete de briefs por buyer persona preparado para revisión.
-- **Issue dueño:** [#21](https://github.com/misaeln-pc1/marketing-performance-capacita/issues/21).
-- **Rama:** `docs/marketing-buyer-persona-briefs-v1`.
-- **Contrato Marketing → GTM:** mergeado mediante PR #20.
-- **Canónico GTM:** Global PR #88 mergeado.
-- **Oferta base:** Excel presencial Santiago.
+Completar un diagnóstico basado en evidencia antes de modificar campañas, landings, presupuesto, pujas, keywords o tracking productivo.
 
-## Resultado preparado
+La línea activa integra:
 
-Se creó `campaigns/excel-basico-intermedio-presencial-santiago/briefs/` con:
+- Google Ads histórico y términos reales de búsqueda;
+- landing pages efectivas;
+- señales de competencia y Auction Insights;
+- Quality Score, dispositivo y red;
+- atribución Ads → web → formularios/WhatsApp → Zoho;
+- SEO técnico, SEO local y visibilidad en motores generativos;
+- definición posterior de un dashboard de mejora continua.
 
-- `README.md`: índice, separación B2C/B2B y orden recomendado;
-- `BRIEF_BP001_DESBORDADO_OPERATIVO_V1.md`;
-- `BRIEF_BP002_REINSERCION_LABORAL_V1.md`;
-- `BRIEF_BP003_COORDINADOR_B2B_V1.md`;
-- `BRIEF_BP004_JEFATURA_PYME_V1.md`.
+## Estado Google Ads
 
-`BP-000` permanece como salida de control para evidencia insuficiente y no se utiliza como audiencia de campaña.
+- Basic Access de Google Ads API aprobado.
+- Pipeline local read-only validado.
+- PR #26 mergeado con export histórico de campañas.
+- Primera ejecución de 90 días completada y analizada localmente.
+- Siete reportes se generaron correctamente.
+- Los reportes de términos de búsqueda y landing pages fallaron por compatibilidad GAQL.
+- PR #29 está abierto para recuperar esos dos reportes y documentar el análisis de competencia.
+- Ningún output real, customer ID, YAML, token, ZIP o CSV debe versionarse.
 
-## Preparación por brief
+## Hallazgos preliminares
 
-| Brief | Estado | Próxima acción |
-|---|---|---|
-| `BP-001 — Desbordado Operativo` | Listo para desarrollo creativo B2C | Confirmar oferta, producir pieza y validar tracking. |
-| `BP-002 — Reinserción Laboral` | Listo para desarrollo creativo B2C | Confirmar nivel/diploma, producir pieza y validar claims. |
-| `BP-003 — Coordinador B2B` | Listo documentalmente | Confirmar landing, formulario, oferta grupal, SLA y cotización. |
-| `BP-004 — Dueño o Jefatura PyME` | Listo documentalmente | Confirmar oferta B2B, diagnóstico comercial, landing y pipeline. |
+Los datos iniciales muestran deterioro reciente del rendimiento de Excel presencial y gasto relevante en términos o campañas con baja conversión registrada. Estos hallazgos son preliminares porque la medición web puede estar incompleta y faltan los términos reales y landing pages efectivas.
 
-## Regla operativa vigente
+No se aprueba todavía:
 
-Cada experimento debe:
+- crear seis landing pages;
+- separar campañas por intuición;
+- aumentar presupuesto;
+- modificar bids;
+- pausar keywords o campañas sin completar la evidencia.
 
-1. tener un buyer persona primario;
-2. conservar ID y versión GTM;
-3. separar B2C y B2B;
-4. definir una hipótesis principal;
-5. mantener constantes oferta y landing cuando se quiera comparar mensajes;
-6. medir hasta calidad comercial, cotización o matrícula;
-7. devolver evidencia agregada a GTM sin redefinir el canónico desde Marketing.
+## Bloque 0 — medición y atribución
 
-## Orden recomendado para comenzar
+Issue técnico dueño en Capacita Edge:
 
-1. `BP-001`: productividad, errores y autonomía en el trabajo actual.
-2. `BP-002`: actualización de competencias y confianza laboral.
-3. `BP-003`: coordinación de capacitación para equipos.
-4. `BP-004`: decisión empresarial e impacto operativo.
+- `misaeln-pc1/capacita-edge#27` — auditar cobertura GTM/Google tag y atribución Ads → formularios → Zoho.
 
-No activar conjuntamente los cuatro briefs. El paquete entrega opciones disponibles; la ejecución debe seleccionar un brief y una hipótesis por prueba.
+Debe validar:
 
-## Próxima acción después del merge
+- presencia de GTM/Google tag en todas las rutas relevantes;
+- persistencia de `gclid`, `gbraid`, `wbraid` y UTM;
+- formularios, WhatsApp, llamadas y páginas de confirmación;
+- eventos duplicados o ausentes;
+- comparación agregada entre conversiones Google Ads, leads creados, leads contactables y resultados comerciales.
 
-1. Seleccionar `BP-001` como primer desarrollo creativo recomendado.
-2. Confirmar fecha, precio, cupos, nivel, equipamiento, materiales y condiciones.
-3. Preparar un solo concepto creativo y sus formatos necesarios.
-4. Validar landing, UTM, formulario/WhatsApp y entrada a Zoho.
-5. Solicitar autorización antes de modificar o activar campañas reales.
-6. Preparar `BP-002` como segunda prueba manteniendo oferta y destino constantes cuando sea viable.
+La falta de tracking completo puede subestimar conversiones, pero no invalida gasto, clics, CPC, términos de búsqueda, impression share o Auction Insights.
 
-## Google Ads read-only
+## SEO, SEO local y visibilidad IA
 
-Estado preservado:
+Issue técnico dueño en Capacita Edge:
 
-- Basic Access aprobado.
-- `list_accessible_customers.py` validó dos cuentas accesibles enmascaradas.
-- `generate_keyword_ideas.py` funcionó en modo read-only y dejó output local no versionado.
-- El primer barrido usó semillas demasiado específicas; no permite concluir baja demanda.
-- `export_campaign_summary.py` permanece bloqueado hasta aprobar contrato de reporte.
+- `misaeln-pc1/capacita-edge#28` — auditar rastreo, indexación y visibilidad en motores generativos.
 
-Próxima acción de esa línea:
+Debe revisar WordPress, Cloudflare Pages, robots, headers, canonicals, sitemap, enlaces internos, Search Console, Bing, bots verificados, entidad local, datos estructurados y páginas históricas o duplicadas.
 
-1. segundo barrido con semillas más amplias;
-2. validar geografía;
-3. separar presencial/local, curso general, dolor/solución y B2B;
-4. documentar solo resumen agregado y anónimo;
-5. mantener outputs, credenciales e IDs completos fuera del repo.
+Marketing desarrollará la metodología y consumirá evidencia agregada. La implementación productiva pertenece a Capacita Edge.
 
-## Pendientes y bloqueos
+## Buyer persona y activos transversales
 
-- Confirmar fecha, precio, cupos y oferta vigente antes de publicar.
-- Confirmar medición de clics internos, formularios y WhatsApp en la landing.
-- Confirmar trazabilidad UTM hacia Zoho CRM.
-- No existe todavía unión completa Ads → landing → CRM → matrícula para CPQL/CPA real.
-- Los briefs B2B no deben activarse sin landing/ruta empresarial y proceso de cotización.
-- `BP-003` y `BP-004` siguen con madurez de evidencia `hypothesis`.
-- No hay evidencia suficiente para cambiar buyer personas canónicos.
-- Los campos y workflows Zoho deben definirse posteriormente en `Capacita-Zoho-Deluge-Core`.
-- La skill draft de buyer-persona signals en AI OS sigue pendiente de corrección antes de uso.
+Los buyer persona, propuestas de valor y customer journey se consumen desde los canónicos GTM/RevOps de Global. Marketing no los redefine.
 
-## Límites
+Regla de mejora continua:
 
+1. un concepto nace como hipótesis o aplicación local;
+2. se documenta, prueba y mide en el repo dueño;
+3. se conserva local mientras no exista evidencia suficiente;
+4. cuando demuestra estabilidad y reutilización transversal, se propone a Global/Atlas;
+5. Global decide adoptar, devolver para más evidencia, mantener local o rechazar;
+6. un activo adoptado debe tener versión, dueño, consumidores, límites y mecanismo de actualización.
+
+Punto de revisión global creado:
+
+- `misaeln-pc1/capacita-global-control#101` — evaluar conceptos reutilizables descubiertos en Marketing Performance.
+
+Candidatos iniciales a observar:
+
+- taxonomía de intención de búsqueda;
+- modelo SEO/GEO y visibilidad IA;
+- benchmark de consultas generativas;
+- mapa de entidad y autoridad digital;
+- modelo de atribución Ads → web → Zoho;
+- matriz de decisión de landing pages;
+- dashboard de crecimiento y mejora continua.
+
+Ninguno se considera canónico todavía.
+
+## Secuencia inmediata
+
+1. Ejecutar el export corregido del PR #29.
+2. Obtener `05_search_terms_daily.csv` y `07_landing_pages_daily.csv`.
+3. Analizar términos, intención, gasto, conversiones registradas y landing efectiva.
+4. Exportar Auction Insights 7/30/90 días en archivos privados.
+5. Completar baseline de tracking actual mediante Edge #27.
+6. Completar auditoría SEO/GEO mediante Edge #28.
+7. Consolidar hipótesis causales y alternativas.
+8. Decidir cambios de campaña o landing solo con evidencia y autorización.
+9. Definir contrato de datos del dashboard recurrente.
+
+## Reglas operativas vigentes
+
+- Un buyer persona primario y una hipótesis por prueba.
+- Separar B2C y B2B en campaña, landing y medición.
+- Mantener constantes oferta, destino y variables relevantes al comparar mensajes.
+- No mezclar resultados registrados por Google con resultados comerciales sin reconciliación con Zoho.
+- No modificar campañas, landings, tracking o producción sin autorización expresa.
+- No subir PII, secretos, IDs completos, exports crudos, capturas sensibles ni binarios.
 - No trabajar directo en `main`.
-- No crear campañas duplicadas.
-- No mezclar B2C/B2B en una campaña o medición común.
-- No subir PII, exports, capturas sensibles, secretos, credenciales o binarios.
-- No modificar campañas, presupuesto, bids, anuncios, landing, CRM o producción desde documentación.
-- No inventar métricas, IDs GTM, API names o resultados.
-- No garantizar empleo, productividad, ahorro, ROI o eliminación de errores.
+
+## Definition of Done del diagnóstico
+
+- términos reales recuperados;
+- landing pages efectivas recuperadas;
+- competencia evaluada con señales API y Auction Insights;
+- tracking auditado y sus limitaciones documentadas;
+- SEO/visibilidad IA con baseline técnico;
+- diferencias Google Ads → formularios → Zoho cuantificadas en agregado;
+- hipótesis clasificadas como confirmadas, debilitadas o pendientes;
+- alternativas de campaña y landing comparadas;
+- decisión documentada con evidencia, riesgos, rollback y autorización.
