@@ -26,8 +26,27 @@ La línea activa integra:
 - PR #29 corrigió los dos reportes faltantes:
   - `05_search_terms_daily.csv`: 1.825 filas, `ok`;
   - `07_landing_pages_daily.csv`: 8.482 filas, `ok`.
-- La evidencia agregada y sanitizada quedó en `docs/google-ads/GOOGLE_ADS_DIAGNOSIS_BASELINE_2026-07-11.md` dentro de PR #29.
+- La evidencia agregada y sanitizada quedó en `docs/google-ads/GOOGLE_ADS_DIAGNOSIS_BASELINE_2026-07-11.md`.
+- PR #29, PR #30 y PR #31 están mergeados.
+- Se validó acceso por Google Drive a `Historial_Rendimiento_GoogleAds`.
+- PR #32 define el procedimiento recurrente de análisis con dos fuentes obligatorias.
 - Los CSV, ZIP, URLs completas, IDs, YAML, tokens y credenciales permanecen fuera del repo.
+
+## Procedimiento recurrente de estatus
+
+Para cada solicitud futura de análisis de estatus de Google Ads:
+
+1. obtener y validar un export fresco read-only por PowerShell / Google Ads API;
+2. localizar y leer `Historial_Rendimiento_GoogleAds` en Google Drive;
+3. declarar disponibilidad de ambas fuentes y periodo común;
+4. reconciliar métricas, fechas, cambios y discrepancias;
+5. etiquetar el análisis como completo, provisional o bloqueado.
+
+Si Drive no está disponible, debe indicarse explícitamente aunque exista PowerShell. Si PowerShell no está disponible, debe indicarse aunque Drive sea accesible. Con una sola fuente el resultado es provisional.
+
+Documento dueño:
+
+- `docs/google-ads/GOOGLE_ADS_STATUS_ANALYSIS_PROCEDURE_V01.md` — PR #32.
 
 ## Hallazgos confirmados
 
@@ -93,7 +112,7 @@ La submedición puede afectar conversiones, CVR y CPA; no invalida gasto, clics,
 
 ## SEO, SEO local y visibilidad IA
 
-- PR #31 separa la metodología SEO/GEO del PR Google Ads.
+- PR #31 mergeado con la metodología SEO/GEO independiente.
 - Edge issue #28 conserva la auditoría técnica dueña.
 - Marketing define consultas, intención, benchmark, medición agregada e impacto comercial.
 - Capacita Edge implementa robots, headers, sitemap, canonicals, structured data, Cloudflare, frontend y eventos.
@@ -119,27 +138,26 @@ Punto de revisión:
 
 Ningún candidato nuevo se considera canónico todavía.
 
-## PR y ramas activas
+## PR y ramas
 
-| PR | Rama | Alcance | Estado esperado |
+| PR | Rama | Alcance | Estado |
 |---|---|---|---|
-| #29 | `fix/marketing-google-ads-missing-reports-v02` | Exportador corregido, protocolo Google Ads y baseline agregado | revisar y mergear antes de cerrar la recuperación de reportes |
-| #30 | `docs/marketing-continuous-learning-routing-v01` | estado, decisiones, reglas locales y trazabilidad | revisar y mergear después de validar diff |
-| #31 | `docs/marketing-seo-geo-baseline-v01` | metodología SEO/Local SEO/visibilidad IA | revisar separado; no condiciona extracción Ads |
+| #29 | `fix/marketing-google-ads-missing-reports-v02` | exportador corregido, protocolo y baseline Ads | mergeado |
+| #30 | `docs/marketing-continuous-learning-routing-v01` | estado, decisiones, reglas locales y trazabilidad | mergeado |
+| #31 | `docs/marketing-seo-geo-baseline-v01` | metodología SEO/Local SEO/visibilidad IA | mergeado |
+| #32 | `docs/marketing-google-ads-status-procedure-v01` | procedimiento recurrente PowerShell/API + Drive | abierto, pendiente de revisión |
 
 ## Secuencia inmediata
 
-1. Validar y mergear PR #29 si diff y checks permanecen limpios.
-2. Validar y mergear PR #30 para sincronizar estado y gobernanza.
-3. Revisar PR #31 como línea documental independiente.
-4. Descargar Auction Insights de campaña 90 días y analizar formato.
-5. Completar 7/30/90 y keywords priorizadas.
-6. Exportar assets/sitelinks read-only y ampliar histórico a 12/24 meses si responde a una decisión concreta.
-7. Ejecutar auditoría Edge #27.
-8. Ejecutar auditoría Edge #28.
-9. Reconciliar Google Ads, formularios y Zoho en agregado.
-10. Construir matriz conservar / negativizar / pausar / aislar / separar / nueva landing.
-11. Solicitar autorización antes de cualquier cambio productivo.
+1. Revisar y mergear PR #32 si el diff permanece documental y limpio.
+2. Descargar Auction Insights de campaña 90 días y analizar formato.
+3. Completar Auction Insights 7/30/90 y keywords priorizadas.
+4. Exportar assets/sitelinks read-only y ampliar histórico a 12/24 meses si responde a una decisión concreta.
+5. Ejecutar auditoría Edge #27.
+6. Ejecutar auditoría Edge #28.
+7. Reconciliar Google Ads, formularios y Zoho en agregado.
+8. Construir matriz conservar / negativizar / pausar / aislar / separar / nueva landing.
+9. Solicitar autorización antes de cualquier cambio productivo.
 
 ## Reglas operativas vigentes
 
@@ -147,6 +165,7 @@ Ningún candidato nuevo se considera canónico todavía.
 - Separar B2C y B2B en campaña, landing y medición.
 - Mantener constantes oferta, destino y variables relevantes al comparar mensajes.
 - No mezclar conversiones registradas por Google con resultados comerciales sin reconciliación.
+- No declarar completo un análisis recurrente si falta PowerShell/API o `Historial_Rendimiento_GoogleAds`.
 - No trabajar directo en `main`.
 - No subir PII, secretos, IDs completos, exports crudos, capturas sensibles ni binarios.
 - No inventar métricas, claims, IDs o resultados.
