@@ -1,107 +1,107 @@
-# Google Ads competition and landing diagnosis V01
+# Diagnóstico de competencia y landing pages Google Ads V01
 
-## Objective
+## Objetivo
 
-Complete the evidence needed before deciding whether Excel Search requires one landing page, several landing pages, new ad groups, separate campaigns, negative keywords, or bid changes.
+Completar la evidencia necesaria antes de decidir si Search de Excel requiere una landing, varias landings, nuevos grupos de anuncios, campañas separadas, keywords negativas o cambios de puja.
 
-This protocol does not authorize changes in Google Ads. It is read-only and documentary.
+Este protocolo no autoriza cambios en Google Ads. Es documental y read-only.
 
-## Evidence layers
+## Capas de evidencia
 
-### 1. Google Ads API — automated read-only
+### 1. Google Ads API — automatizada y read-only
 
-Use the existing 90-day diagnosis plus `export_missing_reports.py` to obtain:
+Usar el diagnóstico de 90 días y `export_missing_reports.py` para obtener:
 
-- actual user search terms;
-- triggering keyword and match type;
-- campaign and ad group;
-- device and network;
-- spend, clicks, CPC, conversions and CPA;
-- actual expanded landing URL;
-- campaign and keyword impression share;
-- impression share lost by rank and budget;
-- top and absolute-top impression rates;
-- Quality Score, expected CTR, ad relevance and landing-page experience.
+- términos reales de búsqueda;
+- keyword activadora y concordancia;
+- campaña y grupo de anuncios;
+- dispositivo y red;
+- gasto, clics, CPC, conversiones registradas y CPA;
+- URL expandida de destino;
+- participación de impresiones de campaña y keyword;
+- pérdida por ranking y presupuesto;
+- tasas de parte superior y primera posición absoluta;
+- Quality Score, CTR esperado, relevancia del anuncio y experiencia de landing.
 
-These signals can show whether CPC deterioration is associated with rank pressure, intent mixing, low post-click conversion, device, network, keyword, or landing mismatch.
+Estas señales permiten evaluar presión de ranking, mezcla de intención, conversión post-click, dispositivo, red, keyword y destino.
 
-### 2. Auction Insights — manual private export
+### 2. Auction Insights — export manual privado
 
-Named competitors such as Superprof must be evaluated with Google Ads Auction Insights in the Google Ads interface.
+Los competidores nominales, como Superprof, deben evaluarse mediante Estadísticas de subasta en la interfaz de Google Ads.
 
-Export private CSV files for 7, 30 and 90 days at:
+Exportar CSV privados para 7, 30 y 90 días en:
 
-- campaign level for `EXCEL-PRE-STGO`;
-- ad-group level for the Excel presencial ad groups;
-- keyword level for high-spend terms, especially `curso excel básico e intermedio`, `curso excel presencial`, `clases de excel presencial` and related terms.
+- campaña `EXCEL-PRE-STGO`;
+- grupo de anuncios presencial cuando exista separación suficiente;
+- keywords de gasto alto, especialmente `curso excel básico e intermedio`, `curso excel presencial` y `clases de excel presencial`.
 
-Requested columns:
+Columnas esperadas:
 
-- display URL domain;
-- impression share;
-- overlap rate;
-- position above rate;
-- top of page rate;
-- absolute top of page rate;
-- outranking share;
-- time period;
-- device segment when available.
+- dominio visible;
+- participación de impresiones;
+- tasa de superposición;
+- tasa de posición superior;
+- tasa de parte superior;
+- tasa de primera posición absoluta;
+- porcentaje de ranking superior;
+- periodo;
+- dispositivo cuando esté disponible.
 
-Auction Insights requires sufficient activity and does not include Search Partners in the same way as Google Search. Keep the export private; do not version competitor-level CSVs in this public repository.
+Auction Insights requiere actividad suficiente. Los CSV con competidores permanecen privados y no se versionan en este repositorio público.
 
-## Landing-page decision rule
+## Regla de decisión de landing
 
-Do not create six landing pages merely because six keyword clusters exist.
+No crear seis landing pages únicamente porque existen seis clusters de keywords.
 
-A distinct landing-page hypothesis is justified only when a cluster has all of the following:
+Una hipótesis de landing distinta se justifica solo cuando el cluster reúne:
 
-1. materially different user intent;
-2. enough spend or clicks to evaluate;
-3. a stable query pattern in the search-term report;
-4. a different promise, proof, CTA or objection set;
-5. enough volume to support a controlled test;
-6. separate measurement and a constant offer/destination within the test.
+1. intención materialmente diferente;
+2. gasto o clics suficientes para evaluar;
+3. patrón estable en términos de búsqueda;
+4. promesa, prueba, CTA u objeciones diferentes;
+5. volumen suficiente para una prueba controlada;
+6. medición separada y oferta/destino constantes dentro de la prueba.
 
-Initial candidate intents to test after evidence review:
+Intenciones candidatas a evaluar después de revisar la evidencia:
 
 - Excel presencial Santiago Centro;
 - Excel básico desde cero;
 - Excel básico e intermedio;
-- clases particulares / profesor a domicilio;
+- clases particulares o profesor a domicilio;
 - Excel para empresas.
 
-`Clases particulares / profesor a domicilio` must not be mixed with the classroom-course offer unless the service is actually available and the landing, ad and operational delivery match that promise.
+`Clases particulares / profesor a domicilio` no debe mezclarse con la oferta de curso en sala salvo que el servicio exista, esté autorizado y la landing, el anuncio y la operación cumplan esa promesa.
 
-## Decision matrix
+## Matriz de interpretación
 
-| Evidence | Likely action |
+| Evidencia | Acción probable a evaluar |
 |---|---|
-| High spend, low conversion, irrelevant queries | negatives or tighter match before new landing |
-| High spend, coherent intent, weak landing experience | dedicated landing test |
-| High CPC, high impression share, low rank loss | competition is not the main cause |
-| Rising CPC plus higher overlap/position-above competitor rates | competition hypothesis gains support |
-| Good Google conversions but fewer CRM leads | tracking/CRM reconciliation before media changes |
-| Distinct B2B intent | separate campaign, landing and measurement from B2C |
+| Gasto alto, baja conversión y consultas irrelevantes | negativas o concordancia más estricta antes de crear landing |
+| Gasto alto, intención coherente y experiencia de landing débil | prueba de landing dedicada |
+| CPC alto, alta participación y poca pérdida por ranking | competencia no parece causa principal |
+| CPC creciente más mayor superposición/posición superior de competidores | hipótesis competitiva gana soporte |
+| Conversiones Google mayores que leads CRM | reconciliar tracking/CRM antes de cambiar medios |
+| Intención B2B distinta | campaña, landing y medición separadas de B2C |
 
-## Required outputs before activation decisions
+## Evidencia requerida antes de decisiones de activación
 
-- corrected search-term report;
-- corrected landing-page report;
-- 7/30/90-day API comparison;
-- 7/30/90-day Auction Insights private export;
-- aggregated CRM comparison without PII;
-- proposed negative keywords;
-- retain/pause/isolate keyword matrix;
-- landing-page experiment recommendation with one primary persona and one hypothesis.
+- informe corregido de términos de búsqueda;
+- informe corregido de landing pages;
+- comparación API 7/30/90;
+- Auction Insights privado 7/30/90;
+- comparación CRM agregada sin PII;
+- propuesta de negativas;
+- matriz conservar / pausar / aislar;
+- recomendación de experimento de landing con un buyer persona primario y una hipótesis.
 
-## Security
+## Seguridad
 
-Do not commit:
+No versionar:
 
-- raw Google Ads exports;
-- Auction Insights competitor CSVs;
-- customer IDs;
-- tokens, OAuth files or YAML;
-- CRM exports or PII.
+- exports crudos de Google Ads;
+- CSV de Auction Insights;
+- customer IDs completos;
+- tokens, OAuth o YAML;
+- exports CRM o PII.
 
-Only sanitized, aggregated findings may return to GitHub.
+Solo pueden volver a GitHub hallazgos agregados, sanitizados y trazables.
