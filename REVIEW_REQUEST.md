@@ -4,6 +4,10 @@
 
 Habilitar un exportador histórico Google Ads read-only para diagnosticar gasto, clics, términos de búsqueda, calidad de keywords, landing pages, dispositivos, anuncios y acciones de conversión.
 
+## Issue dueño
+
+[#25 — Diagnosticar historial Google Ads y fuga post-click](https://github.com/misaeln-pc1/marketing-performance-capacita/issues/25)
+
 ## Contexto
 
 El radar anterior basado en Keyword Ideas confirmó demanda, pero no explica el deterioro post-click reportado. El caso observado incluye gasto diario aproximado de CLP $20.000, 16–18 clics y 0–2 leads. Se requiere historial real antes de cambiar campañas o crear múltiples landings.
