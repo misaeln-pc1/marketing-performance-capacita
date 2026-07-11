@@ -1,81 +1,70 @@
 # REVIEW_REQUEST
 
-## PR objetivo
+## Objetivo de revisión
 
-Habilitar un exportador histórico Google Ads read-only para diagnosticar gasto, clics, términos de búsqueda, calidad de keywords, landing pages, dispositivos, anuncios y acciones de conversión.
+Revisar el cierre documental del diagnóstico inicial de Marketing Performance sin confundirlo con autorización de cambios productivos.
 
-## Issue dueño
+## PR activos
 
-[#25 — Diagnosticar historial Google Ads y fuga post-click](https://github.com/misaeln-pc1/marketing-performance-capacita/issues/25)
+### PR #29 — Google Ads
 
-## Contexto
+- Rama: `fix/marketing-google-ads-missing-reports-v02`.
+- Alcance:
+  - exportador read-only para los dos reportes faltantes;
+  - protocolo de competencia y decisión de landing;
+  - baseline agregado y sanitizado de 90 días.
+- Evidencia local:
+  - términos de búsqueda: 1.825 filas, `ok`;
+  - landing pages: 8.482 filas, `ok`;
+  - errores API: 0.
+- No incluye SEO/GEO ni cambios en campañas.
 
-El radar anterior basado en Keyword Ideas confirmó demanda, pero no explica el deterioro post-click reportado. El caso observado incluye gasto diario aproximado de CLP $20.000, 16–18 clics y 0–2 leads. Se requiere historial real antes de cambiar campañas o crear múltiples landings.
+### PR #30 — Estado y gobernanza local
 
-## Rama
+- Rama: `docs/marketing-continuous-learning-routing-v01`.
+- Alcance:
+  - sincronizar `TASK_STATUS.md`;
+  - corregir `REPO_RULES.md` para consumir GTM/RevOps;
+  - actualizar `DECISIONES.md`;
+  - actualizar `CHANGELOG_AGENT.md`;
+  - actualizar esta solicitud de revisión.
 
-`feature/marketing-google-ads-history-v01`
+### PR #31 — SEO, Local SEO y visibilidad IA
 
-## Cambios
+- Rama: `docs/marketing-seo-geo-baseline-v01`.
+- Alcance:
+  - baseline técnico;
+  - benchmark de consultas;
+  - modelo de medición;
+  - fuentes primarias;
+  - handoff a Capacita Edge #28.
+- No implementa cambios en WordPress, Cloudflare, robots, sitemap, structured data o producción.
 
-### Modifica
+## Issues relacionados
 
-- `scripts/google_ads_readonly/export_campaign_summary.py`
-  - reemplaza el scaffold bloqueado por un exportador GAQL read-only;
-  - exige configuración y output fuera del repo;
-  - genera reportes separados para evitar distorsión por segmentación;
-  - omite customer IDs de los outputs;
-  - redacta emails y secuencias numéricas largas detectables en búsquedas o URLs;
-  - continúa con reportes restantes si una consulta falla y registra el error.
+- `marketing-performance-capacita#23`: validación de instrucciones V1; permanece abierto.
+- `capacita-edge#27`: GTM/Google tag y atribución.
+- `capacita-edge#28`: SEO/GEO técnico.
+- `capacita-global-control#101`: candidatos transversales en observación.
 
-### Crea
+## Validación solicitada
 
-- `docs/google-ads/GOOGLE_ADS_HISTORICAL_DIAGNOSIS_RUNBOOK_V01.md`
-  - documenta alcance, datos incluidos, limitaciones y PowerShell;
-  - define dry run y ejecución read-only;
-  - mantiene ZIP/CSV fuera del repo.
+1. Confirmar que PR #29 contiene solo Google Ads y tres archivos.
+2. Confirmar que PR #30 contiene solo estado, reglas, decisiones y changelog/revisión.
+3. Confirmar que PR #31 contiene solo seis documentos SEO/GEO.
+4. Confirmar ausencia de PII, secretos, IDs completos, exports crudos y binarios.
+5. Confirmar que ninguna rama modifica campañas, GTM, WordPress, Cloudflare, Zoho o producción.
+6. Confirmar que Auction Insights y CSV reales permanecen privados.
+7. No declarar diagnóstico final: faltan competencia nominal, tracking y reconciliación con Zoho.
 
-## Reportes locales previstos
+## Orden de merge recomendado
 
-1. contexto de cuenta sin ID;
-2. configuración de campañas Search;
-3. performance diaria de campañas;
-4. dispositivo y red;
-5. search terms reales;
-6. keywords y Quality Score;
-7. landing pages efectivas;
-8. acciones de conversión;
-9. anuncios y Ad Strength;
-10. resumen comparativo 7/30/90 días;
-11. manifest de ejecución.
+1. PR #29.
+2. PR #30.
+3. PR #31 solo cuando GitHub lo reporte mergeable y se resuelva su historial de rama si corresponde.
 
-## No se toca
+Usar `squash merge` para evitar conservar commits intermedios de separación y corrección.
 
-- No se ejecuta la API desde este PR.
-- No se crean, editan, pausan o activan campañas.
-- No se modifican presupuestos, pujas, anuncios, keywords, conversiones o cuentas.
-- No se suben YAML, tokens, OAuth JSON, customer IDs completos, TSV/CSV/ZIP reales ni PII.
-- No se modifica landing, CRM, Cloudflare, WhatsApp o n8n.
-- No se usa MCP.
+## Pendiente separado
 
-## Validación esperada
-
-- `python -m py_compile scripts/google_ads_readonly/export_campaign_summary.py`.
-- Dry run local sin `--execute`.
-- `git diff --check` sin errores.
-- Ausencia de PII, secretos, IDs completos y binarios.
-- Revisión de consultas GAQL contra Google Ads API v24.
-- Ejecución real solo después del merge y autorización de Misael.
-
-## Riesgo
-
-**Amarillo:** consulta datos reales de Ads y costos, aunque solo en modo lectura. Los outputs se mantienen locales y no se versionan.
-
-## Siguiente paso después del merge
-
-Ejecutar primero el dry run. Después, con autorización explícita, ejecutar 90 días, comprimir el directorio local y entregar el ZIP en el chat para análisis agregado.
-
-## Decisión solicitada
-
-- [ ] APROBADO PARA PR
-- [ ] CORREGIR ANTES DE PR
+PR #8 no forma parte de este cierre. Contiene un estándar útil de video por placement, pero está desfasado y no debe mergearse sin revisión/rebase independiente.
