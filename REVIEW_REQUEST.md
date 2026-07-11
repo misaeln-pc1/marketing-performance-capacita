@@ -2,80 +2,76 @@
 
 ## PR objetivo
 
-Crear un paquete de briefs operativos para los cuatro buyer personas activos de GTM/RevOps, aplicado a Excel presencial Santiago.
-
-## Issue
-
-[#21 — Crear briefs operativos para los buyer personas activos](https://github.com/misaeln-pc1/marketing-performance-capacita/issues/21)
+Habilitar un exportador histórico Google Ads read-only para diagnosticar gasto, clics, términos de búsqueda, calidad de keywords, landing pages, dispositivos, anuncios y acciones de conversión.
 
 ## Contexto
 
-Global PR #88 dejó buyer personas versionados y Marketing PR #20 dejó el contrato de consumo. Faltaba transformar ese baseline en documentos concretos para comenzar trabajo creativo y campañas sin mezclar perfiles ni redefinir GTM.
+El radar anterior basado en Keyword Ideas confirmó demanda, pero no explica el deterioro post-click reportado. El caso observado incluye gasto diario aproximado de CLP $20.000, 16–18 clics y 0–2 leads. Se requiere historial real antes de cambiar campañas o crear múltiples landings.
+
+## Rama
+
+`feature/marketing-google-ads-history-v01`
 
 ## Cambios
 
-Crea:
+### Modifica
 
-- `campaigns/excel-basico-intermedio-presencial-santiago/briefs/README.md`;
-- `BRIEF_BP001_DESBORDADO_OPERATIVO_V1.md`;
-- `BRIEF_BP002_REINSERCION_LABORAL_V1.md`;
-- `BRIEF_BP003_COORDINADOR_B2B_V1.md`;
-- `BRIEF_BP004_JEFATURA_PYME_V1.md`.
+- `scripts/google_ads_readonly/export_campaign_summary.py`
+  - reemplaza el scaffold bloqueado por un exportador GAQL read-only;
+  - exige configuración y output fuera del repo;
+  - genera reportes separados para evitar distorsión por segmentación;
+  - omite customer IDs de los outputs;
+  - redacta emails y secuencias numéricas largas detectables en búsquedas o URLs;
+  - continúa con reportes restantes si una consulta falla y registra el error.
 
-Actualiza:
+### Crea
 
-- `campaigns/README.md`;
-- `TASK_STATUS.md`;
-- `DECISIONES.md`;
-- `CHANGELOG_AGENT.md`;
-- `REVIEW_REQUEST.md`.
+- `docs/google-ads/GOOGLE_ADS_HISTORICAL_DIAGNOSIS_RUNBOOK_V01.md`
+  - documenta alcance, datos incluidos, limitaciones y PowerShell;
+  - define dry run y ejecución read-only;
+  - mantiene ZIP/CSV fuera del repo.
 
-## Criterio aplicado
+## Reportes locales previstos
 
-- Existen cuatro buyer personas activos: `BP-001` a `BP-004`.
-- `BP-000` es control para evidencia insuficiente y no una audiencia.
-- Cada brief tiene un buyer persona primario, una hipótesis, una promesa, CTA, rutas creativas, targeting táctico, claims, destino, métricas y pendientes.
-- `BP-001` y `BP-002` se preparan para creatividad B2C inmediata.
-- `BP-003` y `BP-004` quedan condicionados a oferta, landing, formulario y ruta CRM B2B.
-- No se mezclan B2C y B2B en campaña o medición común.
-
-## Orden recomendado
-
-1. `BP-001 — Desbordado Operativo`.
-2. `BP-002 — Reinserción Laboral`.
-3. `BP-003 — Coordinador B2B`.
-4. `BP-004 — Dueño o Jefatura PyME`.
-
-El orden no cambia el estado canónico de los perfiles. Es una decisión operativa basada en la preparación actual de oferta y landing.
+1. contexto de cuenta sin ID;
+2. configuración de campañas Search;
+3. performance diaria de campañas;
+4. dispositivo y red;
+5. search terms reales;
+6. keywords y Quality Score;
+7. landing pages efectivas;
+8. acciones de conversión;
+9. anuncios y Ad Strength;
+10. resumen comparativo 7/30/90 días;
+11. manifest de ejecución.
 
 ## No se toca
 
-- No se crean ni modifican campañas reales.
-- No se modifican presupuestos, pujas, anuncios, públicos o plataformas Ads.
-- No se modifica landing, Cloudflare, Zoho, n8n, WhatsApp o formularios reales.
-- No se suben datos personales, exports, credenciales, tokens, IDs completos o binarios.
-- No se inventan métricas o resultados.
-- No se garantizan empleo, productividad, ahorro o ROI.
+- No se ejecuta la API desde este PR.
+- No se crean, editan, pausan o activan campañas.
+- No se modifican presupuestos, pujas, anuncios, keywords, conversiones o cuentas.
+- No se suben YAML, tokens, OAuth JSON, customer IDs completos, TSV/CSV/ZIP reales ni PII.
+- No se modifica landing, CRM, Cloudflare, WhatsApp o n8n.
+- No se usa MCP.
 
 ## Validación esperada
 
-- Cambios Markdown solamente.
-- Rama basada en `main` después del merge de PR #20.
-- Sin borrados ni renombres.
-- Cuatro briefs independientes y un índice.
-- Referencias GTM versionadas.
-- Claims y datos pendientes visibles.
-- Estado y decisiones actualizados.
+- `python -m py_compile scripts/google_ads_readonly/export_campaign_summary.py`.
+- Dry run local sin `--execute`.
+- `git diff --check` sin errores.
+- Ausencia de PII, secretos, IDs completos y binarios.
+- Revisión de consultas GAQL contra Google Ads API v24.
+- Ejecución real solo después del merge y autorización de Misael.
 
 ## Riesgo
 
-**Amarillo metodológico:** los briefs condicionan futuras campañas. Se mitiga con un perfil por prueba, separación B2C/B2B, versionado, claims limitados y autorización previa a producción.
+**Amarillo:** consulta datos reales de Ads y costos, aunque solo en modo lectura. Los outputs se mantienen locales y no se versionan.
 
 ## Siguiente paso después del merge
 
-Confirmar los datos tácticos del curso y comenzar desarrollo creativo con `BP-001`, sin activar campañas hasta validar landing, tracking y autorización.
+Ejecutar primero el dry run. Después, con autorización explícita, ejecutar 90 días, comprimir el directorio local y entregar el ZIP en el chat para análisis agregado.
 
 ## Decisión solicitada
 
-- [ ] APROBADO PARA MERGE
-- [ ] CORREGIR ANTES DE MERGE
+- [ ] APROBADO PARA PR
+- [ ] CORREGIR ANTES DE PR
