@@ -23,6 +23,7 @@ Registro de decisiones operativas del repo `marketing-performance-capacita`.
 | 2026-07-11 | No crear seis landings por existencia de clusters. Una landing distinta requiere intención, volumen, promesa, CTA, medición y prueba controlada suficientes. | Arquitectura de landing | Amarillo | `docs/google-ads/GOOGLE_ADS_COMPETITION_AND_LANDING_DIAGNOSIS_V01.md` |
 | 2026-07-11 | Separar documentación Google Ads de metodología SEO/GEO. PR #29 queda Ads; PR #31 contiene SEO, Local SEO y visibilidad IA. | Alcance de PR | Verde | PR #29 y PR #31 |
 | 2026-07-11 | Los conceptos descubiertos permanecen locales hasta demostrar estabilidad y reutilización. Global #101 evalúa candidatos; no cambia canónicos todavía. | Mejora continua | Amarillo | Global issue #101 |
+| 2026-07-12 | Todo análisis recurrente de estatus de Google Ads debe combinar un export fresco read-only por PowerShell/API con la hoja de Drive `Historial_Rendimiento_GoogleAds`. Si falta una fuente, el informe debe declararse provisional e indicar explícitamente el acceso faltante. | Reporting, trazabilidad y dashboard | Amarillo | `docs/google-ads/GOOGLE_ADS_STATUS_ANALYSIS_PROCEDURE_V01.md` |
 
 ## Reglas derivadas
 
