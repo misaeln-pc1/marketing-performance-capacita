@@ -39,12 +39,33 @@
 - Se detectó que futuros experimentos deben separar productividad y empleabilidad si se desea atribuir resultados por perfil.
 - Se abrió issue #21 para preparar los briefs operativos de los buyer personas activos.
 - Se creó el índice `campaigns/excel-basico-intermedio-presencial-santiago/briefs/README.md`.
-- Se crearon cuatro briefs v1.0.0:
-  - `BP-001 — Desbordado Operativo`;
-  - `BP-002 — Reinserción Laboral`;
-  - `BP-003 — Coordinador B2B`;
-  - `BP-004 — Dueño o Jefatura PyME`.
+- Se crearon cuatro briefs v1.0.0 para `BP-001` a `BP-004`.
 - Se dejó `BP-000` como control y no como audiencia de campaña.
 - Se separaron los carriles B2C y B2B y se documentaron requisitos previos de activación.
 - Se priorizó `BP-001` como primer desarrollo creativo recomendado y `BP-002` como segunda prueba.
 - No se tocaron campañas, landing, CRM, Cloudflare, n8n, WhatsApp, datos reales ni producción.
+
+## 2026-07-11
+
+- Se ejecutó un diagnóstico Google Ads read-only de 90 días con configuración y outputs fuera del repo.
+- El primer export produjo siete reportes válidos y dos errores GAQL acotados.
+- PR #29 agregó `export_missing_reports.py` para corregir términos de búsqueda y landing pages.
+- La ejecución corregida produjo 1.825 filas de términos y 8.482 filas de landing pages, sin errores.
+- Se analizaron campañas, keywords, Quality Score, términos, dispositivos, destinos y conversiones registradas.
+- Se confirmó deterioro de `curso excel básico e intermedio` por crecimiento de volumen y baja conversión registrada.
+- Se confirmó mezcla de intención y fuga hacia páginas secundarias.
+- Se dejó pendiente Auction Insights nominal, assets/sitelinks, histórico 12/24 meses y reconciliación con Zoho.
+- Se abrió Edge #27 para auditar GTM/Google tag y atribución.
+- Se abrió Edge #28 para auditar SEO técnico, SEO local y visibilidad IA.
+- Se abrió Global #101 para evaluar, después de evidencia, posibles activos transversales.
+- Se creó PR #30 para sincronizar `TASK_STATUS.md`, decisiones, reglas locales y mejora continua.
+
+## 2026-07-12
+
+- Se separó el alcance de PR #29: quedó limitado a Google Ads y diagnóstico agregado.
+- Los seis documentos SEO/GEO se trasladaron sin pérdida a la rama `docs/marketing-seo-geo-baseline-v01`.
+- Se abrió PR #31 para la metodología SEO, Local SEO y visibilidad en motores generativos.
+- Se agregó `docs/google-ads/GOOGLE_ADS_DIAGNOSIS_BASELINE_2026-07-11.md` con hallazgos sanitizados.
+- Se alineó `REPO_RULES.md` con GTM/RevOps como fuente canónica.
+- Se actualizaron `TASK_STATUS.md` y `DECISIONES.md` con el estado real y la secuencia vigente.
+- No se modificaron plataformas Ads, GTM, WordPress, Cloudflare, Zoho, campañas ni producción.
