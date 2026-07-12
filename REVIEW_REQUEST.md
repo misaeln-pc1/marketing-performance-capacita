@@ -2,69 +2,78 @@
 
 ## Objetivo de revisión
 
-Revisar el cierre documental del diagnóstico inicial de Marketing Performance sin confundirlo con autorización de cambios productivos.
+Revisar el cierre documental de la arquitectura de landings pagadas Excel, PageSense y Search Console sin confundirlo con autorización de cambios productivos.
 
-## PR activos
+## PR activo principal
 
-### PR #29 — Google Ads
+### PR #35 — Landings pagadas, CRO y Search Console
 
-- Rama: `fix/marketing-google-ads-missing-reports-v02`.
-- Alcance:
-  - exportador read-only para los dos reportes faltantes;
-  - protocolo de competencia y decisión de landing;
-  - baseline agregado y sanitizado de 90 días.
-- Evidencia local:
-  - términos de búsqueda: 1.825 filas, `ok`;
-  - landing pages: 8.482 filas, `ok`;
-  - errores API: 0.
-- No incluye SEO/GEO ni cambios en campañas.
+- Rama: `docs/marketing-excel-b2c-two-page-plan-v01`.
+- Alcance actualizado:
+  - proteger la página orgánica actual;
+  - documentar tres landings pagadas `noindex`;
+  - asignar buyer persona primario e hipótesis por landing;
+  - registrar hallazgos PageSense y formulario;
+  - excluir SENCE/gratuidad de B2C;
+  - conservar el puente B2B como derivación secundaria;
+  - definir Search Console API read-only;
+  - crear handoff exportable para continuidad.
 
-### PR #30 — Estado y gobernanza local
+### Landings documentadas
 
-- Rama: `docs/marketing-continuous-learning-routing-v01`.
-- Alcance:
-  - sincronizar `TASK_STATUS.md`;
-  - corregir `REPO_RULES.md` para consumir GTM/RevOps;
-  - actualizar `DECISIONES.md`;
-  - actualizar `CHANGELOG_AGENT.md`;
-  - actualizar esta solicitud de revisión.
+1. Básico–Intermedio / `BP-001`.
+2. Excel Básico desde cero / `BP-002`.
+3. Clases presenciales con profesor / `BP-001`.
 
-### PR #31 — SEO, Local SEO y visibilidad IA
-
-- Rama: `docs/marketing-seo-geo-baseline-v01`.
-- Alcance:
-  - baseline técnico;
-  - benchmark de consultas;
-  - modelo de medición;
-  - fuentes primarias;
-  - handoff a Capacita Edge #28.
-- No implementa cambios en WordPress, Cloudflare, robots, sitemap, structured data o producción.
+La tercera landing debe declarar que se trata de un curso grupal presencial Básico–Intermedio en sede. No promete clases particulares, uno a uno ni a domicilio.
 
 ## Issues relacionados
 
-- `marketing-performance-capacita#23`: validación de instrucciones V1; permanece abierto.
+- `marketing-performance-capacita#36`: Search Console API read-only.
 - `capacita-edge#27`: GTM/Google tag y atribución.
 - `capacita-edge#28`: SEO/GEO técnico.
 - `capacita-global-control#101`: candidatos transversales en observación.
 
 ## Validación solicitada
 
-1. Confirmar que PR #29 contiene solo Google Ads y tres archivos.
-2. Confirmar que PR #30 contiene solo estado, reglas, decisiones y changelog/revisión.
-3. Confirmar que PR #31 contiene solo seis documentos SEO/GEO.
-4. Confirmar ausencia de PII, secretos, IDs completos, exports crudos y binarios.
-5. Confirmar que ninguna rama modifica campañas, GTM, WordPress, Cloudflare, Zoho o producción.
-6. Confirmar que Auction Insights y CSV reales permanecen privados.
-7. No declarar diagnóstico final: faltan competencia nominal, tracking y reconciliación con Zoho.
+1. Confirmar que la página orgánica actual queda indexable y protegida.
+2. Confirmar que las tres nuevas landings se documentan inicialmente como `noindex,follow` y fuera del sitemap.
+3. Confirmar un buyer persona primario y una hipótesis por landing.
+4. Confirmar que la landing de clases no presenta el curso grupal como particular o domiciliario.
+5. Confirmar exclusión de SENCE, beneficio tributario y gratuidad en B2C.
+6. Confirmar que el puente B2B permanece secundario y separado.
+7. Confirmar que PageSense goals de clic no se usan como submits.
+8. Confirmar que la medición exige URL, landing code, UTM, funnel y reconciliación Zoho por landing.
+9. Confirmar que Search Console API es read-only y separada de Google Ads API.
+10. Confirmar ausencia de PII, secretos, credenciales, IDs completos, exports crudos y binarios.
+11. Confirmar que ninguna rama modifica campañas, GTM, WordPress, Cloudflare, Zoho o producción.
 
-## Orden de merge recomendado
+## Archivos principales del PR #35
 
-1. PR #29.
-2. PR #30.
-3. PR #31 solo cuando GitHub lo reporte mergeable y se resuelva su historial de rama si corresponde.
+- `docs/landing-pages/EXCEL_B2C_TWO_PAGE_PLAN_AND_CRO_BASELINE_2026-07-12.md` — antecedente inicial.
+- `docs/landing-pages/EXCEL_B2C_CLARIFICATIONS_B2B_BRIDGE_HISTORY_PERSONAS_2026-07-12.md`.
+- `docs/landing-pages/EXCEL_B2C_SENCE_EXCLUSION_AND_ORGANIC_PAID_OPTIONS_2026-07-12.md`.
+- `docs/search-console/SEARCH_CONSOLE_API_SCOPE_AND_PAID_LANDING_DECISION_V01.md`.
+- `docs/handoffs/HANDOFF_EXCEL_PAID_LANDINGS_SEARCH_CONSOLE_2026-07-12.md` — fuente vigente de continuidad.
+- `DECISIONES.md`.
+- `TASK_STATUS.md`.
 
-Usar `squash merge` para evitar conservar commits intermedios de separación y corrección.
+## Regla de precedencia
 
-## Pendiente separado
+Cuando exista contradicción entre documentos exploratorios tempranos y el handoff final, prevalecen:
 
-PR #8 no forma parte de este cierre. Contiene un estándar útil de video por placement, pero está desfasado y no debe mergearse sin revisión/rebase independiente.
+1. `DECISIONES.md` actualizado;
+2. `TASK_STATUS.md` actualizado;
+3. `docs/handoffs/HANDOFF_EXCEL_PAID_LANDINGS_SEARCH_CONSOLE_2026-07-12.md`.
+
+## No autoriza
+
+- construcción o publicación de landings;
+- cambios de campañas, grupos, keywords, negativas, anuncios, presupuesto o pujas;
+- configuración OAuth;
+- cambios de Search Console, GA4, PageSense, GTM, Cloudflare, Zoho o producción;
+- merge automático.
+
+## Semáforo
+
+Amarillo documental. La implementación requiere un PR separado en Capacita Edge y autorización separada para Google Ads y OAuth.
