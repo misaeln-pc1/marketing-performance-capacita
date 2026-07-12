@@ -4,16 +4,17 @@ Fecha de revisión: 2026-07-12
 
 ## Prioridad activa
 
-Completar el diagnóstico basado en evidencia antes de modificar campañas, landings, presupuestos, pujas, keywords, conversiones o tracking productivo.
+Cerrar la arquitectura y medición de tres landings pagadas B2C antes de modificar Google Ads o producción, protegiendo la página orgánica actual y preparando Search Console API read-only.
 
 La línea activa integra:
 
-- Google Ads histórico y términos reales de búsqueda;
-- landing pages efectivas;
-- competencia y Auction Insights;
-- Quality Score, dispositivo, red, assets y sitelinks;
-- atribución Ads → web → formularios/WhatsApp → Zoho;
-- SEO técnico, SEO local y visibilidad en motores generativos;
+- página orgánica actual protegida;
+- landing pagada Básico–Intermedio / `BP-001`;
+- landing pagada Básico desde cero / `BP-002`;
+- landing pagada clases presenciales con profesor / `BP-001`;
+- PageSense, GA4, GTM, formularios y Zoho;
+- Google Ads histórico, términos reales, Keyword Planner y competencia;
+- Search Console API para consultas y páginas orgánicas;
 - contrato futuro de datos para dashboard y mejora continua.
 
 ## Estado Google Ads
@@ -56,41 +57,94 @@ Documento dueño:
 - Existe tráfico pagado hacia páginas secundarias con desempeño considerablemente inferior a la landing principal.
 - `EXCEL-EMPRESA` presenta gasto relevante y conversión registrada muy débil; requiere auditoría B2B y de objetivos compartidos.
 - La campaña presencial conserva alta participación de impresiones y poca pérdida por ranking/presupuesto; la competencia no está confirmada como causa principal.
+- PageSense confirma una brecha crítica entre clic en enviar y submit aceptado; los goals actuales de clic no son leads.
+- La página orgánica actual debe protegerse hasta analizar Search Console.
 
-## Hipótesis pendientes
+## Decisión de landings pagadas
 
-- presión de precio por competidores específicos, incluido Superprof;
-- necesidad real de una landing específica para básico–intermedio;
-- origen exacto de la fuga hacia páginas secundarias mediante assets o sitelinks;
-- submedición por cobertura incompleta de GTM/Google tag;
-- mezcla B2C/B2B en conversiones o `landing_code`;
-- canibalización entre páginas vigentes e históricas;
-- problemas de rastreo, entidad, autoridad o SEO local que afectan visibilidad en motores generativos.
+Se aprueban documentalmente tres landings nuevas, inicialmente `noindex,follow`, fuera del sitemap y sin tocar la página orgánica:
+
+1. **Básico–Intermedio / BP-001**
+   - productividad, errores, dependencia y ruta completa;
+   - mismo curso real y misma oferta.
+
+2. **Excel Básico desde cero / BP-002**
+   - inseguridad de nivel, acompañamiento y ruta clara;
+   - mismo curso real, presentado para quien comienza sin Excel previo.
+
+3. **Clases presenciales con profesor / BP-001**
+   - intención de clases, profesor en vivo y alternativa estructurada frente a particulares;
+   - curso grupal Básico–Intermedio en sede;
+   - no clases particulares, uno a uno ni a domicilio;
+   - prueba reversible con medición independiente y criterio de retiro.
 
 No se aprueba todavía:
 
-- crear seis landing pages;
-- separar campañas por intuición;
+- crear landings adicionales;
+- mezclar Excel Avanzado con esta oferta;
+- modificar Google Ads;
 - aumentar presupuesto o pujas;
 - pausar campañas o keywords;
 - agregar negativas;
 - modificar conversiones;
 - cambiar GTM, WordPress, Cloudflare, Zoho o producción.
 
-## Competencia y Auction Insights
+## Restricciones de mensaje
 
-La API permite obtener señales competitivas propias y agregadas, pero no el informe nominal con dominios competidores.
+- No usar SENCE, franquicia tributaria, beneficio tributario, gratis o gratuito en B2C.
+- Mantener el puente `¿La capacitación es para tu equipo?` como derivación secundaria hacia B2B.
+- No usar la guía gratuita como promesa principal del hero pagado.
+- No mentir sobre la modalidad grupal, sede, profesor, horario o producto.
 
-Próxima descarga manual privada:
+## Hipótesis de competencia y cluster `clases/profesor`
 
-1. campaña `EXCEL-PRE-STGO`, 90 días;
-2. después 30 y 7 días;
-3. repetir para:
-   - `curso excel básico e intermedio`;
-   - `curso excel presencial`;
-   - `clases de excel presencial`.
+- Superprof es un competidor plausible, pero no se demostró como causa principal del deterioro.
+- Antes de activar la tercera landing se debe analizar read-only:
+  - `clases`;
+  - `profesor`;
+  - `particular`;
+  - `domicilio`;
+  - `presencial`;
+  - gasto, clics, CPC y conversiones;
+  - Keyword Planner y términos reales.
+- La landing C debe mantenerse solo si atrae consultas compatibles, submits, leads contactables, cotizaciones o matrículas.
 
-No subir Auction Insights al repo público. Analizar en privado y versionar solo hallazgos agregados.
+## Medición obligatoria
+
+Cada landing debe tener:
+
+- URL propia;
+- `landing_code` propio validado;
+- UTM y click IDs persistentes;
+- variante e intención identificables;
+- buyer persona registrado como hipótesis;
+- PageSense separado;
+- GA4/GTM auditados;
+- submit confirmado como conversión técnica primaria;
+- Zoho reconciliado hasta lead contactable, cotización y matrícula.
+
+Funnel conceptual:
+
+1. visita;
+2. hero;
+3. CTA;
+4. form start;
+5. submit attempt;
+6. submit confirmado;
+7. lead recibido;
+8. lead contactable;
+9. cotización;
+10. matrícula.
+
+No inventar API names ni usar clics como submits.
+
+## Search Console API
+
+- Issue #36 creado para export read-only.
+- Scope previsto: `webmasters.readonly`.
+- Objetivo: consultas, páginas, clics, impresiones, CTR y posición.
+- Credenciales y exports crudos deben permanecer fuera del repo.
+- Confirmar propiedad exacta y permisos antes de OAuth.
 
 ## Bloque 0 — medición y atribución
 
@@ -117,11 +171,15 @@ La submedición puede afectar conversiones, CVR y CPA; no invalida gasto, clics,
 - Marketing define consultas, intención, benchmark, medición agregada e impacto comercial.
 - Capacita Edge implementa robots, headers, sitemap, canonicals, structured data, Cloudflare, frontend y eventos.
 
-El baseline debe distinguir rastreo, indexación, duplicidad, entidad local, autoridad externa y variabilidad de motores generativos. La ausencia de Capacita en una respuesta aislada no prueba bloqueo de bots ni ranking estable.
+La página orgánica actual no se redirige, no recibe `noindex` y no se reescribe agresivamente sin evidencia de Search Console.
 
 ## Buyer persona y activos transversales
 
 Los buyer persona, propuestas de valor y customer journey se consumen desde Global/Atlas. Marketing no los redefine.
+
+- Landing A: `BP-001`.
+- Landing B: `BP-002`.
+- Landing C: `BP-001`, con hipótesis distinta basada en profesor en vivo y estructura grupal.
 
 Ciclo de mejora continua:
 
@@ -138,46 +196,47 @@ Punto de revisión:
 
 Ningún candidato nuevo se considera canónico todavía.
 
-## PR y ramas
+## PR e issues activos
 
-| PR | Rama | Alcance | Estado |
-|---|---|---|---|
-| #29 | `fix/marketing-google-ads-missing-reports-v02` | exportador corregido, protocolo y baseline Ads | mergeado |
-| #30 | `docs/marketing-continuous-learning-routing-v01` | estado, decisiones, reglas locales y trazabilidad | mergeado |
-| #31 | `docs/marketing-seo-geo-baseline-v01` | metodología SEO/Local SEO/visibilidad IA | mergeado |
-| #32 | `docs/marketing-google-ads-status-procedure-v01` | procedimiento recurrente PowerShell/API + Drive | abierto, pendiente de revisión |
+| Elemento | Alcance | Estado |
+|---|---|---|
+| PR #35 | decisiones de landings pagadas, PageSense, Search Console y handoff | abierto, documental |
+| Issue #36 | Search Console API read-only | abierto |
+| Edge #27 | tracking y atribución | abierto |
+| Edge #28 | SEO/GEO técnico | abierto |
 
 ## Secuencia inmediata
 
-1. Revisar y mergear PR #32 si el diff permanece documental y limpio.
-2. Descargar Auction Insights de campaña 90 días y analizar formato.
-3. Completar Auction Insights 7/30/90 y keywords priorizadas.
-4. Exportar assets/sitelinks read-only y ampliar histórico a 12/24 meses si responde a una decisión concreta.
-5. Ejecutar auditoría Edge #27.
-6. Ejecutar auditoría Edge #28.
-7. Reconciliar Google Ads, formularios y Zoho en agregado.
-8. Construir matriz conservar / negativizar / pausar / aislar / separar / nueva landing.
-9. Solicitar autorización antes de cualquier cambio productivo.
+1. Abrir nuevo hilo con `Context Gate: Bootstrap`.
+2. Leer `docs/handoffs/HANDOFF_EXCEL_PAID_LANDINGS_SEARCH_CONSOLE_2026-07-12.md`.
+3. Verificar estado real de PR #35, issue #36 y Edge #27/#28.
+4. Cerrar matriz contractual de las tres landings.
+5. Revisar bloques HTML de la landing actual.
+6. Definir medición exacta por landing.
+7. Preparar un único prompt para Work en Capacita Edge.
+8. Implementar landings en rama/PR, sin tocar Google Ads.
+9. Configurar Search Console API read-only.
+10. Analizar cluster `clases/profesor`.
+11. Solicitar autorización antes de cambios productivos.
 
 ## Reglas operativas vigentes
 
 - Un buyer persona primario y una hipótesis por prueba.
 - Separar B2C y B2B en campaña, landing y medición.
-- Mantener constantes oferta, destino y variables relevantes al comparar mensajes.
+- Mantener constantes oferta y variables relevantes al comparar mensajes.
 - No mezclar conversiones registradas por Google con resultados comerciales sin reconciliación.
 - No declarar completo un análisis recurrente si falta PowerShell/API o `Historial_Rendimiento_GoogleAds`.
 - No trabajar directo en `main`.
 - No subir PII, secretos, IDs completos, exports crudos, capturas sensibles ni binarios.
-- No inventar métricas, claims, IDs o resultados.
+- No inventar métricas, claims, eventos, IDs o resultados.
 
-## Definition of Done del diagnóstico
+## Definition of Done de la fase documental
 
-- términos reales y landing pages recuperados;
-- competencia evaluada con señales API y Auction Insights;
-- assets/sitelinks explicados cuando afecten destinos;
-- tracking auditado y limitaciones documentadas;
-- SEO/visibilidad IA con baseline técnico;
-- diferencias Google Ads → formularios → Zoho cuantificadas en agregado;
-- hipótesis clasificadas como confirmadas, debilitadas o pendientes;
-- alternativas de campaña y landing comparadas;
-- decisión documentada con evidencia, riesgos, rollback y autorización.
+- decisión de tres landings registrada;
+- página orgánica protegida;
+- SENCE excluido de B2C;
+- buyer persona e hipótesis definidos;
+- medición conceptual documentada;
+- Search Console API en issue separado;
+- handoff exportable creado;
+- no se modificó producción.
