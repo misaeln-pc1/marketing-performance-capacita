@@ -68,4 +68,7 @@
 - Se agregó `docs/google-ads/GOOGLE_ADS_DIAGNOSIS_BASELINE_2026-07-11.md` con hallazgos sanitizados.
 - Se alineó `REPO_RULES.md` con GTM/RevOps como fuente canónica.
 - Se actualizaron `TASK_STATUS.md` y `DECISIONES.md` con el estado real y la secuencia vigente.
+- PR #29, PR #30 y PR #31 quedaron mergeados.
+- Se validó acceso al archivo de Drive `Historial_Rendimiento_GoogleAds` y sus pestañas operativas.
+- Se definió `GOOGLE_ADS_STATUS_ANALYSIS_PROCEDURE_V01.md`: todo estatus recurrente debe combinar PowerShell/API fresco y Drive; si falta una fuente, el análisis se declara provisional.
 - No se modificaron plataformas Ads, GTM, WordPress, Cloudflare, Zoho, campañas ni producción.
