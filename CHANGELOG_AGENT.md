@@ -71,4 +71,21 @@
 - PR #29, PR #30 y PR #31 quedaron mergeados.
 - Se validó acceso al archivo de Drive `Historial_Rendimiento_GoogleAds` y sus pestañas operativas.
 - Se definió `GOOGLE_ADS_STATUS_ANALYSIS_PROCEDURE_V01.md`: todo estatus recurrente debe combinar PowerShell/API fresco y Drive; si falta una fuente, el análisis se declara provisional.
-- No se modificaron plataformas Ads, GTM, WordPress, Cloudflare, Zoho, campañas ni producción.
+- Se analizaron PageSense Form Analytics, goals y click maps B2C/B2B.
+- Se confirmó que los goals revisados miden clics y no submits aceptados.
+- Se registró la brecha aproximada entre 370 clics en enviar y cerca de 30 envíos implícitos.
+- Se documentó fricción visible en el campo Email y menor compromiso móvil agregado.
+- Se decidió retirar la guía gratuita como promesa principal del hero pagado.
+- Se confirmó que Turnstile no interviene en el formulario B2C legacy actual.
+- Se protegió la página orgánica actual y se descartó reescribirla agresivamente sin Search Console.
+- Se aprobó crear tres landings pagadas `noindex`:
+  - Básico–Intermedio / `BP-001`;
+  - Excel Básico desde cero / `BP-002`;
+  - clases presenciales con profesor / `BP-001`.
+- La tercera landing quedó como prueba reversible y debe declarar curso grupal en sede, sin clases particulares ni a domicilio.
+- Se excluyó SENCE, beneficio tributario y gratuidad de toda comunicación B2C.
+- Se mantuvo el puente B2B como derivación secundaria y medición separada.
+- Se creó issue #36 para Search Console API read-only.
+- Se creó `docs/handoffs/HANDOFF_EXCEL_PAID_LANDINGS_SEARCH_CONSOLE_2026-07-12.md` para continuidad en nuevo hilo.
+- Se actualizaron `DECISIONES.md`, `TASK_STATUS.md`, `REVIEW_REQUEST.md` y PR #35.
+- No se modificaron campañas, landings, GTM, Search Console, GA4, PageSense, Cloudflare, Zoho ni producción.
