@@ -1,0 +1,74 @@
+{
+  "generated_at": "2026-07-24T00:39:19-04:00",
+  "project": "Marketing Performance / Campañas & Growth Capacita",
+  "repository": "misaeln-pc1/marketing-performance-capacita",
+  "repository_commit_at_generation": "430f84f8a00766327c8ede6b6af882031fb807a7",
+  "global_repository_commit_reviewed": "cfadabe0494574792073c1c738101992f6ed9555",
+  "branch": "docs/marketing-office-presencial-keywords",
+  "campaign_id": "SCL-OFFICE-SEARCH-TBD",
+  "campaign_id_status": "provisional_documentary_only",
+  "query_method": {
+    "attempted": "Google Ads API CustomerService.ListAccessibleCustomers",
+    "planned": [
+      "KeywordPlanIdeaService.GenerateKeywordIdeas",
+      "KeywordPlanIdeaService.GenerateKeywordHistoricalMetrics"
+    ],
+    "result": "blocked_before_keyword_query",
+    "error_code": "ACCESS_TOKEN_SCOPE_INSUFFICIENT"
+  },
+  "google_ads_api_version": "v24",
+  "google_ads_python_package": "31.1.0",
+  "account_sanitized": "***-***-7322",
+  "login_customer_sanitized": "***-***-6623",
+  "account_verification_status": "not_verified_in_this_run",
+  "location": {
+    "requested": "Santiago de Chile",
+    "geo_target_id_sanitized": null,
+    "status": "not_resolved_due_authentication_blocker"
+  },
+  "language": {
+    "requested": "Español",
+    "language_constant": null,
+    "status": "not_resolved_due_authentication_blocker"
+  },
+  "network": "Google Search requested; not queried",
+  "historical_window": "Last 12 available months requested; not queried",
+  "currency": null,
+  "seed_count": 104,
+  "seeds_queried": 0,
+  "ideas_received": 0,
+  "seed_unique_keywords": 104,
+  "negative_candidates": 33,
+  "unique_keywords": 137,
+  "files": [
+    "campaigns/office-presencial-santiago/keyword-research/google_ads_keyword_research_2026-07-24.csv",
+    "campaigns/office-presencial-santiago/keyword-research/GOOGLE_ADS_KEYWORD_RESEARCH_2026-07-24.md",
+    "campaigns/office-presencial-santiago/keyword-research/google_ads_keyword_research_manifest_2026-07-24.json"
+  ],
+  "hashes": {
+    "campaigns/office-presencial-santiago/keyword-research/google_ads_keyword_research_2026-07-24.csv": {
+      "algorithm": "sha256",
+      "value": "13b930d78d0d89cb8f4c04ec41ccf7bb72c2133945923a293c4ad222cec31a33"
+    },
+    "campaigns/office-presencial-santiago/keyword-research/GOOGLE_ADS_KEYWORD_RESEARCH_2026-07-24.md": {
+      "algorithm": "sha256",
+      "value": "fe5160c70be526cff9980d829d1a726c910f11e5d182829c5556fe0627c3fb36"
+    }
+  },
+  "sanitization": {
+    "secrets_included": false,
+    "pii_included": false,
+    "full_private_ids_included": false,
+    "private_paths": "sanitized",
+    "csv_formula_prefixes_escaped": true
+  },
+  "limitations": [
+    "No keyword ideas or historical metrics were returned.",
+    "OAuth ADC lacks the Google Ads adwords scope.",
+    "No geo target constant, language constant, currency, bids, competition, or monthly history was resolved.",
+    "Manual classification and relevance score are not Google metrics."
+  ],
+  "validation_status": "PASS_DOCUMENTARY_API_BLOCKED",
+  "merge_gate": "REQUIERE_REVISION_MISAEL",
+  "google_ads_mutations": false
+}
