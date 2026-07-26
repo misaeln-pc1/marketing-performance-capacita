@@ -13,6 +13,8 @@
 
 Este documento registra la evidencia y la arquitectura de intención para crear tres landings pagadas `noindex,follow` sin reemplazar la página orgánica posicionada.
 
+> Addendum vigente para Landing C: `docs/google-ads/EXCEL_B2C_LANDING_C_TRUST_DIFFERENTIATION_2026-07-26.md`.
+
 ## Decisión vigente
 
 La página orgánica actual se conserva como activo SEO:
@@ -310,6 +312,59 @@ Una alternativa estructurada a clases sueltas: curso grupal, práctico y con pro
 Este es un curso grupal presencial con profesor en vivo. No corresponde a clases particulares, atención uno a uno ni clases a domicilio.
 ```
 
+### Addendum de diferenciación institucional
+
+Ver documento complementario:
+
+```text
+docs/google-ads/EXCEL_B2C_LANDING_C_TRUST_DIFFERENTIATION_2026-07-26.md
+```
+
+Resumen operativo:
+
+- Diferenciar la landing C frente a clases particulares o marketplaces de profesores sin mencionar marcas competidoras salvo revisión legal.
+- Reforzar que Capacita es una institución formal de capacitación, con sala, programa, profesor en vivo, respaldo administrativo y certificado.
+- Usar claims institucionales como SENCE, Ministerio del Trabajo, norma de calidad o reemisión de certificado sólo si están vigentes y verificados antes de publicar.
+- No usar `SENCE`, `gratis` ni `franquicia tributaria` en H1, H2, keywords, anuncios o promesa principal B2C.
+- Ubicar la confianza institucional bajo el hero o en FAQ, no como eje de captación.
+
+### Bloque de confianza sugerido
+
+```text
+¿Por qué aprender Excel en una institución y no en una clase particular suelta?
+```
+
+```text
+En Capacita no contratas una clase aislada ni esperas a que alguien llegue a tu casa. Participas en un curso presencial, grupal y estructurado, con profesor en vivo, sala equipada y respaldo administrativo de una institución de capacitación.
+```
+
+```text
+- Curso presencial con programa definido y práctica guiada.
+- Profesor en vivo durante la clase, en sala equipada.
+- Institución formal de capacitación, con operación y respaldo documental.
+- Certificado emitido por Capacita al finalizar el curso, según cumplimiento de requisitos.
+- Posibilidad de solicitar reemisión del certificado si existe registro interno asociado al RUT.
+- Trazabilidad administrativa: curso, fecha, asistencia y certificado quedan respaldados internamente.
+```
+
+### FAQ de confianza sugerida
+
+```text
+¿Qué diferencia tiene frente a contratar un profesor particular?
+```
+
+```text
+La diferencia principal es el respaldo. En lugar de una clase aislada, participas en un curso estructurado, con programa, sala, fechas, profesor en vivo y respaldo administrativo de una institución de capacitación.
+```
+
+```text
+¿Puedo pedir el certificado después si lo pierdo?
+```
+
+```text
+Si el curso y la participación están registrados internamente, puedes solicitar una reemisión o respaldo administrativo indicando tu RUT y datos del curso. El equipo revisará el registro disponible.
+```
+
 ### Keywords prioritarias
 
 | Prioridad | Keyword / término | Evidencia | Acción |
@@ -332,6 +387,7 @@ Este es un curso grupal presencial con profesor en vivo. No corresponde a clases
 - No son clases particulares ni a domicilio.
 - Aprende con un programa definido, fechas claras y práctica guiada.
 - Ideal si buscas acompañamiento directo, pero con una ruta ordenada.
+- Más respaldo que una clase suelta: curso estructurado, sala, profesor, registro administrativo y certificado emitido por Capacita.
 
 ### Negativas cruzadas para C
 
