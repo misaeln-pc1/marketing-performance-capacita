@@ -84,4 +84,8 @@
 - Se preparó PR limpio desde `main` para rescatar PageSense/CRO sin mergear PR #34 antiguo.
 - Se agregaron `docs/pagesense/PAGESENSE_CRO_REPORTING_BASELINE_V01.md` y `docs/pagesense/PAGESENSE_GOAL_CONFIGURATION_AUDIT_2026-07-12.md`.
 - Se documentó que goals de clic no son submits confirmados ni leads, y que la URL de redirección B2C con nombre/correo es riesgo rojo de privacidad.
+- PR #47 fue mergeado en `main` con SHA `1faf07729b3c3208465d4aabebd91437b1069dab` y PR #34 quedó cerrado como `SUPERSEDED`.
+- Se cerró PR #28 como `SUPERSEDED/PARCIAL`, se cerró issue #27 como cierre administrativo y se creó issue #48 para residuales manuales Google Ads.
+- Se preparó PR limpio desde `main` para normalizar el XFER comercial de Learning Games `GAME-EXCEL-BASICO-BLOCKS-001`, sin mergear PR #41 draft.
+- Se agregó `docs/xfer/GAME-EXCEL-BASICO-BLOCKS-001/MARKETING_BRIEF.md` y se registró en `docs/BITACORA_XFER.md`.
 - No se modificaron campañas, Google Ads, Meta Ads, Edge, Cloudflare, Worker, DNS, sitemap, GTM, PageSense, Turnstile, Zoho, APIs, scripts, exports ni producción.
