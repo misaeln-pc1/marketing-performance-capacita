@@ -28,6 +28,7 @@ Registro de decisiones operativas del repo `marketing-performance-capacita`.
 | 2026-07-28 | Consumir XFER Edge v05 como `CONSUMED_WITH_CHANGES` y responder a Capacita Edge con XFER Marketing v02. La respuesta no autoriza publicación, tracking real, Zoho, GTM, PageSense, Turnstile, Cloudflare ni Google Ads. | XFER Marketing ↔ Edge | Amarillo | `docs/xfer/XFER__MARKETING__CAPACITA_EDGE__EXCEL_B2C_PAID_LANDINGS_REVIEW_RESPONSE__20260728-174500__v02__READY__MARKETING_REVIEW.md`; `docs/BITACORA_XFER.md` |
 | 2026-07-28 | Aceptar PageSense como fuente complementaria CRO, no como fuente de leads o matrículas. Goals de clic (`enviar Pre`, `inicio`, `Enviar Empresa-Excel`) quedan reclasificados como interacción secundaria hasta validar submit confirmado. | PageSense / CRO | Amarillo | `docs/pagesense/PAGESENSE_CRO_REPORTING_BASELINE_V01.md`; `docs/pagesense/PAGESENSE_GOAL_CONFIGURATION_AUDIT_2026-07-12.md` |
 | 2026-07-28 | Detectar como riesgo rojo que nombre y correo viajan en la URL de redirección B2C. Marketing no lo corrige; debe enrutarse a Edge/Zoho con autorización específica. | Privacidad / formularios | Rojo | `docs/pagesense/PAGESENSE_GOAL_CONFIGURATION_AUDIT_2026-07-12.md` |
+| 2026-07-28 | Normalizar el XFER comercial de Learning Games `GAME-EXCEL-BASICO-BLOCKS-001` desde una rama limpia sobre `main`; PR #41 queda como antecedente draft y no como PR a mergear. | XFER Marketing → Learning Games | Verde/Amarillo | `docs/xfer/GAME-EXCEL-BASICO-BLOCKS-001/MARKETING_BRIEF.md`; `docs/BITACORA_XFER.md` |
 
 ## Reglas derivadas
 
