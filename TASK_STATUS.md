@@ -4,36 +4,28 @@ Fecha de revisión: 2026-07-28
 
 ## Prioridad activa
 
-Normalizar el frente **Excel B2C pagado** antes de seguir con cambios de campaña, publicación, tracking o integración.
+Normalizar el frente **Excel B2C pagado** y su medición antes de seguir con cambios de campaña, publicación, tracking o integración.
 
-La prioridad inmediata es dejar una fuente mínima en `main` para:
+Fuente ya vigente en `main`:
 
-1. tres landings pagadas B2C `noindex,follow`;
-2. respuesta XFER de Marketing a Capacita Edge;
-3. bloqueo explícito de publicación, tracking, Zoho, PageSense, Turnstile, Cloudflare y Google Ads;
-4. reducción de dependencia de PR #35 completo y archivos ubicados solo en ramas.
+```text
+docs/landing-pages/EXCEL_B2C_PAID_LANDINGS_MINIMUM_BASELINE_2026-07-28.md
+```
 
 ## Estado PR / Issues principales
 
 | Ítem | Estado | Acción |
 |---|---|---|
-| Marketing PR #35 | `TRANSITORIO_NO_VIGENTE_EN_MAIN` | No mergear completo. Usar solo como antecedente amplio. |
-| Marketing issue #43 | `CIERRE_ADMINISTRATIVO_PENDIENTE` | Cerrar solo después de que el XFER Marketing→Edge quede en main y Edge confirme consumo. |
+| Marketing PR #46 | `MERGED / VIGENTE_EN_MAIN` | Baseline mínimo de tres landings B2C pagadas consolidado. |
+| Marketing PR #35 | `TRANSITORIO / NO_MERGEAR_COMPLETO` | Mantener como antecedente amplio hasta extraer o cerrar lo restante. |
+| Marketing issue #43 | `CIERRE_ADMINISTRATIVO_PENDIENTE` | Cerrar solo después de que Edge confirme consumo del XFER Marketing v02. |
 | Edge PR #36 | `DRAFT / NO_MERGEAR_TODAVIA / REQUIERE_CHECKS` | Esperar respuesta Edge al XFER v02 y resolver bloqueos técnicos/comerciales. |
-| Edge XFER v05 | `READY / CONSUMED_WITH_CHANGES` | Consumido por Marketing; versiones anteriores quedan históricas. |
-| Marketing XFER v02 | `READY` | Respuesta consolidada en esta rama; queda vigente solo si se mergea el PR. |
-| PR #34 PageSense | `RECUPERABLE` | Revisar después de consolidar baseline mínimo para evitar duplicidad. |
+| PR #34 PageSense | `SUPERSEDED_BY_CLEAN_PR` | No mergear. Nuevo PR limpio rescata el contenido útil desde `main`. |
 | PR #28 Google Ads V02 | `SUPERSEDED/PARCIAL` | No mergear como está. Separar residuales en issues/tareas. |
 | PR #39 Office presencial | `BLOQUEADO_POR_ACCESO` | Requiere decisión de Misael sobre OAuth `adwords` o cierre como intento bloqueado. |
 | PR #41 Learning Games | `DRAFT / READY COMO XFER` | Revisar como frente separado. |
 
-## Baseline mínimo propuesto
-
-Archivo dueño en esta rama:
-
-```text
-docs/landing-pages/EXCEL_B2C_PAID_LANDINGS_MINIMUM_BASELINE_2026-07-28.md
-```
+## Baseline Excel B2C pagado vigente
 
 Define:
 
@@ -64,6 +56,31 @@ Estado:
 CONSUMED_WITH_CHANGES
 ```
 
+## PageSense / CRO
+
+Nuevo PR limpio desde `main` recupera la parte útil de PR #34:
+
+```text
+docs/pagesense/PAGESENSE_CRO_REPORTING_BASELINE_V01.md
+docs/pagesense/PAGESENSE_GOAL_CONFIGURATION_AUDIT_2026-07-12.md
+```
+
+Regla vigente propuesta:
+
+- PageSense es fuente complementaria de CRO, no fuente de leads ni matrículas.
+- Goals de clic no equivalen a submits confirmados.
+- `enviar Pre`, `inicio` y `Enviar Empresa-Excel` son métricas secundarias de interacción mientras no se validen como éxito real.
+- Submit confirmado debe basarse en una página de agradecimiento o evento posterior a aceptación real del formulario.
+- Zoho CRM sigue siendo fuente de verdad para lead, contactabilidad, cotización y matrícula.
+
+Bloqueo crítico detectado:
+
+```text
+Nombre y correo en URL de redirección B2C = riesgo rojo de privacidad.
+```
+
+No corregir desde Marketing. Debe enrutarse a Capacita Edge / Zoho con autorización específica.
+
 ## Bloqueos antes de publicar o integrar
 
 No publicar ni integrar las landings hasta resolver:
@@ -78,7 +95,8 @@ No publicar ni integrar las landings hasta resolver:
 8. mapping exacto de Zoho Forms;
 9. claims/sellos institucionales;
 10. consentimiento de imágenes;
-11. autorización explícita para GTM, PageSense, Turnstile, Zoho, endpoints internos y Google Ads.
+11. corrección de URL de agradecimiento B2C sin PII;
+12. autorización explícita para GTM, PageSense, Turnstile, Zoho, endpoints internos y Google Ads.
 
 ## Google Ads
 
@@ -88,16 +106,6 @@ Estado documental vigente:
 - Procedimiento recurrente de estatus exige doble fuente: export fresco PowerShell/API + `Historial_Rendimiento_GoogleAds`.
 - Diagnóstico 90 días quedó documentado en `docs/google-ads/GOOGLE_ADS_DIAGNOSIS_BASELINE_2026-07-11.md`.
 - No se autoriza crear grupos, negativas, anuncios, destinos, presupuesto, pujas ni pausas desde este PR.
-
-## PageSense / CRO
-
-Regla vigente:
-
-- goals de clic no equivalen a leads ni submits confirmados;
-- PageSense es complemento de Ads, GA4/GTM y Zoho;
-- submit confirmado debe ser la conversión técnica primaria antes de evaluar pauta.
-
-PR #34 queda como candidato recuperable para revisión posterior.
 
 ## Reglas operativas vigentes
 
@@ -111,8 +119,7 @@ PR #34 queda como candidato recuperable para revisión posterior.
 
 ## Secuencia inmediata recomendada
 
-1. Revisar este PR de baseline mínimo.
-2. Si está correcto, mergear solo con autorización expresa de Misael.
-3. Después, comentar/cerrar Marketing #43 con evidencia del XFER y PR mergeado.
-4. Pedir a Edge consumir XFER v02 y reportar estado.
-5. Recién después decidir qué hacer con PR #35, PR #34, PR #28 y PR #39.
+1. Revisar y mergear el PR limpio PageSense/CRO si sigue documental.
+2. Cerrar PR #34 como `SUPERSEDED` después de mergear el nuevo PR.
+3. Mantener issue #43 abierto hasta que Edge confirme consumo del XFER Marketing v02.
+4. Luego decidir PR #28, PR #39 y PR #41.
