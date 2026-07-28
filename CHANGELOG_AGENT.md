@@ -80,4 +80,8 @@
 - Se creó XFER de respuesta Marketing → Edge `v02` para consumir Edge XFER `v05` como `CONSUMED_WITH_CHANGES`.
 - Se creó `docs/BITACORA_XFER.md` para registrar el XFER producido y el XFER externo consumido.
 - Se actualizaron `TASK_STATUS.md`, `DECISIONES.md` y `REVIEW_REQUEST.md` con el estado vigente del frente PR #35 / issue #43 / Edge PR #36.
+- PR #46 fue mergeado en `main` con SHA `4404ddbe2c6b6d0ec209cc7dc11e0480da85771d`.
+- Se preparó PR limpio desde `main` para rescatar PageSense/CRO sin mergear PR #34 antiguo.
+- Se agregaron `docs/pagesense/PAGESENSE_CRO_REPORTING_BASELINE_V01.md` y `docs/pagesense/PAGESENSE_GOAL_CONFIGURATION_AUDIT_2026-07-12.md`.
+- Se documentó que goals de clic no son submits confirmados ni leads, y que la URL de redirección B2C con nombre/correo es riesgo rojo de privacidad.
 - No se modificaron campañas, Google Ads, Meta Ads, Edge, Cloudflare, Worker, DNS, sitemap, GTM, PageSense, Turnstile, Zoho, APIs, scripts, exports ni producción.
