@@ -1,70 +1,70 @@
 # REVIEW_REQUEST
 
-## Objetivo de revisión
+Fecha: 2026-07-28
 
-Revisar el cierre documental del diagnóstico inicial de Marketing Performance sin confundirlo con autorización de cambios productivos.
+Estado: `AUDITORIA_PR35_EDGE43 / NO_MERGEAR_TODAVIA / REQUIERE_DECISION_MISAEL`
 
-## PR activos
+## Objetivo de revisión vigente
 
-### PR #29 — Google Ads
+Revisar y validar la auditoría documental creada en:
 
-- Rama: `fix/marketing-google-ads-missing-reports-v02`.
-- Alcance:
-  - exportador read-only para los dos reportes faltantes;
-  - protocolo de competencia y decisión de landing;
-  - baseline agregado y sanitizado de 90 días.
-- Evidencia local:
-  - términos de búsqueda: 1.825 filas, `ok`;
-  - landing pages: 8.482 filas, `ok`;
-  - errores API: 0.
-- No incluye SEO/GEO ni cambios en campañas.
+```text
+docs/auditorias/AUDITORIA_PR35_EDGE43_NORMALIZACION_2026-07-28.md
+```
 
-### PR #30 — Estado y gobernanza local
+La revisión se enfoca en normalizar el frente:
 
-- Rama: `docs/marketing-continuous-learning-routing-v01`.
-- Alcance:
-  - sincronizar `TASK_STATUS.md`;
-  - corregir `REPO_RULES.md` para consumir GTM/RevOps;
-  - actualizar `DECISIONES.md`;
-  - actualizar `CHANGELOG_AGENT.md`;
-  - actualizar esta solicitud de revisión.
+- Marketing PR #35;
+- Marketing issue #43;
+- Capacita Edge PR #36;
+- XFER Edge -> Marketing v05;
+- respuesta Marketing -> Edge v01 ubicada actualmente en rama Edge.
 
-### PR #31 — SEO, Local SEO y visibilidad IA
+## Resultado preliminar
 
-- Rama: `docs/marketing-seo-geo-baseline-v01`.
-- Alcance:
-  - baseline técnico;
-  - benchmark de consultas;
-  - modelo de medición;
-  - fuentes primarias;
-  - handoff a Capacita Edge #28.
-- No implementa cambios en WordPress, Cloudflare, robots, sitemap, structured data o producción.
+La auditoría concluye que:
 
-## Issues relacionados
-
-- `marketing-performance-capacita#23`: validación de instrucciones V1; permanece abierto.
-- `capacita-edge#27`: GTM/Google tag y atribución.
-- `capacita-edge#28`: SEO/GEO técnico.
-- `capacita-global-control#101`: candidatos transversales en observación.
+1. PR #35 no debe mergearse como paquete completo todavía.
+2. La decisión de tres landings B2C pagadas `noindex,follow` es útil, pero debe consolidarse en un PR corto desde `main`.
+3. Marketing #43 sigue abierto porque falta trazabilidad local en Marketing del XFER de respuesta formal a Edge.
+4. Edge PR #36 sigue correctamente bloqueado por `REQUIERE_REVISION_MISAEL`, `REQUIERE_REVISION_MARKETING`, `REQUIERE_CHECKS` y `NO_MERGEAR_TODAVIA`.
+5. No hay autorización para producción, Ads, GTM, PageSense, Turnstile, Zoho, Cloudflare, sitemap, rutas `/lp`, merge o publicación.
 
 ## Validación solicitada
 
-1. Confirmar que PR #29 contiene solo Google Ads y tres archivos.
-2. Confirmar que PR #30 contiene solo estado, reglas, decisiones y changelog/revisión.
-3. Confirmar que PR #31 contiene solo seis documentos SEO/GEO.
-4. Confirmar ausencia de PII, secretos, IDs completos, exports crudos y binarios.
-5. Confirmar que ninguna rama modifica campañas, GTM, WordPress, Cloudflare, Zoho o producción.
-6. Confirmar que Auction Insights y CSV reales permanecen privados.
-7. No declarar diagnóstico final: faltan competencia nominal, tracking y reconciliación con Zoho.
+Confirmar si la auditoría es correcta y si corresponde autorizar la siguiente fase:
 
-## Orden de merge recomendado
+```text
+Consolidar en Marketing main una fuente mínima sobre tres landings pagadas noindex y el estado XFER con Edge, sin mergear PR #35 completo.
+```
 
-1. PR #29.
-2. PR #30.
-3. PR #31 solo cuando GitHub lo reporte mergeable y se resuelva su historial de rama si corresponde.
+## Decisión requerida de Misael
 
-Usar `squash merge` para evitar conservar commits intermedios de separación y corrección.
+```text
+¿Autorizas preparar un PR documental corto de consolidación mínima desde main para tres landings B2C pagadas y respuesta XFER a Edge?
+```
 
-## Pendiente separado
+Recomendación del auditor: sí.
 
-PR #8 no forma parte de este cierre. Contiene un estándar útil de video por placement, pero está desfasado y no debe mergearse sin revisión/rebase independiente.
+## Prohibiciones durante esta revisión
+
+- No mergear.
+- No cerrar PR #35.
+- No cerrar issue #43.
+- No modificar campañas Google Ads o Meta Ads.
+- No tocar Edge, Cloudflare, Worker, DNS, sitemap, GTM, PageSense, Turnstile real, Zoho ni producción.
+- No ejecutar APIs ni scripts.
+- No crear Task Hub todavía.
+
+## Evidencia de esta rama
+
+- Rama: `docs/marketing-pr35-edge43-audit-20260728`.
+- Commit auditoría: `029c2477b0ac40785e8f04f946d7bab6ce5d03de`.
+- Archivo principal: `docs/auditorias/AUDITORIA_PR35_EDGE43_NORMALIZACION_2026-07-28.md`.
+
+## Merge gate
+
+```text
+NO_MERGEAR_TODAVIA
+REQUIERE_DECISION_MISAEL
+```
