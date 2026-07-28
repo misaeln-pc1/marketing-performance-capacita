@@ -1,45 +1,46 @@
 # REVIEW_REQUEST
 
-## Objetivo de revisión vigente
+## Objetivo de revision vigente
 
-Revisar el PR documental limpio que normaliza el XFER comercial de Learning Games `GAME-EXCEL-BASICO-BLOCKS-001` desde `main` y reemplaza al PR #41 draft.
+Revisar el PR documental limpio que actualiza el estandar de produccion de assets Meta Ads desde `main` y reemplaza al PR #8 antiguo como fuente a mergear.
 
-Este PR no activa tracking, Zoho, Edge, Supabase, Ads, workflows ni producción. Solo consolida un brief comercial documental y la bitácora XFER.
+Este PR no activa campanas, Ads Manager, API, publicaciones ni produccion. Solo consolida reglas documentales para producir creatividades Facebook/Instagram.
 
-## PR en revisión
+## PR en revision
 
-- Rama: `docs/marketing-xfer-game-excel-basico-blocks-clean-20260728`.
+- Rama: `docs/marketing-meta-ads-production-standard-clean-20260728`.
 - Alcance:
-  - brief comercial Marketing → Learning Games;
-  - registro en `docs/BITACORA_XFER.md`;
-  - actualización de estado, decisiones y changelog;
-  - clasificación de PR #41 como draft/superseded por PR limpio.
+  - actualizacion de `assets/meta-ads/PRODUCTION_STANDARD_META_ADS.md`;
+  - rescate de contenido util de PR #8;
+  - incorporacion de video 4:5 para Feed si se activa Feed;
+  - incorporacion de bodega externa `external-files/marketing-performance-capacita/meta-ads/...`;
+  - actualizacion de estado, decisiones y changelog;
+  - clasificacion de PR #8 como antecedente historico/superseded despues del merge.
 
 ## Archivos esperados
 
 ```text
-docs/xfer/GAME-EXCEL-BASICO-BLOCKS-001/MARKETING_BRIEF.md
-docs/BITACORA_XFER.md
+assets/meta-ads/PRODUCTION_STANDARD_META_ADS.md
 TASK_STATUS.md
 DECISIONES.md
 CHANGELOG_AGENT.md
 REVIEW_REQUEST.md
 ```
 
-## Validación solicitada
+## Validacion solicitada
 
 Confirmar que el PR:
 
-1. no toca campañas, Ads, Edge, Zoho, Supabase, tracking, workflows ni producción;
-2. no contiene PII, secretos, IDs completos, exports crudos, capturas sensibles ni binarios;
-3. conserva `BP-001` como buyer persona primario y `BP-002` como secundario;
-4. no redefine canónicos GTM/RevOps;
-5. no envía respuestas crudas del juego a Zoho;
-6. deja eventos y señales como conceptuales, no implementados;
-7. recomienda captura de datos solo al final y con opt-in;
-8. mantiene el piloto como B2C salvo decisión separada;
-9. deja PR #41 como antecedente draft, no como PR a mergear;
-10. deja pendiente callback final a Marketing #40 y Learning Games #6 después del merge.
+1. no toca Meta Ads Manager, campanas, presupuesto, pujas, anuncios, audiencias, formularios ni produccion;
+2. no contiene binarios, imagenes, videos, editables, fuentes, PII, secretos ni exports crudos;
+3. mantiene GitHub solo para documentacion, checklist, naming, estado e indice de ubicacion externa;
+4. exige imagenes 4:5, 1:1 y 9:16 por creatividad;
+5. exige video 9:16 para Stories/Reels;
+6. exige video 4:5 para Feed si se activa Instagram/Facebook Feed;
+7. prohíbe usar un unico video 9:16 para todos los placements;
+8. alinea la bodega externa con `external-files/marketing-performance-capacita/meta-ads/...`;
+9. conserva reglas B2C: no mezclar empresa/SENCE/OTIC, no prometer empleo, gratuidad ni resultados garantizados;
+10. distingue el estandar de creatividades del routing de cuenta Meta Ads, que sigue en `docs/meta-ads/META_ADS_ACCOUNT_ROUTING.md`.
 
 ## Gates
 
@@ -48,14 +49,14 @@ REQUIERE_REVISION_MISAEL
 NO_MERGEAR_TODAVIA
 ```
 
-Si el diff es correcto y sigue siendo documental, el siguiente paso será pedir autorización de merge con la frase acordada.
+Si el diff es correcto y sigue siendo documental, el siguiente paso sera pedir autorizacion de merge con la frase acordada.
 
-## No hacer desde esta revisión
+## No hacer desde esta revision
 
-- No cerrar issue #40 todavía.
-- No cerrar PR #41 todavía.
-- No comentar Learning Games #6 todavía.
-- No modificar Edge, Zoho, Supabase, PageSense, GTM ni Ads.
-- No mergear sin autorización expresa.
-- No crear tareas Task Hub en esta misma pasada.
-- No tocar producción ni plataformas.
+- No cerrar PR #8 todavia.
+- No modificar Meta Ads Manager.
+- No subir assets reales.
+- No crear campanas ni anuncios.
+- No ejecutar APIs.
+- No mergear sin autorizacion expresa.
+- No tocar produccion ni plataformas.
