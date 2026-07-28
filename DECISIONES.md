@@ -24,6 +24,8 @@ Registro de decisiones operativas del repo `marketing-performance-capacita`.
 | 2026-07-11 | Separar documentación Google Ads de metodología SEO/GEO. PR #29 queda Ads; PR #31 contiene SEO, Local SEO y visibilidad IA. | Alcance de PR | Verde | PR #29 y PR #31 |
 | 2026-07-11 | Los conceptos descubiertos permanecen locales hasta demostrar estabilidad y reutilización. Global #101 evalúa candidatos; no cambia canónicos todavía. | Mejora continua | Amarillo | Global issue #101 |
 | 2026-07-12 | Todo análisis recurrente de estatus de Google Ads debe combinar un export fresco read-only por PowerShell/API con la hoja de Drive `Historial_Rendimiento_GoogleAds`. Si falta una fuente, el informe debe declararse provisional e indicar explícitamente el acceso faltante. | Reporting, trazabilidad y dashboard | Amarillo | `docs/google-ads/GOOGLE_ADS_STATUS_ANALYSIS_PROCEDURE_V01.md` |
+| 2026-07-28 | Preparar tres landings B2C pagadas de Excel como piloto documental mínimo: A Básico–Intermedio `BP-001`, B Desde cero `BP-002`, C Clases presenciales con profesor `BP-001`; todas `noindex,follow`, fuera de sitemap y sin reemplazar la página orgánica. | Landings pagadas B2C Excel | Amarillo | `docs/landing-pages/EXCEL_B2C_PAID_LANDINGS_MINIMUM_BASELINE_2026-07-28.md` |
+| 2026-07-28 | Consumir XFER Edge v05 como `CONSUMED_WITH_CHANGES` y responder a Capacita Edge con XFER Marketing v02. La respuesta no autoriza publicación, tracking real, Zoho, GTM, PageSense, Turnstile, Cloudflare ni Google Ads. | XFER Marketing ↔ Edge | Amarillo | `docs/xfer/XFER__MARKETING__CAPACITA_EDGE__EXCEL_B2C_PAID_LANDINGS_REVIEW_RESPONSE__20260728-174500__v02__READY__MARKETING_REVIEW.md`; `docs/BITACORA_XFER.md` |
 
 ## Reglas derivadas
 
@@ -40,3 +42,5 @@ Registro de decisiones operativas del repo `marketing-performance-capacita`.
 - WhatsApp + n8n + Zoho implementa workflows, webhooks y mensajería.
 - No subir PII, secretos, `.env`, tokens, binarios, exports CRM ni métricas sensibles sin anonimizar.
 - No modificar plataformas o producción sin autorización humana explícita.
+- No tratar goals de clic como leads ni submits confirmados.
+- No usar SENCE, franquicia tributaria, gratuidad ni promesas garantizadas en B2C.
