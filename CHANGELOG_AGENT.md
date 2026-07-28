@@ -72,3 +72,12 @@
 - Se validó acceso al archivo de Drive `Historial_Rendimiento_GoogleAds` y sus pestañas operativas.
 - Se definió `GOOGLE_ADS_STATUS_ANALYSIS_PROCEDURE_V01.md`: todo estatus recurrente debe combinar PowerShell/API fresco y Drive; si falta una fuente, el análisis se declara provisional.
 - No se modificaron plataformas Ads, GTM, WordPress, Cloudflare, Zoho, campañas ni producción.
+
+## 2026-07-28
+
+- Se preparó consolidación documental mínima para tres landings Excel B2C pagadas sin mergear completo PR #35.
+- Se creó `docs/landing-pages/EXCEL_B2C_PAID_LANDINGS_MINIMUM_BASELINE_2026-07-28.md`.
+- Se creó XFER de respuesta Marketing → Edge `v02` para consumir Edge XFER `v05` como `CONSUMED_WITH_CHANGES`.
+- Se creó `docs/BITACORA_XFER.md` para registrar el XFER producido y el XFER externo consumido.
+- Se actualizaron `TASK_STATUS.md`, `DECISIONES.md` y `REVIEW_REQUEST.md` con el estado vigente del frente PR #35 / issue #43 / Edge PR #36.
+- No se modificaron campañas, Google Ads, Meta Ads, Edge, Cloudflare, Worker, DNS, sitemap, GTM, PageSense, Turnstile, Zoho, APIs, scripts, exports ni producción.

@@ -1,70 +1,71 @@
 # REVIEW_REQUEST
 
-## Objetivo de revisión
+## Objetivo de revisión vigente
 
-Revisar el cierre documental del diagnóstico inicial de Marketing Performance sin confundirlo con autorización de cambios productivos.
+Revisar el PR documental que consolida el baseline mínimo de las tres landings Excel B2C pagadas y la respuesta XFER de Marketing a Capacita Edge.
 
-## PR activos
+Este reemplaza la solicitud histórica centrada en PR #29/#30/#31, ya mergeados según `TASK_STATUS.md` y `CHANGELOG_AGENT.md`.
 
-### PR #29 — Google Ads
+## PR en revisión
 
-- Rama: `fix/marketing-google-ads-missing-reports-v02`.
+- Rama: `docs/marketing-excel-b2c-min-baseline-20260728`.
 - Alcance:
-  - exportador read-only para los dos reportes faltantes;
-  - protocolo de competencia y decisión de landing;
-  - baseline agregado y sanitizado de 90 días.
-- Evidencia local:
-  - términos de búsqueda: 1.825 filas, `ok`;
-  - landing pages: 8.482 filas, `ok`;
-  - errores API: 0.
-- No incluye SEO/GEO ni cambios en campañas.
+  - baseline mínimo de tres landings B2C pagadas;
+  - XFER Marketing → Edge v02;
+  - bitácora XFER;
+  - actualización de estado, decisiones y changelog.
 
-### PR #30 — Estado y gobernanza local
+## Archivos esperados
 
-- Rama: `docs/marketing-continuous-learning-routing-v01`.
-- Alcance:
-  - sincronizar `TASK_STATUS.md`;
-  - corregir `REPO_RULES.md` para consumir GTM/RevOps;
-  - actualizar `DECISIONES.md`;
-  - actualizar `CHANGELOG_AGENT.md`;
-  - actualizar esta solicitud de revisión.
+```text
+docs/landing-pages/EXCEL_B2C_PAID_LANDINGS_MINIMUM_BASELINE_2026-07-28.md
+docs/xfer/XFER__MARKETING__CAPACITA_EDGE__EXCEL_B2C_PAID_LANDINGS_REVIEW_RESPONSE__20260728-174500__v02__READY__MARKETING_REVIEW.md
+docs/BITACORA_XFER.md
+TASK_STATUS.md
+DECISIONES.md
+CHANGELOG_AGENT.md
+REVIEW_REQUEST.md
+```
 
-### PR #31 — SEO, Local SEO y visibilidad IA
+## Decisión que debe validar Misael
 
-- Rama: `docs/marketing-seo-geo-baseline-v01`.
-- Alcance:
-  - baseline técnico;
-  - benchmark de consultas;
-  - modelo de medición;
-  - fuentes primarias;
-  - handoff a Capacita Edge #28.
-- No implementa cambios en WordPress, Cloudflare, robots, sitemap, structured data o producción.
+Validar si este PR corto debe ser la fuente mínima en `main` para:
 
-## Issues relacionados
-
-- `marketing-performance-capacita#23`: validación de instrucciones V1; permanece abierto.
-- `capacita-edge#27`: GTM/Google tag y atribución.
-- `capacita-edge#28`: SEO/GEO técnico.
-- `capacita-global-control#101`: candidatos transversales en observación.
+1. tres landings B2C pagadas `noindex,follow`;
+2. protección de la página orgánica actual;
+3. consumo de Edge XFER v05 como `CONSUMED_WITH_CHANGES`;
+4. respuesta formal de Marketing a Edge;
+5. no mergear PR #35 completo por ahora.
 
 ## Validación solicitada
 
-1. Confirmar que PR #29 contiene solo Google Ads y tres archivos.
-2. Confirmar que PR #30 contiene solo estado, reglas, decisiones y changelog/revisión.
-3. Confirmar que PR #31 contiene solo seis documentos SEO/GEO.
-4. Confirmar ausencia de PII, secretos, IDs completos, exports crudos y binarios.
-5. Confirmar que ninguna rama modifica campañas, GTM, WordPress, Cloudflare, Zoho o producción.
-6. Confirmar que Auction Insights y CSV reales permanecen privados.
-7. No declarar diagnóstico final: faltan competencia nominal, tracking y reconciliación con Zoho.
+Confirmar que el PR:
 
-## Orden de merge recomendado
+1. no activa ni autoriza campañas;
+2. no modifica Google Ads, Meta Ads, Edge, Cloudflare, Worker, DNS, sitemap, GTM, PageSense, Turnstile, Zoho ni producción;
+3. no ejecuta API, scripts ni exports;
+4. no contiene PII, secretos, IDs completos, CSV crudos, capturas sensibles ni binarios;
+5. no trata goals de clic como leads ni submits confirmados;
+6. conserva `noindex,follow` y fuera de sitemap para las tres landings;
+7. protege la página orgánica actual;
+8. mantiene Landing C como curso grupal presencial con profesor, no clases particulares ni domicilio;
+9. deja bloqueos claros antes de publicar, integrar tracking o enviar tráfico;
+10. deja PR #35 como antecedente amplio, no como paquete a mergear completo.
 
-1. PR #29.
-2. PR #30.
-3. PR #31 solo cuando GitHub lo reporte mergeable y se resuelva su historial de rama si corresponde.
+## Gates
 
-Usar `squash merge` para evitar conservar commits intermedios de separación y corrección.
+```text
+REQUIERE_REVISION_MISAEL
+NO_MERGEAR_TODAVIA
+```
 
-## Pendiente separado
+Si el diff es correcto y sigue siendo documental, el siguiente paso será pedir autorización de merge con la frase acordada.
 
-PR #8 no forma parte de este cierre. Contiene un estándar útil de video por placement, pero está desfasado y no debe mergearse sin revisión/rebase independiente.
+## No hacer desde esta revisión
+
+- No cerrar PR #35 todavía.
+- No cerrar issue #43 todavía.
+- No comentar Edge PR #36 todavía.
+- No mergear sin autorización expresa.
+- No crear tareas Task Hub en esta misma pasada.
+- No tocar producción ni plataformas.
