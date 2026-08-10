@@ -1,62 +1,91 @@
 # REVIEW_REQUEST
 
-## Objetivo de revision vigente
+## Objetivo de revisión vigente
 
-Revisar el PR documental limpio que actualiza el estandar de produccion de assets Meta Ads desde `main` y reemplaza al PR #8 antiguo como fuente a mergear.
+Revisar y consolidar la corrección definitiva del routing de cuenta Meta Ads para evitar que futuros chats, agentes o scripts vuelvan a confundir la cuenta operativa V3 con cuentas pertenecientes a Business Portfolios distintos.
 
-Este PR no activa campanas, Ads Manager, API, publicaciones ni produccion. Solo consolida reglas documentales para producir creatividades Facebook/Instagram.
-
-## PR en revision
-
-- Rama: `docs/marketing-meta-ads-production-standard-clean-20260728`.
-- Alcance:
-  - actualizacion de `assets/meta-ads/PRODUCTION_STANDARD_META_ADS.md`;
-  - rescate de contenido util de PR #8;
-  - incorporacion de video 4:5 para Feed si se activa Feed;
-  - incorporacion de bodega externa `external-files/marketing-performance-capacita/meta-ads/...`;
-  - actualizacion de estado, decisiones y changelog;
-  - clasificacion de PR #8 como antecedente historico/superseded despues del merge.
-
-## Archivos esperados
+## Rama
 
 ```text
-assets/meta-ads/PRODUCTION_STANDARD_META_ADS.md
-TASK_STATUS.md
+docs/marketing-meta-ads-account-routing-20260809
+```
+
+## Hallazgo principal
+
+La cuenta publicitaria que contiene la campaña operativa:
+
+```text
+META_TRAFFIC_EXCEL_PRESENCIAL_SANTIAGO_B2C_V3
+```
+
+es una cuenta personal/standalone accesible bajo `Otros activos`, referencia sanitizada:
+
+```text
+...2327
+```
+
+No pertenece actualmente a los Business Portfolios:
+
+- `Capacita Spa`;
+- `Capacita`;
+- `Misael N. J.`.
+
+La referencia histórica aproximada `...9327` queda `SUPERSEDED` y no debe usarse para identificar V3.
+
+## Archivos modificados
+
+```text
+docs/meta-ads/META_ADS_ACCOUNT_ROUTING.md
 DECISIONES.md
 CHANGELOG_AGENT.md
 REVIEW_REQUEST.md
 ```
 
-## Validacion solicitada
+## Reglas que deben quedar firmes
 
-Confirmar que el PR:
+1. Identificar la cuenta operativa por inventario real de campañas, no por nombre de Business Portfolio.
+2. La ruta actual de V3 es `Otros activos → cuenta personal ...2327`.
+3. No inferir que una restricción histórica de WhatsApp afecta a la cuenta ...2327 sin evidencia por activo.
+4. Account Quality de ...2327 no mostró restricciones publicitarias visibles en la auditoría 2026-08-09.
+5. Un token API vencido afecta lectura API, no implica que la campaña esté pausada o bloqueada.
+6. El límite de gasto diario mostrado por Meta no debe interpretarse como bloqueo si el panel indica que el gasto previsto está dentro del límite.
+7. `Capacita Spa` es solo candidato futuro para System User: primero habría que compartir/asignar acceso a ...2327 sin mover propiedad.
+8. Reclamar o mover propiedad sigue siendo riesgo rojo y requiere decisión específica.
 
-1. no toca Meta Ads Manager, campanas, presupuesto, pujas, anuncios, audiencias, formularios ni produccion;
-2. no contiene binarios, imagenes, videos, editables, fuentes, PII, secretos ni exports crudos;
-3. mantiene GitHub solo para documentacion, checklist, naming, estado e indice de ubicacion externa;
-4. exige imagenes 4:5, 1:1 y 9:16 por creatividad;
-5. exige video 9:16 para Stories/Reels;
-6. exige video 4:5 para Feed si se activa Instagram/Facebook Feed;
-7. prohíbe usar un unico video 9:16 para todos los placements;
-8. alinea la bodega externa con `external-files/marketing-performance-capacita/meta-ads/...`;
-9. conserva reglas B2C: no mezclar empresa/SENCE/OTIC, no prometer empleo, gratuidad ni resultados garantizados;
-10. distingue el estandar de creatividades del routing de cuenta Meta Ads, que sigue en `docs/meta-ads/META_ADS_ACCOUNT_ROUTING.md`.
+## No se toca
 
-## Gates
+- Meta Ads Manager;
+- campañas;
+- anuncios;
+- presupuesto;
+- fondos;
+- facturación;
+- Business Portfolios;
+- permisos;
+- System Users;
+- tokens;
+- WhatsApp;
+- activos físicos o archivos externos.
+
+## Validación esperada
+
+- Solo Markdown.
+- Sin IDs completos.
+- Sin tokens, secretos, teléfonos, PII, capturas ni exports crudos.
+- `...2327` queda como referencia sanitizada vigente para V3.
+- `...9327` queda explícitamente superseded.
+- No existe ninguna instrucción de reclamar/mover propiedad.
+- El documento canónico único de routing sigue siendo `docs/meta-ads/META_ADS_ACCOUNT_ROUTING.md`.
+
+## Feedback scan
+
+`AGENT_FEEDBACK.md` no existe en `main`. El hallazgo relevante fue la desactualización del `REVIEW_REQUEST.md` anterior; este cambio lo reemplaza con la revisión vigente de routing Meta Ads.
+
+## Gate
 
 ```text
+LISTO_PARA_MERGE
 REQUIERE_REVISION_MISAEL
-NO_MERGEAR_TODAVIA
 ```
 
-Si el diff es correcto y sigue siendo documental, el siguiente paso sera pedir autorizacion de merge con la frase acordada.
-
-## No hacer desde esta revision
-
-- No cerrar PR #8 todavia.
-- No modificar Meta Ads Manager.
-- No subir assets reales.
-- No crear campanas ni anuncios.
-- No ejecutar APIs.
-- No mergear sin autorizacion expresa.
-- No tocar produccion ni plataformas.
+Si el diff es correcto, el siguiente paso es autorización explícita de merge.
