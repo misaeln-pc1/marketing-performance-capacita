@@ -30,6 +30,9 @@ Registro de decisiones operativas del repo `marketing-performance-capacita`.
 | 2026-07-28 | Detectar como riesgo rojo que nombre y correo viajan en la URL de redireccion B2C. Marketing no lo corrige; debe enrutarse a Edge/Zoho con autorizacion especifica. | Privacidad / formularios | Rojo | `docs/pagesense/PAGESENSE_GOAL_CONFIGURATION_AUDIT_2026-07-12.md` |
 | 2026-07-28 | Normalizar el XFER comercial de Learning Games `GAME-EXCEL-BASICO-BLOCKS-001` desde una rama limpia sobre `main`; PR #41 queda como antecedente draft y no como PR a mergear. | XFER Marketing -> Learning Games | Verde/Amarillo | `docs/xfer/GAME-EXCEL-BASICO-BLOCKS-001/MARKETING_BRIEF.md`; `docs/BITACORA_XFER.md` |
 | 2026-07-28 | Rescatar el estandar de produccion de assets Meta Ads de PR #8 mediante un PR limpio desde `main`: formatos 4:5, 1:1, 9:16, video 9:16 para Stories/Reels, video 4:5 para Feed, naming y bodega externa. | Meta Ads / creatividades | Verde/Amarillo | `assets/meta-ads/PRODUCTION_STANDARD_META_ADS.md` |
+| 2026-08-09 | La cuenta Meta Ads operativa que contiene V3 es la cuenta personal/standalone accesible bajo `Otros activos`, referencia sanitizada `...2327`; no pertenece actualmente a `Capacita Spa`, `Capacita` ni `Misael N. J.` como Business Portfolio. Identificarla siempre por inventario de campañas, no por nombre de portfolio. | Routing Meta Ads / continuidad | Amarillo | `docs/meta-ads/META_ADS_ACCOUNT_ROUTING.md` |
+| 2026-08-09 | La referencia histórica aproximada `...9327` queda `SUPERSEDED`; no inferir bloqueos de Ads desde incidentes históricos de WhatsApp. La cuenta `...2327` no mostró restricciones publicitarias visibles en la auditoría 2026-08-09. | Routing / restricciones Meta | Amarillo | `docs/meta-ads/META_ADS_ACCOUNT_ROUTING.md` |
+| 2026-08-09 | Para un futuro System User permanente, usar `Capacita Spa` solo después de compartir/asignar formalmente acceso a `...2327`, conservando la propiedad actual; no reclamar ni mover propiedad sin decisión específica. | Acceso API permanente | Rojo | `docs/meta-ads/META_ADS_ACCOUNT_ROUTING.md` |
 
 ## Reglas derivadas
 
@@ -49,3 +52,4 @@ Registro de decisiones operativas del repo `marketing-performance-capacita`.
 - No tratar goals de clic como leads ni submits confirmados.
 - No usar SENCE, franquicia tributaria, gratuidad ni promesas garantizadas en B2C.
 - No subir assets creativos pesados a GitHub; registrar solo documentacion, checklist, naming, indice y ruta externa.
+- Para Meta Ads V3, no seleccionar cuenta por Business Portfolio: verificar primero inventario real de campañas y `docs/meta-ads/META_ADS_ACCOUNT_ROUTING.md`.
