@@ -89,6 +89,19 @@
 - Se preparo PR limpio desde `main` para normalizar el XFER comercial de Learning Games `GAME-EXCEL-BASICO-BLOCKS-001`, sin mergear PR #41 draft.
 - Se agrego `docs/xfer/GAME-EXCEL-BASICO-BLOCKS-001/MARKETING_BRIEF.md` y se registro en `docs/BITACORA_XFER.md`.
 - PR #49 fue mergeado en `main` con SHA `2863380d8db9e763c5964d4f09c319dbb7c6686b`, PR #41 quedo cerrado como `SUPERSEDED` y issue #40 como `completed`.
-- Se cerro PR #39 como intento bloqueado por `ACCESS_TOKEN_SCOPE_INSUFFICIENT` y se creo issue #50 para reintento futuro Office Ads con OAuth `adwords` autorizado.
+- Se cerro PR #39 como intento bloqueado por `ACCESS_TOKEN_SCOPE_INSUFFICIENT` y se creo issue #50 para reintento futuro Office Ads con OAuth `adwords`, sin ejecucion hasta nueva autorizacion.
 - Se preparo PR limpio desde `main` para actualizar `assets/meta-ads/PRODUCTION_STANDARD_META_ADS.md` rescatando PR #8 y agregando video 4:5 para Feed, bodega externa y reglas B2C vigentes.
 - No se modificaron campanas, Google Ads, Meta Ads, Edge, Cloudflare, Worker, DNS, sitemap, GTM, PageSense, Turnstile, Zoho, APIs, scripts, exports ni produccion.
+
+## 2026-08-09
+
+- Se revalidó la arquitectura real de Meta Ads con auditoría visual y API read-only.
+- La cuenta operativa que contiene `META_TRAFFIC_EXCEL_PRESENCIAL_SANTIAGO_B2C_V3` quedó confirmada como cuenta personal/standalone bajo `Otros activos`, referencia sanitizada `...2327`.
+- Se confirmó que `...2327` no pertenece actualmente a los Business Portfolios `Capacita Spa`, `Capacita` ni `Misael N. J.`.
+- La referencia histórica aproximada `...9327` quedó marcada como `SUPERSEDED` y no debe volver a usarse para identificar V3.
+- Se documentó que el incidente histórico recordado de WhatsApp no tiene relación demostrada con `...2327`; no se deben propagar restricciones entre activos sin evidencia.
+- Account Quality de `...2327` no mostró restricciones publicitarias visibles en la revisión; V3, AS02 y AD04 estaban activos.
+- Se corrigió la interpretación del límite de gasto diario: el panel indicaba gasto previsto dentro del límite, por lo que no se considera un bloqueo por límite alcanzado.
+- Se registró `Capacita Spa` como candidato futuro para un System User permanente solo mediante compartir/asignar acceso a `...2327`, sin reclamar ni mover propiedad salvo aprobación específica.
+- Archivo canónico actualizado en rama documental: `docs/meta-ads/META_ADS_ACCOUNT_ROUTING.md`.
+- No se modificaron Meta Ads, permisos, propiedad, tokens, System Users, WhatsApp, campañas, presupuesto ni producción.
