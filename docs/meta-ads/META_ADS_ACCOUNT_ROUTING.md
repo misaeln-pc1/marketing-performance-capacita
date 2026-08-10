@@ -4,7 +4,7 @@
 
 - Fecha de registro original: 2026-07-26.
 - Última validación: 2026-08-09.
-- Estado: `PR_LISTO_PARA_MERGE` cuando el PR de actualización 2026-08-09 sea revisado.
+- Estado: `VIGENTE_EN_MAIN` por PR #54, merge SHA `4f9d7f9caf1a5868290dee4ed3cd911b6847aa14`.
 - Fuente primaria: revisión visual en Ads Manager / Facturación y auditorías read-only por Work/Codex/API.
 - Alcance: impedir que futuros chats, agentes o scripts seleccionen una cuenta o Business Portfolio equivocado al trabajar con Meta Ads de Capacita.
 - Sensibilidad: no incluir tokens, secretos, capturas, exports crudos, teléfonos ni IDs completos en GitHub.
