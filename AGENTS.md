@@ -18,6 +18,20 @@ Regla de vigencia:
 - Si el PR documental queda listo, pedir autorización con: `PR #X listo para merge. ¿Autorizas que yo haga el merge?`.
 - Si hay dos documentos/protocolos que parecen vigentes y se contradicen, detenerse y preparar consolidación.
 
+## Continuidad por frente — anti-reinicio
+
+Antes de recomendar sobre una campaña, canal, cuenta, buyer persona, landing, medición o regla que ya tenga historial en este repo:
+
+1. leer `TASK_STATUS.md` y `DECISIONES.md`;
+2. buscar el documento canónico específico del frente en raíz y `docs/`;
+3. revisar issue/PR reciente solo si aporta estado no consolidado todavía;
+4. aplicar primero la decisión vigente y analizar únicamente el delta o evidencia nueva;
+5. no volver a pedir a Misael que justifique una regla ya documentada salvo contradicción o evidencia material nueva.
+
+No reemplazar una decisión local vigente por recomendaciones genéricas de plataforma. Si una recomendación estándar contradice aprendizaje Capacita documentado, debe señalarse la diferencia y prevalece la evidencia local hasta revisión controlada.
+
+Ejemplo obligatorio Google Ads: antes de opinar sobre palabras clave negativas de Excel B2C presencial, leer `docs/google-ads/GOOGLE_ADS_NEGATIVE_KEYWORDS_INTENT_POLICY.md`.
+
 ## Sistema de Tareas Atlas
 
 Regla vigente:
