@@ -6,15 +6,10 @@ Fecha de revision: 2026-08-13
 
 Continuar el frente Google Ads B2C Excel presencial A/B/C sin reabrir decisiones ya canonizadas y mantener sincronizada la memoria operativa del repo.
 
-Fuente vigente Excel B2C pagado:
+Fuentes vigentes principales:
 
 ```text
 docs/landing-pages/EXCEL_B2C_PAID_LANDINGS_MINIMUM_BASELINE_2026-07-28.md
-```
-
-Política canónica de negativas:
-
-```text
 docs/google-ads/GOOGLE_ADS_NEGATIVE_KEYWORDS_INTENT_POLICY.md
 ```
 
@@ -26,23 +21,26 @@ Antes de recomendar sobre un frente ya trabajado, leer `DECISIONES.md`, este arc
 
 | Item | Estado | Accion |
 |---|---|---|
+| Marketing PR #59 | `OPEN / LISTO_PARA_MERGE` | Saneamiento de memoria operativa; requiere autorización de Misael. |
+| Global PR #134 | `OPEN / LISTO_PARA_MERGE` | Versiona V2 snapshot y V3 candidata; requiere autorización de Misael. |
+| Marketing issue #60 | `OPEN / V3_CANDIDATA_NO_ACTIVA` | Validar V3 después de merge + copia manual + Bootstrap. |
+| Marketing issue #23 | `CLOSED / HISTORICO` | Ciclo V1 cerrado; no gobierna la validación actual. |
 | Marketing PR #58 | `MERGED / VIGENTE_EN_MAIN` | Política canónica de negativas Google Ads por intención. |
 | Marketing issue #56 | `CLOSED_COMPLETED` | Regla de negativas consolidada en PR #58. |
 | Marketing issue #57 | `CLOSED_DUPLICATE` | Duplicado de #56; no usar como fuente paralela. |
 | Marketing PR #54 / #55 | `MERGED / VIGENTE_EN_MAIN` | Routing Meta Ads corregido y marcado canónico. |
 | Marketing PR #51 | `MERGED / VIGENTE_EN_MAIN` | Estándar de producción Meta Ads vigente. |
-| Marketing PR #8 | `CLOSED_SUPERSEDED` | Sustituido por PR #51; no usar como pendiente activo. |
-| Marketing PR #46 | `MERGED / VIGENTE_EN_MAIN` | Baseline mínimo de tres landings B2C pagadas consolidado. |
-| Marketing PR #47 | `MERGED / VIGENTE_EN_MAIN` | PageSense/CRO consolidado; PR #34 superseded. |
-| Marketing PR #49 | `MERGED / VIGENTE_EN_MAIN` | XFER comercial Learning Games consolidado; PR #41 superseded. |
-| Marketing PR #35 | `HISTORICO / NO_GOBIERNA_CONTEXTO_ACTUAL` | Material parcialmente absorbido por PR #46 y issues posteriores; no mergear completo sin auditoría residual específica. |
-| Marketing PR #45 | `HISTORICO / AUDITORIA_SUPERADA` | Auditoría previa al PR #46; no usar como review vigente. |
-| Marketing PR #52 | `OPEN / REVISION_TECNICA_PENDIENTE` | Procedimiento/script Meta Ads read-only; conservar separado hasta revisión específica. |
-| Marketing issue #43 | `OPEN / XFER_EDGE` | Revisar estado solo al retomar handoff Edge; no mezclar con Google Ads negativas. |
+| Marketing PR #8 | `CLOSED_SUPERSEDED` | Sustituido por PR #51. |
+| Marketing PR #46 | `MERGED / VIGENTE_EN_MAIN` | Baseline mínimo de tres landings B2C pagadas. |
+| Marketing PR #47 | `MERGED / VIGENTE_EN_MAIN` | PageSense/CRO consolidado. |
+| Marketing PR #49 | `MERGED / VIGENTE_EN_MAIN` | XFER comercial Learning Games consolidado. |
+| Marketing PR #35 | `CLOSED_SUPERSEDED / HISTORICO` | Material parcialmente absorbido por PR #46 y fuentes posteriores; no mergeado. |
+| Marketing PR #45 | `CLOSED_SUPERSEDED / HISTORICO` | Auditoría previa superada por consolidaciones posteriores; no mergeado. |
+| Marketing PR #52 | `OPEN / REVISION_TECNICA_PENDIENTE` | Procedimiento/script Meta Ads read-only; conservar para revisión específica. |
+| Marketing issue #43 | `OPEN / XFER_EDGE` | Revisar solo al retomar handoff Edge. |
 | Issue #48 Google Ads residual | `OPEN / MANUAL_PRIVADO` | Auction Insights, reconciliación agregada y cluster `clases/profesor`. |
 | Issue #50 Office Ads | `OPEN / FUTURE_RETRY_ONLY` | Reintentar keyword research solo con OAuth `adwords`, curso y landing autorizados. |
 | Issue #53 Google Ads B2B | `BACKLOG / NO_EJECUTAR_AHORA` | Frente separado posterior al B2C A/B/C. |
-| Issue #23 instrucciones | `OPEN / DESACTUALIZADO_PENDIENTE_GLOBAL` | V1 ya no representa literalmente las instrucciones actuales del Proyecto ChatGPT; requiere sincronización en Global. |
 
 ## Google Ads — regla vigente de negativas
 
@@ -61,7 +59,7 @@ PR #58 consolidó:
 - Landing B: Excel desde cero presencial, `BP-002`.
 - Landing C: clases de Excel presenciales con profesor, `BP-001`.
 - Las tres venden el mismo curso grupal presencial Básico-Intermedio en Santiago Centro.
-- Parten `noindex,follow`, fuera de sitemap y fuera de navegación orgánica.
+- Parten `noindex,follow`, fuera de sitemap y navegación orgánica.
 - La página orgánica actual se conserva protegida.
 
 ## Meta Ads / Facebook Ads
@@ -98,8 +96,9 @@ docs/pagesense/PAGESENSE_GOAL_CONFIGURATION_AUDIT_2026-07-12.md
 ## Archivos pesados
 
 - GitHub conserva Markdown, manifests, hashes, síntesis y trazabilidad liviana.
-- Bodega definitiva del proyecto: SharePoint/OneDrive Empresa, con staging local en `external-files/marketing-performance-capacita` cuando corresponda.
-- No tratar Google Drive ni Cloudflare R2 como bóveda canónica general de Marketing salvo caso específico documentado y aprobado.
+- Bodega definitiva: SharePoint/OneDrive Empresa.
+- `external-files/marketing-performance-capacita` es staging local operativo.
+- Google Drive o Cloudflare R2 solo se usan como capas específicas cuando exista decisión documentada; no son la bóveda canónica general.
 
 ## Reglas operativas vigentes
 
@@ -113,7 +112,9 @@ docs/pagesense/PAGESENSE_GOAL_CONFIGURATION_AUDIT_2026-07-12.md
 
 ## Secuencia inmediata
 
-1. Mergear primero este saneamiento documental cuando sea aprobado.
-2. Sincronizar en Global las instrucciones realmente activas del Proyecto Marketing y preparar la versión corregida con regla anti-reinicio.
-3. Retomar Google Ads B2C A/B/C leyendo la política canónica de negativas antes de recomendar cambios.
-4. Revisar PR #52 por separado si se necesita reactivar la ruta técnica Meta Ads read-only.
+1. Mergear PR #59 si Misael lo autoriza.
+2. Mergear Global PR #134 si Misael lo autoriza.
+3. Misael copia manualmente V3 al Proyecto Marketing.
+4. Ejecutar Bootstrap y registrar resultado en issue #60.
+5. Retomar Google Ads B2C A/B/C leyendo primero la política canónica de negativas.
+6. Revisar PR #52 por separado solo si se reactiva la ruta técnica Meta Ads read-only.
