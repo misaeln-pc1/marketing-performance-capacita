@@ -2,84 +2,88 @@
 
 ## Objetivo de revisión vigente
 
-Revisar y consolidar la corrección definitiva del routing de cuenta Meta Ads para evitar que futuros chats, agentes o scripts vuelvan a confundir la cuenta operativa V3 con cuentas pertenecientes a Business Portfolios distintos.
+Validar el saneamiento de memoria operativa de Marketing para evitar que futuros chats/agentes reinicien decisiones ya resueltas o usen archivos puente obsoletos.
 
 ## Rama
 
 ```text
-docs/marketing-meta-ads-account-routing-20260809
+docs/marketing-context-memory-sync-20260813
 ```
 
-## Hallazgo principal
+## Hallazgos corregidos
 
-La cuenta publicitaria que contiene la campaña operativa:
+1. `TASK_STATUS.md` estaba fechado 2026-07-28 y no incluía PR #58, issue #56 ni la corrección Meta Ads de agosto.
+2. `DECISIONES.md` no registraba la política canónica de negativas ni la regla de continuidad anti-reinicio.
+3. `CHANGELOG_AGENT.md` no registraba el trabajo del 13-ago.
+4. `REVIEW_REQUEST.md` seguía apuntando al routing Meta ya mergeado.
+5. `docs/google-ads/GOOGLE_ADS_NEGATIVE_KEYWORDS_INTENT_POLICY.md` seguía marcado `PROPUESTO_PARA_MAIN` después del merge.
+6. `PROJECT_CONTEXT.md` trataba Google Drive como bodega general de pesados, contradiciendo la regla actual del proyecto.
+7. `AGENTS.md` no obligaba a recuperar el documento canónico específico antes de dar recomendaciones genéricas.
+
+## Regla crítica nueva
+
+Antes de recomendar sobre un frente ya trabajado:
+
+- leer `TASK_STATUS.md` y `DECISIONES.md`;
+- buscar el documento canónico específico;
+- usar issues/PR solo para delta no consolidado;
+- aplicar primero la decisión vigente;
+- no pedir de nuevo a Misael justificaciones ya documentadas salvo contradicción o evidencia nueva.
+
+Para Google Ads negativas de Excel B2C presencial, la fuente obligatoria es:
 
 ```text
-META_TRAFFIC_EXCEL_PRESENCIAL_SANTIAGO_B2C_V3
+docs/google-ads/GOOGLE_ADS_NEGATIVE_KEYWORDS_INTENT_POLICY.md
 ```
-
-es una cuenta personal/standalone accesible bajo `Otros activos`, referencia sanitizada:
-
-```text
-...2327
-```
-
-No pertenece actualmente a los Business Portfolios:
-
-- `Capacita Spa`;
-- `Capacita`;
-- `Misael N. J.`.
-
-La referencia histórica aproximada `...9327` queda `SUPERSEDED` y no debe usarse para identificar V3.
 
 ## Archivos modificados
 
 ```text
-docs/meta-ads/META_ADS_ACCOUNT_ROUTING.md
+AGENTS.md
+TASK_STATUS.md
 DECISIONES.md
 CHANGELOG_AGENT.md
 REVIEW_REQUEST.md
+PROJECT_CONTEXT.md
+docs/google-ads/GOOGLE_ADS_NEGATIVE_KEYWORDS_INTENT_POLICY.md
 ```
 
-## Reglas que deben quedar firmes
+## Clasificación de antecedentes
 
-1. Identificar la cuenta operativa por inventario real de campañas, no por nombre de Business Portfolio.
-2. La ruta actual de V3 es `Otros activos → cuenta personal ...2327`.
-3. No inferir que una restricción histórica de WhatsApp afecta a la cuenta ...2327 sin evidencia por activo.
-4. Account Quality de ...2327 no mostró restricciones publicitarias visibles en la auditoría 2026-08-09.
-5. Un token API vencido afecta lectura API, no implica que la campaña esté pausada o bloqueada.
-6. El límite de gasto diario mostrado por Meta no debe interpretarse como bloqueo si el panel indica que el gasto previsto está dentro del límite.
-7. `Capacita Spa` es solo candidato futuro para System User: primero habría que compartir/asignar acceso a ...2327 sin mover propiedad.
-8. Reclamar o mover propiedad sigue siendo riesgo rojo y requiere decisión específica.
+- PR #35: `HISTORICO / NO_GOBIERNA_CONTEXTO_ACTUAL`.
+- PR #45: `HISTORICO / AUDITORIA_SUPERADA`.
+- PR #52: `OPEN / REVISION_TECNICA_PENDIENTE`; no se cierra en este saneamiento.
+- PR #8: `CLOSED_SUPERSEDED` por PR #51.
+
+## Incidente operativo durante esta revisión
+
+Se creó accidentalmente el archivo inocuo `__noop__` en `main` mediante una llamada errónea del conector y fue revertido inmediatamente.
+
+Evidencia de reversión:
+
+```text
+commit de limpieza en main: 9e4e7683040fa4c6854d7d526e8d72f2c1aa1ae6
+```
+
+El archivo ya no debe existir y no contenía datos, secretos ni lógica.
 
 ## No se toca
 
-- Meta Ads Manager;
-- campañas;
-- anuncios;
-- presupuesto;
-- fondos;
-- facturación;
-- Business Portfolios;
-- permisos;
-- System Users;
-- tokens;
-- WhatsApp;
-- activos físicos o archivos externos.
+- Google Ads / Meta Ads productivos;
+- campañas, presupuestos, pujas, anuncios, públicos, keywords o negativas reales;
+- APIs, scripts o workflows;
+- Zoho, GTM, PageSense, Edge, Cloudflare o producción;
+- PII, secretos, exports crudos o archivos pesados.
 
 ## Validación esperada
 
-- Solo Markdown.
-- Sin IDs completos.
-- Sin tokens, secretos, teléfonos, PII, capturas ni exports crudos.
-- `...2327` queda como referencia sanitizada vigente para V3.
-- `...9327` queda explícitamente superseded.
-- No existe ninguna instrucción de reclamar/mover propiedad.
-- El documento canónico único de routing sigue siendo `docs/meta-ads/META_ADS_ACCOUNT_ROUTING.md`.
-
-## Feedback scan
-
-`AGENT_FEEDBACK.md` no existe en `main`. El hallazgo relevante fue la desactualización del `REVIEW_REQUEST.md` anterior; este cambio lo reemplaza con la revisión vigente de routing Meta Ads.
+- Solo Markdown en la rama.
+- Documento de negativas marcado `VIGENTE_EN_MAIN` con PR #58 y merge SHA correctos.
+- `TASK_STATUS.md` fechado 2026-08-13 y sin PR #8 como pendiente activo.
+- `DECISIONES.md` contiene la política de negativas y la regla anti-reinicio.
+- `PROJECT_CONTEXT.md` usa SharePoint/OneDrive Empresa como bodega definitiva del proyecto.
+- `AGENTS.md` contiene lectura contextual específica por frente.
+- Sin PII, secretos ni binarios.
 
 ## Gate
 
@@ -88,4 +92,4 @@ LISTO_PARA_MERGE
 REQUIERE_REVISION_MISAEL
 ```
 
-Si el diff es correcto, el siguiente paso es autorización explícita de merge.
+No mergear sin autorización explícita.
