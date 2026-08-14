@@ -1,8 +1,10 @@
 # Google Ads — Política canónica de palabras clave negativas por intención
 
-Estado: `PROPUESTO_PARA_MAIN / REGLA_DE_NEGOCIO_APROBADA / IMPLEMENTACION_ADS_NO_EJECUTADA`
+Estado: `VIGENTE_EN_MAIN / REGLA_DE_NEGOCIO_APROBADA / IMPLEMENTACION_ADS_NO_EJECUTADA`
 
-Issue: #56
+Issue: #56  
+PR de consolidación: #58  
+Merge SHA: `fa2f17d0b5063ce885b8b61c04b4a0b36aca5735`
 
 ## Propósito
 

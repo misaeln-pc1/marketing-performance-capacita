@@ -1,154 +1,120 @@
 # Estado de Tareas
 
-Fecha de revision: 2026-07-28
+Fecha de revision: 2026-08-13
 
 ## Prioridad activa
 
-Normalizar frentes documentales pendientes antes de seguir con cambios de campana, publicacion, tracking o integracion.
+Continuar el frente Google Ads B2C Excel presencial A/B/C sin reabrir decisiones ya canonizadas y mantener sincronizada la memoria operativa del repo.
 
-Fuente vigente Excel B2C pagado:
+Fuentes vigentes principales:
 
 ```text
 docs/landing-pages/EXCEL_B2C_PAID_LANDINGS_MINIMUM_BASELINE_2026-07-28.md
+docs/google-ads/GOOGLE_ADS_NEGATIVE_KEYWORDS_INTENT_POLICY.md
 ```
+
+## Regla de continuidad
+
+Antes de recomendar sobre un frente ya trabajado, leer `DECISIONES.md`, este archivo y el documento canónico específico. Aplicar primero la decisión vigente y analizar solo evidencia nueva o delta. No reiniciar estrategia desde recomendaciones genéricas de plataforma.
 
 ## Estado PR / Issues principales
 
 | Item | Estado | Accion |
 |---|---|---|
-| Marketing PR #46 | `MERGED / VIGENTE_EN_MAIN` | Baseline minimo de tres landings B2C pagadas consolidado. |
-| Marketing PR #47 | `MERGED / VIGENTE_EN_MAIN` | PageSense/CRO consolidado; PR #34 cerrado como superseded. |
-| Marketing PR #49 | `MERGED / VIGENTE_EN_MAIN` | XFER comercial Learning Games consolidado; PR #41 cerrado como superseded. |
-| Marketing PR #35 | `TRANSITORIO / NO_MERGEAR_COMPLETO` | Mantener como antecedente amplio hasta extraer o cerrar lo restante. |
-| Marketing issue #43 | `CIERRE_ADMINISTRATIVO_PENDIENTE` | Cerrar solo despues de que Edge confirme consumo del XFER Marketing v02. |
-| Edge PR #36 | `DRAFT / NO_MERGEAR_TODAVIA / REQUIERE_CHECKS` | Esperar respuesta Edge al XFER v02 y resolver bloqueos tecnicos/comerciales. |
-| PR #34 PageSense | `CLOSED_SUPERSEDED` | Contenido util rescatado por PR #47. |
-| PR #28 Google Ads V02 | `CLOSED_SUPERSEDED/PARCIAL` | Residuales transferidos a issue #48 y automatizacion futura a #33. |
-| Issue #48 Google Ads residual | `OPEN / MANUAL_PRIVADO` | Auction Insights, reconciliacion agregada y cluster `clases/profesor`. |
-| PR #39 Office presencial | `CLOSED_BLOCKED_NOT_MERGED` | Intento bloqueado por OAuth/scope; reintento futuro en issue #50. |
+| Marketing PR #59 | `OPEN / LISTO_PARA_MERGE` | Saneamiento de memoria operativa; requiere autorización de Misael. |
+| Global PR #134 | `OPEN / LISTO_PARA_MERGE` | Versiona V2 snapshot y V3 candidata; requiere autorización de Misael. |
+| Marketing issue #60 | `OPEN / V3_CANDIDATA_NO_ACTIVA` | Validar V3 después de merge + copia manual + Bootstrap. |
+| Marketing issue #23 | `CLOSED / HISTORICO` | Ciclo V1 cerrado; no gobierna la validación actual. |
+| Marketing PR #58 | `MERGED / VIGENTE_EN_MAIN` | Política canónica de negativas Google Ads por intención. |
+| Marketing issue #56 | `CLOSED_COMPLETED` | Regla de negativas consolidada en PR #58. |
+| Marketing issue #57 | `CLOSED_DUPLICATE` | Duplicado de #56; no usar como fuente paralela. |
+| Marketing PR #54 / #55 | `MERGED / VIGENTE_EN_MAIN` | Routing Meta Ads corregido y marcado canónico. |
+| Marketing PR #51 | `MERGED / VIGENTE_EN_MAIN` | Estándar de producción Meta Ads vigente. |
+| Marketing PR #8 | `CLOSED_SUPERSEDED` | Sustituido por PR #51. |
+| Marketing PR #46 | `MERGED / VIGENTE_EN_MAIN` | Baseline mínimo de tres landings B2C pagadas. |
+| Marketing PR #47 | `MERGED / VIGENTE_EN_MAIN` | PageSense/CRO consolidado. |
+| Marketing PR #49 | `MERGED / VIGENTE_EN_MAIN` | XFER comercial Learning Games consolidado. |
+| Marketing PR #35 | `CLOSED_SUPERSEDED / HISTORICO` | Material parcialmente absorbido por PR #46 y fuentes posteriores; no mergeado. |
+| Marketing PR #45 | `CLOSED_SUPERSEDED / HISTORICO` | Auditoría previa superada por consolidaciones posteriores; no mergeado. |
+| Marketing PR #52 | `OPEN / REVISION_TECNICA_PENDIENTE` | Procedimiento/script Meta Ads read-only; conservar para revisión específica. |
+| Marketing issue #43 | `OPEN / XFER_EDGE` | Revisar solo al retomar handoff Edge. |
+| Issue #48 Google Ads residual | `OPEN / MANUAL_PRIVADO` | Auction Insights, reconciliación agregada y cluster `clases/profesor`. |
 | Issue #50 Office Ads | `OPEN / FUTURE_RETRY_ONLY` | Reintentar keyword research solo con OAuth `adwords`, curso y landing autorizados. |
-| PR #41 Learning Games | `CLOSED_SUPERSEDED` | Contenido util rescatado por PR #49. |
-| PR #8 Meta Ads Standard | `OPEN / SUPERSEDED_POR_PR_LIMPIO` | No mergear rama antigua. Rescatar estandar de creatividades via PR limpio desde `main`. |
+| Issue #53 Google Ads B2B | `BACKLOG / NO_EJECUTAR_AHORA` | Frente separado posterior al B2C A/B/C. |
+
+## Google Ads — regla vigente de negativas
+
+PR #58 consolidó:
+
+- priorizar intención de asistir/comprar curso;
+- preservar negativas históricas de solución puntual mientras no exista evidencia que justifique retirarlas;
+- excluir deliberadamente intención informativa puntual y empleo cuando corresponda;
+- `paso a paso` no es negativa global;
+- separar exclusión global de tráfico versus routing A/B/C a nivel grupo;
+- no modificar listas reales sin autorización explícita.
 
 ## Baseline Excel B2C pagado vigente
 
-Define:
-
-- Landing A: Curso Excel Basico-Intermedio presencial, `BP-001`.
+- Landing A: Curso Excel Básico-Intermedio presencial, `BP-001`.
 - Landing B: Excel desde cero presencial, `BP-002`.
 - Landing C: clases de Excel presenciales con profesor, `BP-001`.
-- Todas venden el mismo curso grupal presencial Basico-Intermedio en Santiago Centro.
-- Todas parten `noindex,follow`, fuera de sitemap y fuera de navegacion organica.
-- La pagina organica actual se conserva protegida.
-
-## XFER vigente de este ciclo
-
-Bitacora:
-
-```text
-docs/BITACORA_XFER.md
-```
-
-Respuesta Marketing -> Edge:
-
-```text
-docs/xfer/XFER__MARKETING__CAPACITA_EDGE__EXCEL_B2C_PAID_LANDINGS_REVIEW_RESPONSE__20260728-174500__v02__READY__MARKETING_REVIEW.md
-```
-
-Brief Marketing -> Learning Games:
-
-```text
-docs/xfer/GAME-EXCEL-BASICO-BLOCKS-001/MARKETING_BRIEF.md
-```
+- Las tres venden el mismo curso grupal presencial Básico-Intermedio en Santiago Centro.
+- Parten `noindex,follow`, fuera de sitemap y navegación orgánica.
+- La página orgánica actual se conserva protegida.
 
 ## Meta Ads / Facebook Ads
 
-Estandar de produccion de creatividades Meta Ads rescatado y actualizado desde PR #8 mediante rama limpia:
+Fuentes vigentes:
 
 ```text
 assets/meta-ads/PRODUCTION_STANDARD_META_ADS.md
+docs/meta-ads/META_ADS_ACCOUNT_ROUTING.md
 ```
 
-Reglas vigentes propuestas:
+Reglas críticas:
 
-- cada creatividad debe tener set por placement, no una sola pieza reutilizada para todo;
-- imagenes minimas: 4:5, 1:1 y 9:16;
-- videos minimos por placement: 9:16 para Stories/Reels y 4:5 para Feed si se activa Feed;
-- no usar video 9:16 como unico video para todos los placements;
-- no subir JPG/PNG/WEBP/MP4/MOV/PSD/AI/Canva/fuentes ni previews sensibles a GitHub;
-- archivos reales van en `external-files/marketing-performance-capacita/meta-ads/...` o bodega SharePoint/OneDrive documentada;
-- el routing de cuenta Meta Ads sigue en `docs/meta-ads/META_ADS_ACCOUNT_ROUTING.md`.
-
-Este estandar no autoriza publicar anuncios ni modificar Meta Ads Manager.
+- cuenta operativa V3: cuenta personal/standalone bajo `Otros activos`, referencia sanitizada `...2327`;
+- no identificar la cuenta por Business Portfolio;
+- no propagar restricciones históricas entre activos sin evidencia;
+- creatividades como set por placement; video 9:16 para Stories/Reels y 4:5 para Feed cuando aplique;
+- no subir assets pesados a GitHub.
 
 ## PageSense / CRO
 
-Vigente en `main` por PR #47:
+Fuentes vigentes:
 
 ```text
 docs/pagesense/PAGESENSE_CRO_REPORTING_BASELINE_V01.md
 docs/pagesense/PAGESENSE_GOAL_CONFIGURATION_AUDIT_2026-07-12.md
 ```
 
-Regla vigente:
-
-- PageSense es fuente complementaria de CRO, no fuente de leads ni matriculas.
+- PageSense es fuente complementaria de CRO, no fuente de leads ni matrículas.
 - Goals de clic no equivalen a submits confirmados.
-- `enviar Pre`, `inicio` y `Enviar Empresa-Excel` son metricas secundarias de interaccion mientras no se validen como exito real.
-- Submit confirmado debe basarse en una pagina de agradecimiento o evento posterior a aceptacion real del formulario.
-- Zoho CRM sigue siendo fuente de verdad para lead, contactabilidad, cotizacion y matricula.
+- Zoho CRM sigue siendo fuente de verdad comercial.
+- Nombre/correo en URL de redirección B2C sigue siendo riesgo rojo de privacidad y debe resolverse fuera de Marketing con autorización específica.
 
-Bloqueo critico detectado:
+## Archivos pesados
 
-```text
-Nombre y correo en URL de redireccion B2C = riesgo rojo de privacidad.
-```
-
-No corregir desde Marketing. Debe enrutarse a Capacita Edge / Zoho con autorizacion especifica.
-
-## Google Ads
-
-Estado documental vigente:
-
-- Basic Access aprobado.
-- Procedimiento recurrente de estatus exige doble fuente: export fresco PowerShell/API + `Historial_Rendimiento_GoogleAds`.
-- Diagnostico 90 dias quedo documentado en `docs/google-ads/GOOGLE_ADS_DIAGNOSIS_BASELINE_2026-07-11.md`.
-- PR #28 e issue #27 quedaron cerrados como superseded/parcial.
-- Issue #48 conserva residuales manuales: Auction Insights nominal, reconciliacion agregada y cluster `clases/profesor`.
-- Issue #33 conserva automatizacion futura por API/Drive, sin ejecucion hasta nueva autorizacion.
-- Issue #50 conserva reintento futuro Office Ads con OAuth `adwords`, sin ejecucion hasta nueva autorizacion.
-- No se autoriza crear grupos, negativas, anuncios, destinos, presupuesto, pujas ni pausas desde estos cierres.
-
-## Bloqueos antes de publicar o integrar
-
-No publicar ni integrar las landings hasta resolver:
-
-1. revision visual humana final en escritorio y celular;
-2. `scripts/audit-local.py` en Edge;
-3. `git diff --check` en workspace local Edge;
-4. `duration`;
-5. `download_resource_code`;
-6. `course_instance_name`;
-7. `CourseInstance` directo en HTML;
-8. mapping exacto de Zoho Forms;
-9. claims/sellos institucionales;
-10. consentimiento de imagenes;
-11. correccion de URL de agradecimiento B2C sin PII;
-12. autorizacion explicita para GTM, PageSense, Turnstile, Zoho, endpoints internos y Google Ads.
+- GitHub conserva Markdown, manifests, hashes, síntesis y trazabilidad liviana.
+- Bodega definitiva: SharePoint/OneDrive Empresa.
+- `external-files/marketing-performance-capacita` es staging local operativo.
+- Google Drive o Cloudflare R2 solo se usan como capas específicas cuando exista decisión documentada; no son la bóveda canónica general.
 
 ## Reglas operativas vigentes
 
 - No trabajar directo en `main`.
-- No modificar campanas, presupuesto, pujas, anuncios, keywords, negativas, conversiones, landings productivas, GTM, PageSense, Turnstile, Zoho, Cloudflare, Worker, DNS ni sitemap sin autorizacion explicita.
+- No modificar campañas, presupuesto, pujas, anuncios, keywords, negativas, conversiones, landings productivas, GTM, PageSense, Turnstile, Zoho, Cloudflare, Worker, DNS ni sitemap sin autorización explícita.
 - No subir PII, secretos, IDs completos, exports crudos, capturas sensibles ni binarios.
-- No inventar metricas, claims, IDs, eventos ni API names.
-- Mantener un buyer persona primario y una hipotesis por prueba.
-- Separar B2C y B2B en campana, landing y medicion.
+- No inventar métricas, claims, IDs, eventos ni API names.
+- Mantener un buyer persona primario y una hipótesis por prueba.
+- Separar B2C y B2B en campaña, landing y medición.
 - No usar SENCE, franquicia, beneficio tributario, gratuidad ni promesas garantizadas en B2C.
 
-## Secuencia inmediata recomendada
+## Secuencia inmediata
 
-1. Revisar y mergear el PR limpio Meta Ads production standard si sigue documental.
-2. Cerrar PR #8 como `SUPERSEDED` despues de mergear el nuevo PR.
-3. Mantener issue #43 abierto hasta que Edge confirme consumo del XFER Marketing v02.
-4. Luego decidir cierre administrativo de PR #35.
+1. Mergear PR #59 si Misael lo autoriza.
+2. Mergear Global PR #134 si Misael lo autoriza.
+3. Misael copia manualmente V3 al Proyecto Marketing.
+4. Ejecutar Bootstrap y registrar resultado en issue #60.
+5. Retomar Google Ads B2C A/B/C leyendo primero la política canónica de negativas.
+6. Revisar PR #52 por separado solo si se reactiva la ruta técnica Meta Ads read-only.

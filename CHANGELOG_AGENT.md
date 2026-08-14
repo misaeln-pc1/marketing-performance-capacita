@@ -105,3 +105,13 @@
 - Se registró `Capacita Spa` como candidato futuro para un System User permanente solo mediante compartir/asignar acceso a `...2327`, sin reclamar ni mover propiedad salvo aprobación específica.
 - Archivo canónico actualizado en rama documental: `docs/meta-ads/META_ADS_ACCOUNT_ROUTING.md`.
 - No se modificaron Meta Ads, permisos, propiedad, tokens, System Users, WhatsApp, campañas, presupuesto ni producción.
+
+## 2026-08-13
+
+- PR #58 fue mergeado con la política canónica de palabras clave negativas por intención para Google Ads B2C Excel presencial; issue #56 quedó completado e issue #57 cerrado como duplicado.
+- Se detectó que la política mergeada conservaba estado `PROPUESTO_PARA_MAIN`; se corrige documentalmente a `VIGENTE_EN_MAIN` sin tocar Google Ads.
+- Auditoría de continuidad detectó `TASK_STATUS.md`, `DECISIONES.md`, `CHANGELOG_AGENT.md` y `REVIEW_REQUEST.md` desactualizados respecto del trabajo de agosto.
+- Se incorporó en `AGENTS.md` una regla anti-reinicio: recuperar decisiones y documento canónico del frente antes de recomendar y analizar solo el delta.
+- Se corrigió la fuente general de archivos pesados: SharePoint/OneDrive Empresa como bodega definitiva; `external-files/marketing-performance-capacita` como staging local; Google Drive/R2 solo cuando exista uso específico documentado.
+- PR #35 y #45 quedan clasificados como antecedentes históricos que no gobiernan el contexto actual; PR #52 se conserva abierto para revisión técnica específica.
+- No se modificaron campañas, presupuestos, anuncios, keywords, negativas reales, cuentas Ads, APIs, scripts, producción, PII, secretos ni archivos pesados.
