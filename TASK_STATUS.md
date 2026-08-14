@@ -1,46 +1,95 @@
 # Estado de Tareas
 
-Fecha de revision: 2026-08-13
+Fecha de revision: 2026-08-14
 
 ## Prioridad activa
 
-Continuar el frente Google Ads B2C Excel presencial A/B/C sin reabrir decisiones ya canonizadas y mantener sincronizada la memoria operativa del repo.
+Potenciar el frente **Excel B2C presencial Santiago** con análisis conversacional conectado, preservando las decisiones Google Ads/Meta Ads/landings ya canonizadas y sin reemplazar rutas read-only actuales hasta demostrar ganancia material.
 
 Fuentes vigentes principales:
 
 ```text
+docs/analytics/CONNECTED_MARKETING_ANALYTICS_PILOT_2026-08-14.md
 docs/landing-pages/EXCEL_B2C_PAID_LANDINGS_MINIMUM_BASELINE_2026-07-28.md
 docs/google-ads/GOOGLE_ADS_NEGATIVE_KEYWORDS_INTENT_POLICY.md
+docs/google-ads/GOOGLE_ADS_STATUS_ANALYSIS_PROCEDURE_V01.md
+docs/meta-ads/META_ADS_ACCOUNT_ROUTING.md
 ```
 
 ## Regla de continuidad
 
-Antes de recomendar sobre un frente ya trabajado, leer `DECISIONES.md`, este archivo y el documento canónico específico. Aplicar primero la decisión vigente y analizar solo evidencia nueva o delta. No reiniciar estrategia desde recomendaciones genéricas de plataforma.
+Antes de recomendar sobre un frente ya trabajado, leer `DECISIONES.md`, este archivo y el documento canónico específico. Aplicar primero la decisión vigente y analizar sólo evidencia nueva o delta. No reiniciar estrategia desde recomendaciones genéricas de plataforma.
 
 ## Estado PR / Issues principales
 
 | Item | Estado | Accion |
 |---|---|---|
-| Marketing PR #59 | `OPEN / LISTO_PARA_MERGE` | Saneamiento de memoria operativa; requiere autorización de Misael. |
-| Global PR #134 | `OPEN / LISTO_PARA_MERGE` | Versiona V2 snapshot y V3 candidata; requiere autorización de Misael. |
-| Marketing issue #60 | `OPEN / V3_CANDIDATA_NO_ACTIVA` | Validar V3 después de merge + copia manual + Bootstrap. |
-| Marketing issue #23 | `CLOSED / HISTORICO` | Ciclo V1 cerrado; no gobierna la validación actual. |
-| Marketing PR #58 | `MERGED / VIGENTE_EN_MAIN` | Política canónica de negativas Google Ads por intención. |
-| Marketing issue #56 | `CLOSED_COMPLETED` | Regla de negativas consolidada en PR #58. |
-| Marketing issue #57 | `CLOSED_DUPLICATE` | Duplicado de #56; no usar como fuente paralela. |
-| Marketing PR #54 / #55 | `MERGED / VIGENTE_EN_MAIN` | Routing Meta Ads corregido y marcado canónico. |
-| Marketing PR #51 | `MERGED / VIGENTE_EN_MAIN` | Estándar de producción Meta Ads vigente. |
-| Marketing PR #8 | `CLOSED_SUPERSEDED` | Sustituido por PR #51. |
-| Marketing PR #46 | `MERGED / VIGENTE_EN_MAIN` | Baseline mínimo de tres landings B2C pagadas. |
-| Marketing PR #47 | `MERGED / VIGENTE_EN_MAIN` | PageSense/CRO consolidado. |
-| Marketing PR #49 | `MERGED / VIGENTE_EN_MAIN` | XFER comercial Learning Games consolidado. |
-| Marketing PR #35 | `CLOSED_SUPERSEDED / HISTORICO` | Material parcialmente absorbido por PR #46 y fuentes posteriores; no mergeado. |
-| Marketing PR #45 | `CLOSED_SUPERSEDED / HISTORICO` | Auditoría previa superada por consolidaciones posteriores; no mergeado. |
-| Marketing PR #52 | `OPEN / REVISION_TECNICA_PENDIENTE` | Procedimiento/script Meta Ads read-only; conservar para revisión específica. |
-| Marketing issue #43 | `OPEN / XFER_EDGE` | Revisar solo al retomar handoff Edge. |
-| Issue #48 Google Ads residual | `OPEN / MANUAL_PRIVADO` | Auction Insights, reconciliación agregada y cluster `clases/profesor`. |
-| Issue #50 Office Ads | `OPEN / FUTURE_RETRY_ONLY` | Reintentar keyword research solo con OAuth `adwords`, curso y landing autorizados. |
-| Issue #53 Google Ads B2B | `BACKLOG / NO_EJECUTAR_AHORA` | Frente separado posterior al B2C A/B/C. |
+| Marketing PR #59 | `MERGED / VIGENTE_EN_MAIN` | Memoria operativa sincronizada; main actual parte de ese merge. |
+| Global PR #134 | `MERGED` | V3 fue versionada en Global y copiada manualmente por Misael. |
+| Marketing issue #60 | `OPEN / BOOTSTRAP_PASS_DELTA_PENDING` | Este ciclo aporta Bootstrap PASS; ejecutar una prueba Delta separada después. No cerrar todavía. |
+| Marketing PR #58 | `MERGED / VIGENTE_EN_MAIN` | Política canónica de negativas por intención. |
+| Marketing PR #54 / #55 | `MERGED / VIGENTE_EN_MAIN` | Routing Meta Ads corregido y canónico. |
+| Marketing PR #52 | `OPEN / REVISION_TECNICA_PENDIENTE` | Ruta Meta API read-only; conservar separada del piloto de conector oficial. |
+| Marketing issue #48 | `OPEN / MANUAL_PRIVADO` | Auction Insights, reconciliación agregada y cluster `clases/profesor`. |
+| Marketing issue #50 | `OPEN / FUTURE_RETRY_ONLY` | Office Ads; no ejecutar ahora. |
+| Marketing issue #53 | `BACKLOG / NO_EJECUTAR_AHORA` | Google Ads B2B separado del piloto B2C. |
+
+## Connected Analytics — estado 2026-08-14
+
+### Skills P0
+
+```text
+Google account performance diagnostics = ADAPTAR_MINIMO
+Anthropic performance-report = ADAPTAR_MINIMO
+Anthropic competitive-brief = ADAPTAR_MINIMO
+```
+
+No cambia lifecycle AI OS ni se declara `approved`.
+
+### Google Ads
+
+- API/PowerShell actual = `METHOD_A` y fallback.
+- Google Ads MCP oficial = `METHOD_B`, sólo para micro-piloto comparativo.
+- Diseño de paridad 12 tareas = `PASS`.
+- Histórico Drive localizado y leído hasta `2026-08-13`.
+- Estado actual sigue **provisional** hasta combinar histórico con una lectura API/MCP fresca equivalente.
+- Keyword crítica `curso excel básico e intermedio` sigue concentrando gasto con eficiencia de plataforma inferior al promedio reciente; no autoriza cambios de negativas o concordancia.
+
+### GA4
+
+Requisitos read-only definidos para propiedades, sesiones/usuarios, source-medium-campaign, landing, key events, funnels/drop-off, realtime cuando corresponda, custom dimensions/metrics y Google Ads links.
+
+`GA4 downstream actual = DATA_GAP` hasta que System Integration confirme conexión/auth existente y lecturas disponibles.
+
+### Meta Ads
+
+- API `ads_read` + account routing canónico = fallback vigente.
+- Conector/agente oficial Meta = sólo piloto read-only si ya está disponible/autenticado.
+- No habilitar WRITE ni migrar por existencia del conector.
+- Métrica por creative en este run = `DATA_GAP`.
+
+### Atribución
+
+Capas separadas obligatorias:
+
+```text
+conversion de plataforma
+!= GA4 key event
+!= Lead/Contact
+!= Deal
+!= CursoAlumno
+!= venta real
+```
+
+Mapping de API names CRM para atribución = `DATA_GAP`; no inferir nombres desde documentación histórica ausente.
+
+### Competitive brief
+
+Primer piloto: Excel B2C presencial Santiago.
+
+- amenaza directa observada: Activa Latam por combinación de Santiago Centro + propuesta práctica + precio público bajo;
+- EFTEC, INACAP y Pro-Active quedan como comparables complementarios;
+- reviews, Ads Library validada por identidad y SEO traffic = `DATA_GAP` cuando no exista evidencia robusta.
 
 ## Google Ads — regla vigente de negativas
 
@@ -61,6 +110,7 @@ PR #58 consolidó:
 - Las tres venden el mismo curso grupal presencial Básico-Intermedio en Santiago Centro.
 - Parten `noindex,follow`, fuera de sitemap y navegación orgánica.
 - La página orgánica actual se conserva protegida.
+- No declarar A/B/C ganador sin downstream confiable.
 
 ## Meta Ads / Facebook Ads
 
@@ -81,13 +131,6 @@ Reglas críticas:
 
 ## PageSense / CRO
 
-Fuentes vigentes:
-
-```text
-docs/pagesense/PAGESENSE_CRO_REPORTING_BASELINE_V01.md
-docs/pagesense/PAGESENSE_GOAL_CONFIGURATION_AUDIT_2026-07-12.md
-```
-
 - PageSense es fuente complementaria de CRO, no fuente de leads ni matrículas.
 - Goals de clic no equivalen a submits confirmados.
 - Zoho CRM sigue siendo fuente de verdad comercial.
@@ -98,7 +141,7 @@ docs/pagesense/PAGESENSE_GOAL_CONFIGURATION_AUDIT_2026-07-12.md
 - GitHub conserva Markdown, manifests, hashes, síntesis y trazabilidad liviana.
 - Bodega definitiva: SharePoint/OneDrive Empresa.
 - `external-files/marketing-performance-capacita` es staging local operativo.
-- Google Drive o Cloudflare R2 solo se usan como capas específicas cuando exista decisión documentada; no son la bóveda canónica general.
+- Google Drive o Cloudflare R2 sólo se usan como capas específicas cuando exista decisión documentada; no son la bóveda canónica general.
 
 ## Reglas operativas vigentes
 
@@ -112,9 +155,8 @@ docs/pagesense/PAGESENSE_GOAL_CONFIGURATION_AUDIT_2026-07-12.md
 
 ## Secuencia inmediata
 
-1. Mergear PR #59 si Misael lo autoriza.
-2. Mergear Global PR #134 si Misael lo autoriza.
-3. Misael copia manualmente V3 al Proyecto Marketing.
-4. Ejecutar Bootstrap y registrar resultado en issue #60.
-5. Retomar Google Ads B2C A/B/C leyendo primero la política canónica de negativas.
-6. Revisar PR #52 por separado solo si se reactiva la ruta técnica Meta Ads read-only.
+1. Revisar el PR de este piloto documental; no mergear todavía sin Misael.
+2. System Integration consume `CONNECTED_ANALYTICS_READ_PILOT` v01 y devuelve evidencia read-only.
+3. Marketing ejecuta **Delta** sobre ese retorno: paridad Google, GA4, Meta y mapping CRM.
+4. Completar el funnel Ads → landing → GA4 → Lead/Contact → Deal → CursoAlumno/venta sólo donde exista evidencia.
+5. Retomar optimización Google Ads B2C A/B/C aplicando primero la política canónica de negativas.
