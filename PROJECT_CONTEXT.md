@@ -9,9 +9,12 @@ Repositorio operativo y liviano de **Marketing (Campañas & Growth)** para ejecu
 - **GTM / RevOps en Global:** buyer personas, propuestas de valor, segmentación transversal, customer journey, scoring, nurturing, touch strategy y criterios comerciales.
 - **Este repositorio:** campañas, hipótesis tácticas, targeting, copies, activos documentales, medición y aprendizajes agregados.
 - **Zoho CRM:** leads, contactos, deals, seguimiento comercial y resultados reales.
-- **Google Drive:** fotos, videos, creatividades finales, exports pesados y archivos multimedia.
+- **SharePoint/OneDrive Empresa:** bodega definitiva de fotos, videos, creatividades finales, exports pesados y archivos multimedia del proyecto.
+- **`external-files/marketing-performance-capacita`:** staging/local operativo para pesados cuando corresponda; no reemplaza la bodega definitiva.
 - **Meta Ads / Google Ads / LinkedIn Ads:** campañas activas, públicos, anuncios, presupuestos y métricas operativas.
 - **Capacita Edge:** landings, formularios, SEO técnico y eventos frontend.
+
+Google Drive o Cloudflare R2 pueden existir como fuentes/capas específicas de un caso documentado, pero no son la bóveda canónica general de Marketing salvo decisión explícita posterior.
 
 Este repositorio no reemplaza ninguna de esas fuentes.
 
@@ -24,11 +27,15 @@ Toda campaña nueva o revisada debe aplicar:
 
 Debe registrar:
 
-- buyer persona e versión;
+- buyer persona y versión;
 - propuesta de valor y etapa del journey;
 - hipótesis táctica diferenciada;
 - CTA, destino y medición;
 - aprendizaje que podría volver a GTM.
+
+## Continuidad operativa
+
+Antes de recomendar sobre un frente ya trabajado, consultar `TASK_STATUS.md`, `DECISIONES.md` y el documento canónico específico. No reconstruir estrategia desde cero cuando existe una decisión vigente; analizar únicamente evidencia nueva o delta.
 
 ## Arquitectura base
 
