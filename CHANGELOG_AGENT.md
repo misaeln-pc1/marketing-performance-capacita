@@ -115,3 +115,21 @@
 - Se corrigió la fuente general de archivos pesados: SharePoint/OneDrive Empresa como bodega definitiva; `external-files/marketing-performance-capacita` como staging local; Google Drive/R2 solo cuando exista uso específico documentado.
 - PR #35 y #45 quedan clasificados como antecedentes históricos que no gobiernan el contexto actual; PR #52 se conserva abierto para revisión técnica específica.
 - No se modificaron campañas, presupuestos, anuncios, keywords, negativas reales, cuentas Ads, APIs, scripts, producción, PII, secretos ni archivos pesados.
+
+## 2026-08-14
+
+- Se ejecutó Context Gate `Bootstrap` para iniciar Connected Marketing Analytics sin reiniciar Google Ads, Meta Ads, landings o atribución ya trabajados.
+- Se validaron Global V5.1, AI OS V2.1, issue AI OS #40 y PR #41 merge SHA `40ec5d26ec86d71a176dcf0c6bb526aa4c85aed7`.
+- Se recuperaron PR #14, #17, #18, #26, #28, #29 y #11; se corrigió que #28 quedó cerrado sin merge y que #11 sí fue mergeado aunque documentó el bloqueo MCP antiguo.
+- Se mantuvo Google Ads API/PowerShell como `METHOD_A` y fallback; se diseñó micro-piloto comparativo de 12 tareas contra el MCP oficial `METHOD_B`, sin migración automática.
+- Se definieron requisitos GA4 read-only y contrato de atribución que separa Ads, GA4, Lead/Contact, Deal, CursoAlumno y venta real.
+- Se mantuvo Meta API `ads_read` + routing canónico como fallback y se dejó el conector oficial sólo para piloto read-only si ya está disponible/autenticado.
+- Se registraron como `ADAPTAR_MINIMO` las skills Google account diagnostics, Anthropic performance-report y Anthropic competitive-brief, sin cambiar su lifecycle AI OS.
+- Se leyó `Historial_Rendimiento_GoogleAds` hasta `2026-08-13`; el estado se mantiene provisional hasta una lectura API/MCP fresca equivalente.
+- La ventana reciente de `EXCEL-PRE-STGO` mostró mejor eficiencia de conversión de plataforma pero menor volumen; no se presentó como mejora comercial.
+- La keyword `curso excel básico e intermedio` siguió concentrando gasto con eficiencia inferior al promedio reciente; no se propusieron cambios de negativas o concordancia.
+- Se eligió Excel B2C presencial Santiago como primer piloto E2E y se marcaron `DATA_GAP` para GA4, mapping CRM, Deal, CursoAlumno, venta real y creative cuando falta evidencia.
+- Se preparó competitive brief inicial con Activa Latam, EFTEC, INACAP y Pro-Active, sin inventar tráfico, ventas, ROAS, presupuestos o conversiones.
+- Se creó XFER `CONNECTED_ANALYTICS_READ_PILOT` v01 `READY` para System Integration con guardrails read-only y DoD técnico.
+- Se actualizó issue #60 conceptualmente a `BOOTSTRAP_PASS_DELTA_PENDING`; la prueba Delta posterior no se cierra en este ciclo.
+- No hubo OAuth nuevo, instalaciones, Ads writes, CRM writes, cambios productivos, PII, secretos, exports crudos ni binarios.
