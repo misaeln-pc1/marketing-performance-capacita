@@ -2,103 +2,100 @@
 
 ## Objetivo de revisión vigente
 
-Validar el saneamiento de memoria operativa de Marketing para evitar que futuros chats/agentes reinicien decisiones ya resueltas o usen archivos puente obsoletos.
+Validar el Bootstrap y diseño mínimo del **Connected Marketing Analytics Pilot** para Excel B2C presencial Santiago, reutilizando capacidades maduras sin migrar rutas actuales ni ejecutar writes externos.
 
 ## Rama
 
 ```text
-docs/marketing-context-memory-sync-20260813
+docs/marketing-connected-analytics-pilot-20260814
 ```
 
-## Hallazgos corregidos
+## Alcance del PR
 
-1. `TASK_STATUS.md` estaba fechado 2026-07-28 y no incluía PR #58, issue #56 ni la corrección Meta Ads de agosto.
-2. `DECISIONES.md` no registraba la política canónica de negativas ni la regla de continuidad anti-reinicio.
-3. `CHANGELOG_AGENT.md` no registraba el trabajo del 13-ago.
-4. `REVIEW_REQUEST.md` seguía apuntando al routing Meta ya mergeado.
-5. `docs/google-ads/GOOGLE_ADS_NEGATIVE_KEYWORDS_INTENT_POLICY.md` seguía marcado `PROPUESTO_PARA_MAIN` después del merge.
-6. `PROJECT_CONTEXT.md` trataba Google Drive como bodega general de pesados, contradiciendo la regla actual del proyecto.
-7. `AGENTS.md` no obligaba a recuperar el documento canónico específico antes de dar recomendaciones genéricas.
-8. PR #35 y PR #45 seguían abiertos pese a estar superados, contaminando el estado visible para futuros Bootstrap.
+Revisar que:
 
-## Regla crítica nueva
+1. se preserva Google Ads API/PowerShell como fallback y el MCP oficial sólo se evalúa por paridad/ganancia material;
+2. se preserva Meta API `ads_read` y el account routing canónico;
+3. GA4 queda como capa distinta de Ads y CRM;
+4. conversión de plataforma, GA4 key event, Lead/Contact, Deal, CursoAlumno y venta real nunca se presentan como equivalentes;
+5. los `DATA_GAP` de downstream no se rellenan por inferencia;
+6. las tres skills P0 quedan `ADAPTAR_MINIMO`, sin declarar lifecycle `approved`;
+7. el competitive brief usa sólo evidencia pública y no inventa tráfico, ventas, ROAS, presupuestos o conversiones de terceros;
+8. el XFER a System Integration exige read-only, sin OAuth nuevo, instalaciones, secretos, PII ni writes;
+9. issue #60 recibe Bootstrap PASS, pero la prueba Delta posterior permanece pendiente.
 
-Antes de recomendar sobre un frente ya trabajado:
-
-- leer `TASK_STATUS.md` y `DECISIONES.md`;
-- buscar el documento canónico específico;
-- usar issues/PR solo para delta no consolidado;
-- aplicar primero la decisión vigente;
-- no pedir de nuevo a Misael justificaciones ya documentadas salvo contradicción o evidencia nueva.
-
-Para Google Ads negativas de Excel B2C presencial, la fuente obligatoria es:
+## Archivos creados
 
 ```text
-docs/google-ads/GOOGLE_ADS_NEGATIVE_KEYWORDS_INTENT_POLICY.md
+docs/analytics/CONNECTED_MARKETING_ANALYTICS_PILOT_2026-08-14.md
+SKILLS_USED.md
+docs/xfer/XFER__MARKETING__SYSTEM_INTEGRATION__CONNECTED_ANALYTICS_READ_PILOT__20260814__v01__READY.md
 ```
 
-## Archivos modificados
+## Archivos actualizados
 
 ```text
-AGENTS.md
-TASK_STATUS.md
+docs/BITACORA_XFER.md
 DECISIONES.md
+TASK_STATUS.md
 CHANGELOG_AGENT.md
 REVIEW_REQUEST.md
-PROJECT_CONTEXT.md
-docs/google-ads/GOOGLE_ADS_NEGATIVE_KEYWORDS_INTENT_POLICY.md
 ```
 
-## Clasificación de antecedentes
+## Hallazgos a revisar
 
-- PR #35: `CLOSED_SUPERSEDED / HISTORICO`; cerrado sin merge.
-- PR #45: `CLOSED_SUPERSEDED / HISTORICO`; cerrado sin merge.
-- PR #52: `OPEN / REVISION_TECNICA_PENDIENTE`; no se cierra en este saneamiento.
-- PR #8: `CLOSED_SUPERSEDED` por PR #51.
-- Issue #23: `CLOSED / HISTORICO`; validación V1 finalizada.
-- Issue #60: `OPEN / V3_CANDIDATA_NO_ACTIVA`; nuevo ciclo de validación.
+### Google Ads
 
-## Relación con Global
+- El histórico conectado llega hasta `2026-08-13`.
+- El estado se mantiene **provisional** hasta combinar histórico con una lectura API/MCP fresca equivalente.
+- La keyword `curso excel básico e intermedio` sigue concentrando gasto con eficiencia de plataforma inferior al promedio reciente.
+- No se propone cambiar negativas, keywords, pujas o campaña.
 
-- Global PR #134 captura las instrucciones realmente activas como V2 snapshot y prepara V3 candidata.
-- V3 no se activa hasta merge, copia manual por Misael y Bootstrap documentado en issue #60.
-
-## Incidente operativo durante esta revisión
-
-Se creó accidentalmente el archivo inocuo `__noop__` en `main` mediante una llamada errónea del conector y fue revertido inmediatamente.
-
-Evidencia de reversión:
+### Atribución
 
 ```text
-commit de limpieza en main: 9e4e7683040fa4c6854d7d526e8d72f2c1aa1ae6
+ADS_PLATFORM_SIGNAL
+!= GA4_SITE_SIGNAL
+!= CRM_LEAD_OR_CONTACT
+!= DEAL
+!= CURSOALUMNO
+!= VENTA_REAL
 ```
 
-El archivo ya no existe y no contenía datos, secretos ni lógica. Archivos de prueba creados accidentalmente solo en la rama también fueron revertidos y no forman parte del diff final.
+El mapping CRM de API names permanece `DATA_GAP` hasta validación del repo técnico dueño.
+
+### Competencia
+
+Activa Latam aparece como amenaza directa inicial por superposición de Santiago Centro, propuesta práctica y precio público bajo. EFTEC, INACAP y Pro-Active son comparables complementarios. Reviews, Ads Library validada y tráfico SEO quedan `DATA_GAP` donde no existe evidencia suficiente.
 
 ## No se toca
 
-- Google Ads / Meta Ads productivos;
+- OAuth o credenciales nuevas;
+- instalaciones;
+- Google Ads o Meta Ads writes;
 - campañas, presupuestos, pujas, anuncios, públicos, keywords o negativas reales;
-- APIs, scripts o workflows;
-- Zoho, GTM, PageSense, Edge, Cloudflare o producción;
-- PII, secretos, exports crudos o archivos pesados.
+- GA4/GTM productivo;
+- landings/Cloudflare producción;
+- CRM writes;
+- WhatsApp;
+- secretos, PII, IDs completos, exports crudos o binarios.
 
 ## Validación esperada
 
-- Solo Markdown en la rama.
-- Documento de negativas marcado `VIGENTE_EN_MAIN` con PR #58 y merge SHA correctos.
-- `TASK_STATUS.md` fechado 2026-08-13 y sin PR obsoletos como pendientes activos.
-- `DECISIONES.md` contiene la política de negativas y la regla anti-reinicio.
-- `PROJECT_CONTEXT.md` usa SharePoint/OneDrive Empresa como bodega definitiva del proyecto.
-- `AGENTS.md` contiene lectura contextual específica por frente.
-- PR #35/#45 cerrados sin merge; PR #52 preservado.
-- Sin PII, secretos ni binarios.
+- Sólo Markdown/documentación sanitizada.
+- Branch fuera de `main`.
+- XFER registrado `READY` v01.
+- Skills registradas sin cambiar lifecycle AI OS.
+- No PII, secretos, tokens, `.env`, IDs completos ni binarios.
+- Ningún ganador MCP declarado antes del micro-piloto.
+- `DATA_GAP` explícito para GA4/CRM/Deal/CursoAlumno/venta y creative cuando corresponda.
+- Issue #60 no se cierra: Delta pendiente.
 
 ## Gate
 
 ```text
-LISTO_PARA_MERGE
 REQUIERE_REVISION_MISAEL
+NO_MERGEAR_TODAVIA
 ```
 
-No mergear sin autorización explícita.
+No mergear hasta revisión de Misael y validación del diff final.
