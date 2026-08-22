@@ -115,3 +115,13 @@
 - Se corrigió la fuente general de archivos pesados: SharePoint/OneDrive Empresa como bodega definitiva; `external-files/marketing-performance-capacita` como staging local; Google Drive/R2 solo cuando exista uso específico documentado.
 - PR #35 y #45 quedan clasificados como antecedentes históricos que no gobiernan el contexto actual; PR #52 se conserva abierto para revisión técnica específica.
 - No se modificaron campañas, presupuestos, anuncios, keywords, negativas reales, cuentas Ads, APIs, scripts, producción, PII, secretos ni archivos pesados.
+
+## 2026-08-22
+
+- Misael definió como obligatorio aplicar a toda página o landing nueva/revisada una metodología integral SEO, Local SEO cuando aplique, AEO, GEO/AI Search, AI-readability/citabilidad, demanda/keywords, intención, buyer persona, propuesta de valor, journey/CTA, competencia, CRO, medición e impacto comercial.
+- Se abrió issue `#63 [INSTRUCCIONES]` para consolidar la definición sin duplicar los canónicos SEO/GEO existentes.
+- Se creó `docs/seo-ai/MARKETING_PAGE_VISIBILITY_PROTOCOL_V01.md` como gate reusable y se referenció desde `AGENTS.md`, `DECISIONES.md` y `docs/seo-ai/README.md`.
+- Se dejó explícito que el protocolo es obligatorio, pero no convierte automáticamente en indexables las landings paid-only con `noindex` vigente.
+- Se separó acceso de crawlers de AI-readability/citabilidad y crawlers de búsqueda/recuperación de crawlers de entrenamiento.
+- Misael autorizó explícitamente el merge a `main` de este cambio documental.
+- No se modificaron campañas, Google Ads, Meta Ads, landings productivas, Edge, Cloudflare, robots, WAF, canonical, sitemap, redirects, CRM, GTM, PageSense, Turnstile, credenciales, scopes ni producción.

@@ -32,6 +32,44 @@ No reemplazar una decisión local vigente por recomendaciones genéricas de plat
 
 Ejemplo obligatorio Google Ads: antes de opinar sobre palabras clave negativas de Excel B2C presencial, leer `docs/google-ads/GOOGLE_ADS_NEGATIVE_KEYWORDS_INTENT_POLICY.md`.
 
+## Protocolo obligatorio para páginas y landings
+
+Ante cualquier solicitud de crear, revisar, auditar, relanzar, publicar u optimizar una página o landing de Capacita, leer y aplicar:
+
+```text
+docs/seo-ai/MARKETING_PAGE_VISIBILITY_PROTOCOL_V01.md
+```
+
+Es obligatorio aunque Misael no vuelva a pedir explícitamente SEO/AEO/GEO.
+
+La evaluación debe integrar, según aplique:
+
+```text
+SEO
+→ Local SEO
+→ AEO
+→ GEO / AI Search
+→ AI-readability / citabilidad
+→ demanda / keywords
+→ intención
+→ buyer persona
+→ propuesta de valor
+→ journey / CTA
+→ competencia
+→ Ads / CPC como señal cuando aporte
+→ CRO / conversión
+→ medición
+→ impacto comercial
+```
+
+Reglas duras:
+
+- El protocolo no obliga a indexar todas las páginas. Preservar `noindex` cuando una landing paid-only tenga esa decisión vigente.
+- No confundir acceso de crawlers con comprensión/citabilidad: una página para AI Search debe ser fácil de leer y extraer una vez rastreada.
+- No inventar `llms.txt`, schema especial, keywords, claims, ratings, fechas, precios, duración, certificaciones ni contenidos no verificados.
+- Separar crawlers de búsqueda/recuperación de crawlers de entrenamiento y verificar documentación oficial vigente antes de cambiar políticas.
+- Marketing define demanda, intención, contenido, AEO/GEO y prioridad; Capacita Edge implementa robots, headers, canonical, sitemap, structured data, Cloudflare, frontend y tracking técnico.
+
 ## Sistema de Tareas Atlas
 
 Regla vigente:
