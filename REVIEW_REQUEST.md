@@ -2,103 +2,62 @@
 
 ## Objetivo de revisión vigente
 
-Validar el saneamiento de memoria operativa de Marketing para evitar que futuros chats/agentes reinicien decisiones ya resueltas o usen archivos puente obsoletos.
+Sincronizar Marketing con el estado real del frente SEO/AEO/GEO/AI Search después de consolidar el runtime reusable y su registry en `main`.
 
 ## Rama
 
 ```text
-docs/marketing-context-memory-sync-20260813
+docs/marketing-search-intelligence-sync-20260823
 ```
 
-## Hallazgos corregidos
+## Fuentes verificadas
 
-1. `TASK_STATUS.md` estaba fechado 2026-07-28 y no incluía PR #58, issue #56 ni la corrección Meta Ads de agosto.
-2. `DECISIONES.md` no registraba la política canónica de negativas ni la regla de continuidad anti-reinicio.
-3. `CHANGELOG_AGENT.md` no registraba el trabajo del 13-ago.
-4. `REVIEW_REQUEST.md` seguía apuntando al routing Meta ya mergeado.
-5. `docs/google-ads/GOOGLE_ADS_NEGATIVE_KEYWORDS_INTENT_POLICY.md` seguía marcado `PROPUESTO_PARA_MAIN` después del merge.
-6. `PROJECT_CONTEXT.md` trataba Google Drive como bodega general de pesados, contradiciendo la regla actual del proyecto.
-7. `AGENTS.md` no obligaba a recuperar el documento canónico específico antes de dar recomendaciones genéricas.
-8. PR #35 y PR #45 seguían abiertos pese a estar superados, contaminando el estado visible para futuros Bootstrap.
+- Marketing: `docs/seo-ai/MARKETING_PAGE_VISIBILITY_PROTOCOL_V01.md`.
+- AI OS PR #55: `MERGED`, merge SHA `62575085c041796d67d8f49c0845c8668cc26ed3`.
+- Search Intelligence Toolchain PR #2: `MERGED`, merge SHA `fb5c4a9df255953fa6bad59a8866ddf610474d1b`.
+- AI OS PR #56: `MERGED`, merge SHA `901c27a77f6c1fe06c1067723267314918dfb4d3`.
+- Marketing issue #65: `CLOSED / TOOL_FALSE_NEGATIVE_RESOLVED / NO_WEB_CHANGE_REQUIRED`.
 
-## Regla crítica nueva
-
-Antes de recomendar sobre un frente ya trabajado:
-
-- leer `TASK_STATUS.md` y `DECISIONES.md`;
-- buscar el documento canónico específico;
-- usar issues/PR solo para delta no consolidado;
-- aplicar primero la decisión vigente;
-- no pedir de nuevo a Misael justificaciones ya documentadas salvo contradicción o evidencia nueva.
-
-Para Google Ads negativas de Excel B2C presencial, la fuente obligatoria es:
+## Estado reusable que debe quedar visible en Marketing
 
 ```text
-docs/google-ads/GOOGLE_ADS_NEGATIVE_KEYWORDS_INTENT_POLICY.md
+SITEONE=READY
+ADVERTOOLS=READY
+PROMPTFOO=READY_NO_PAID_PROVIDER
+SERPBEAR=CONFIG_VALIDATED/PENDING_PROVIDER_SECURITY_REVIEW
 ```
 
-## Archivos modificados
+Las seis skills SEO/AEO/GEO/AI Search permanecen `0.1.0 draft/candidate` y pueden usarse localmente bajo el Context Gate de Marketing sin esperar `approved` global.
 
-```text
-AGENTS.md
-TASK_STATUS.md
-DECISIONES.md
-CHANGELOG_AGENT.md
-REVIEW_REQUEST.md
-PROJECT_CONTEXT.md
-docs/google-ads/GOOGLE_ADS_NEGATIVE_KEYWORDS_INTENT_POLICY.md
-```
+## Cambios de esta rama
 
-## Clasificación de antecedentes
+- `TASK_STATUS.md`: actualiza fecha, prioridad, estado de skills/runtime, piloto real y secuencia inmediata; evita usar como estado vivo tablas antiguas sin revalidación.
+- `docs/seo-ai/README.md`: hace descubrible el runtime técnico, sus SHAs, ownership y límites sin duplicar el registry de AI OS.
+- `REVIEW_REQUEST.md`: reemplaza el objetivo de revisión anterior por este cierre de sincronización.
 
-- PR #35: `CLOSED_SUPERSEDED / HISTORICO`; cerrado sin merge.
-- PR #45: `CLOSED_SUPERSEDED / HISTORICO`; cerrado sin merge.
-- PR #52: `OPEN / REVISION_TECNICA_PENDIENTE`; no se cierra en este saneamiento.
-- PR #8: `CLOSED_SUPERSEDED` por PR #51.
-- Issue #23: `CLOSED / HISTORICO`; validación V1 finalizada.
-- Issue #60: `OPEN / V3_CANDIDATA_NO_ACTIVA`; nuevo ciclo de validación.
+## Reglas críticas preservadas
 
-## Relación con Global
+- No duplicar instalación/runtime dentro de Marketing.
+- SiteOne/advertools/Promptfoo pueden consumirse en modo local/read-only según el caso.
+- `PROMPTFOO_SYNTHETIC_BENCHMARK != REAL_AI_SEARCH_RANKING`.
+- SerpBear no se inicia hasta resolver provider, seguridad, retención, owner y costo.
+- No se autorizan providers, credenciales, costos ni cambios productivos.
+- No cambia el protocolo de visibilidad ni las seis skills.
+- No se modifica ninguna campaña, landing, sitemap, robots, Cloudflare, WAF, CRM, GTM, PageSense ni Ads.
 
-- Global PR #134 captura las instrucciones realmente activas como V2 snapshot y prepara V3 candidata.
-- V3 no se activa hasta merge, copia manual por Misael y Bootstrap documentado en issue #60.
+## Feedback scan
 
-## Incidente operativo durante esta revisión
+- Marketing no contiene `AGENT_FEEDBACK.md` en `main`.
+- `CHANGELOG_AGENT.md`, `REVIEW_REQUEST.md` y `TASK_STATUS.md` fueron revisados.
+- AI OS `AGENT_FEEDBACK.md` no aporta un hallazgo material nuevo para este frente.
 
-Se creó accidentalmente el archivo inocuo `__noop__` en `main` mediante una llamada errónea del conector y fue revertido inmediatamente.
-
-Evidencia de reversión:
-
-```text
-commit de limpieza en main: 9e4e7683040fa4c6854d7d526e8d72f2c1aa1ae6
-```
-
-El archivo ya no existe y no contenía datos, secretos ni lógica. Archivos de prueba creados accidentalmente solo en la rama también fueron revertidos y no forman parte del diff final.
-
-## No se toca
-
-- Google Ads / Meta Ads productivos;
-- campañas, presupuestos, pujas, anuncios, públicos, keywords o negativas reales;
-- APIs, scripts o workflows;
-- Zoho, GTM, PageSense, Edge, Cloudflare o producción;
-- PII, secretos, exports crudos o archivos pesados.
-
-## Validación esperada
-
-- Solo Markdown en la rama.
-- Documento de negativas marcado `VIGENTE_EN_MAIN` con PR #58 y merge SHA correctos.
-- `TASK_STATUS.md` fechado 2026-08-13 y sin PR obsoletos como pendientes activos.
-- `DECISIONES.md` contiene la política de negativas y la regla anti-reinicio.
-- `PROJECT_CONTEXT.md` usa SharePoint/OneDrive Empresa como bodega definitiva del proyecto.
-- `AGENTS.md` contiene lectura contextual específica por frente.
-- PR #35/#45 cerrados sin merge; PR #52 preservado.
-- Sin PII, secretos ni binarios.
+`Feedback scan realizado: sin hallazgos relevantes`.
 
 ## Gate
 
 ```text
-LISTO_PARA_MERGE
-REQUIERE_REVISION_MISAEL
+PR_LISTO_PARA_MERGE
+REQUIERE_AUTORIZACION_MISAEL
 ```
 
 No mergear sin autorización explícita.
