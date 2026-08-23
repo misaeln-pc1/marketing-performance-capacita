@@ -3,6 +3,8 @@
 Fecha de corte: 2026-08-23  
 Estado: `WORKING_BASELINE / RESEARCH_COMPLETE_V01`
 
+> **Actualización comercial V3 — 2026-08-23:** Misael confirma 16 horas, modalidad Presencial Santiago y **CLP $169.000 por participante**. Este precio reemplaza el baseline anterior de CLP $178.000.
+
 ## Objetivo
 
 Benchmark previo a la optimización de la landing del curso `IA-TRAB-01`, comparando competencia presencial y online/sincrónica en Chile, con foco en Santiago.
@@ -13,7 +15,7 @@ No se infieren keywords privadas, tráfico, conversiones ni ventas no publicadas
 
 Internas:
 - `misaeln-pc1/Diseno-de-Cursos:cursos/nuevos/inteligencia-artificial-aplicada-trabajo-16h/CURRENT.md`
-- `misaeln-pc1/Diseno-de-Cursos:cursos/nuevos/inteligencia-artificial-aplicada-trabajo-16h/XFER__IA_TRAB_PRESENCIAL_LANDING_v02_2026-08-23.md`
+- `misaeln-pc1/Diseno-de-Cursos:cursos/nuevos/inteligencia-artificial-aplicada-trabajo-16h/XFER__IA_TRAB_PRESENCIAL_LANDING_v03_2026-08-23.md`
 - `misaeln-pc1/capacita-global-control:docs/gtm-revops/BUYER_PERSONAS.md`
 - `docs/seo-ai/MARKETING_PAGE_VISIBILITY_PROTOCOL_V01.md`
 
@@ -32,7 +34,7 @@ NAME=Inteligencia Artificial Aplicada al Trabajo
 LEVEL=Básico-Intermedio
 DURATION=16 horas cronológicas
 MODALITY=Presencial Santiago
-PRICE=CLP 178000
+PRICE=CLP 169000
 PROGRAMMING_REQUIRED=NO
 PRIMARY_TOOLS=ChatGPT|Gemini|Claude|Microsoft Copilot
 COMPLEMENTARY_TOOLS=NotebookLM|Perplexity
@@ -140,7 +142,7 @@ H1: **Inteligencia Artificial aplicada al Trabajo**.
 
 **Diferenciación:** no-code + proyecto final + grabaciones + certificado.
 
-**Brecha Capacita:** consistencia contractual, modalidad presencial inequívoca, 16 h / $178.000, Office/datos y menor complejidad técnica.
+**Brecha Capacita:** consistencia contractual, modalidad presencial inequívoca, 16 h / $169.000, Office/datos y menor complejidad técnica.
 
 ## NobleProg
 
@@ -255,7 +257,7 @@ Exponer como hechos verificables nombre, modalidad, ubicación, duración, preci
 ### P0
 - Presencial Santiago inequívoco en title/H1/hero/ficha/FAQ/schema.
 - Mantener `curso inteligencia artificial` como intención principal.
-- Consistencia absoluta de 16 h / $178.000 donde corresponda.
+- Consistencia absoluta de **16 h / $169.000** donde corresponda.
 - Sin programación + práctica guiada.
 - Explicar usos de ChatGPT, Gemini, Claude y Copilot.
 
@@ -280,6 +282,7 @@ CAPACITA_COMMERCIAL_FIT=HIGH
 CAPACITA_PRIMARY_DIFFERENTIATOR=PRESENCIAL_ACCESIBLE_SANTIAGO
 PRIMARY_KEYWORD=curso inteligencia artificial
 VALUE_PROPOSITION=IA aplicada al trabajo
+PRICE_DECISION=CLP169000
 TRAFFIC_ESTIMATES=DATA_GAP_SEMRUSH_PLAN
 ```
 
