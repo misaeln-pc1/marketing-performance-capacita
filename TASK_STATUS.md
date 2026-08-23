@@ -21,6 +21,26 @@ misaeln-pc1/capacita-ai-operating-system
 misaeln-pc1/capacita-search-intelligence-toolchain
 ```
 
+## Frente activo — IA Aplicada al Trabajo presencial Santiago
+
+Documento de benchmark en esta rama:
+
+`docs/research/IA_TRABAJO_PRESENCIAL_SANTIAGO_MARKET_BENCHMARK_V01_2026-08-23.md`
+
+Baseline consumidor verificado en Diseño de Cursos:
+
+```text
+COURSE_CODE=IA-TRAB-01
+ACTIVE_VARIANT=IA-TRAB-01-PRES-V1
+DURATION=16h
+MODALITY=PRESENCIAL_SANTIAGO
+PRICE=CLP 178000
+PRIMARY_KEYWORD=curso inteligencia artificial
+VALUE_PROPOSITION=IA aplicada al trabajo
+```
+
+Benchmark V01 identifica competencia presencial real en Artificiales, ClasesIA, UDD y NobleProg; Conekta Capacita queda como competidor directo por propuesta de valor pero con modalidad de la edición no inequívoca en su página. UAI, ESE y Universidad de Chile quedan como referencias online/sincrónicas. El próximo delta material se ejecuta cuando la Fábrica entregue preview/URL de Capacita.
+
 ## Frente SEO / AEO / GEO / AI Search — estado vigente
 
 ### Skills AI OS
@@ -171,12 +191,13 @@ docs/pagesense/PAGESENSE_GOAL_CONFIGURATION_AUDIT_2026-07-12.md
 
 ## Secuencia inmediata
 
-1. Aplicar el protocolo integral y las skills/runtime a la próxima página real que Misael priorice.
-2. Reutilizar GSC, Keyword Planner, SERP y evidencia existente antes de generar nueva investigación.
-3. Usar SiteOne + advertools como evidencia técnica/readability; Promptfoo sólo como benchmark sintético controlado.
-4. Mantener SerpBear bloqueado hasta resolver provider, seguridad, retención, owner y costo.
-5. Después de 2–3 páginas reales, devolver feedback a AI OS sobre utilidad, gaps y falsos positivos antes de promover las skills.
-6. Retomar Google Ads/Meta Ads por separado cuando Misael lo indique, leyendo primero sus canónicos específicos.
+1. Recibir preview/URL de la landing `IA-TRAB-01-PRES-V1` desde la Fábrica.
+2. Aplicar el protocolo integral y comparar contra el benchmark V01.
+3. Reutilizar GSC, Keyword Planner, SERP y evidencia existente antes de generar nueva investigación.
+4. Usar SiteOne + advertools como evidencia técnica/readability; Promptfoo sólo como benchmark sintético controlado.
+5. Mantener SerpBear bloqueado hasta resolver provider, seguridad, retención, owner y costo.
+6. Después de 2–3 páginas reales, devolver feedback a AI OS sobre utilidad, gaps y falsos positivos antes de promover las skills.
+7. Retomar Google Ads/Meta Ads por separado cuando Misael lo indique, leyendo primero sus canónicos específicos.
 
 ## Estado de frentes históricos
 
