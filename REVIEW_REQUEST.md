@@ -2,62 +2,71 @@
 
 ## Objetivo de revisión vigente
 
-Sincronizar Marketing con el estado real del frente SEO/AEO/GEO/AI Search después de consolidar el runtime reusable y su registry en `main`.
+Revisar y consolidar el benchmark de mercado del curso `IA-TRAB-01 — Inteligencia Artificial Aplicada al Trabajo`, modalidad comercial activa `PRESENCIAL_SANTIAGO`, antes de optimizar la landing generada por la Fábrica.
 
 ## Rama
 
 ```text
-docs/marketing-search-intelligence-sync-20260823
+docs/marketing-ia-trabajo-presencial-benchmark-20260823
 ```
 
-## Fuentes verificadas
+## Documento principal
 
-- Marketing: `docs/seo-ai/MARKETING_PAGE_VISIBILITY_PROTOCOL_V01.md`.
-- AI OS PR #55: `MERGED`, merge SHA `62575085c041796d67d8f49c0845c8668cc26ed3`.
-- Search Intelligence Toolchain PR #2: `MERGED`, merge SHA `fb5c4a9df255953fa6bad59a8866ddf610474d1b`.
-- AI OS PR #56: `MERGED`, merge SHA `901c27a77f6c1fe06c1067723267314918dfb4d3`.
-- Marketing issue #65: `CLOSED / TOOL_FALSE_NEGATIVE_RESOLVED / NO_WEB_CHANGE_REQUIRED`.
+`docs/research/IA_TRABAJO_PRESENCIAL_SANTIAGO_MARKET_BENCHMARK_V01_2026-08-23.md`
 
-## Estado reusable que debe quedar visible en Marketing
+## Fuentes canónicas consumidoras
+
+- Diseño de Cursos `CURRENT.md` del curso IA aplicada al trabajo.
+- Diseño de Cursos `XFER__IA_TRAB_PRESENCIAL_LANDING_v02_2026-08-23.md`.
+- GTM/RevOps `BUYER_PERSONAS.md`.
+- Marketing `MARKETING_PAGE_VISIBILITY_PROTOCOL_V01.md`.
+
+## Evidencia externa usada
+
+- Google Ads Keyword Planner vía HYPD, Chile/español.
+- SERP real de Google Chile vía HYPD.
+- Páginas públicas de Artificiales, ClasesIA, UDD, Conekta Capacita, NobleProg, UAI, ESE y Universidad de Chile.
+
+## Hallazgos principales
 
 ```text
-SITEONE=READY
-ADVERTOOLS=READY
-PROMPTFOO=READY_NO_PAID_PROVIDER
-SERPBEAR=CONFIG_VALIDATED/PENDING_PROVIDER_SECURITY_REVIEW
+MARKET_DEMAND=PASS
+PRESENTIAL_COMPETITION=CONFIRMED_BUT_LIMITED
+ONLINE_COMPETITION=HIGH
+FREE_SUBSTITUTE_PRESSURE=HIGH_ONLINE
+CAPACITA_COMMERCIAL_FIT=HIGH
+CAPACITA_PRIMARY_DIFFERENTIATOR=PRESENCIAL_ACCESIBLE_SANTIAGO
+PRIMARY_KEYWORD=curso inteligencia artificial
+VALUE_PROPOSITION=IA aplicada al trabajo
+TRAFFIC_ESTIMATES=DATA_GAP_SEMRUSH_PLAN
 ```
 
-Las seis skills SEO/AEO/GEO/AI Search permanecen `0.1.0 draft/candidate` y pueden usarse localmente bajo el Context Gate de Marketing sin esperar `approved` global.
+Competidores presenciales mínimos para el benchmark posterior de la landing:
 
-## Cambios de esta rama
+1. Artificiales.
+2. ClasesIA.
+3. UDD.
+4. Conekta Capacita como competidor directo por propuesta de valor, con modalidad de edición no inequívoca en la página.
+5. NobleProg como referencia presencial/corporativa local.
 
-- `TASK_STATUS.md`: actualiza fecha, prioridad, estado de skills/runtime, piloto real y secuencia inmediata; evita usar como estado vivo tablas antiguas sin revalidación.
-- `docs/seo-ai/README.md`: hace descubrible el runtime técnico, sus SHAs, ownership y límites sin duplicar el registry de AI OS.
-- `REVIEW_REQUEST.md`: reemplaza el objetivo de revisión anterior por este cierre de sincronización.
+Referencias online/sincrónicas: UAI, ESE y Universidad de Chile.
 
-## Reglas críticas preservadas
+## Límites
 
-- No duplicar instalación/runtime dentro de Marketing.
-- SiteOne/advertools/Promptfoo pueden consumirse en modo local/read-only según el caso.
-- `PROMPTFOO_SYNTHETIC_BENCHMARK != REAL_AI_SEARCH_RANKING`.
-- SerpBear no se inicia hasta resolver provider, seguridad, retención, owner y costo.
-- No se autorizan providers, credenciales, costos ni cambios productivos.
-- No cambia el protocolo de visibilidad ni las seis skills.
-- No se modifica ninguna campaña, landing, sitemap, robots, Cloudflare, WAF, CRM, GTM, PageSense ni Ads.
+- No se modificó la landing ni producción.
+- No se modificaron campañas Ads.
+- No se infirieron keywords privadas, conversiones ni tráfico competitivo no disponible.
+- Semrush Traffic Analytics no está disponible en el plan conectado; no se inventan visitas.
+- No se cambió el currículo canónico del curso.
+- No se amplió el curso a Python, APIs, VBA o automatización técnica hands-on.
 
-## Feedback scan
+## Siguiente condición
 
-- Marketing no contiene `AGENT_FEEDBACK.md` en `main`.
-- `CHANGELOG_AGENT.md`, `REVIEW_REQUEST.md` y `TASK_STATUS.md` fueron revisados.
-- AI OS `AGENT_FEEDBACK.md` no aporta un hallazgo material nuevo para este frente.
-
-`Feedback scan realizado: sin hallazgos relevantes`.
+Cuando la Fábrica entregue preview/URL, ejecutar el protocolo integral SEO + Local SEO + AEO + GEO/AI Search + CRO, comparar contra el benchmark V01 y emitir P0/P1/P2 + `DO_NOT_CHANGE`.
 
 ## Gate
 
 ```text
-PR_LISTO_PARA_MERGE
-REQUIERE_AUTORIZACION_MISAEL
+PR_LISTO_PARA_REVISION
+NO_MERGEAR_SIN_AUTORIZACION_MISAEL
 ```
-
-No mergear sin autorización explícita.
