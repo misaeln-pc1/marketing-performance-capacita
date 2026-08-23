@@ -1,59 +1,118 @@
 # Estado de Tareas
 
-Fecha de revision: 2026-08-13
+Fecha de revisión: 2026-08-23
 
 ## Prioridad activa
 
-Continuar el frente Google Ads B2C Excel presencial A/B/C sin reabrir decisiones ya canonizadas y mantener sincronizada la memoria operativa del repo.
+Operacionalizar el protocolo obligatorio de visibilidad de páginas usando el runtime reusable ya consolidado y aplicarlo a las siguientes páginas/landings reales de Capacita sin reabrir la metodología desde cero.
 
-Fuentes vigentes principales:
+Fuente local obligatoria:
+
+```text
+docs/seo-ai/MARKETING_PAGE_VISIBILITY_PROTOCOL_V01.md
+docs/seo-ai/README.md
+DECISIONES.md
+```
+
+Fuentes reusables externas al repo:
+
+```text
+misaeln-pc1/capacita-ai-operating-system
+misaeln-pc1/capacita-search-intelligence-toolchain
+```
+
+## Frente SEO / AEO / GEO / AI Search — estado vigente
+
+### Skills AI OS
+
+AI OS PR #55 quedó `MERGED / VIGENTE_EN_MAIN`, merge SHA:
+
+`62575085c041796d67d8f49c0845c8668cc26ed3`
+
+Skills disponibles para evaluación/uso local bajo gate de Marketing:
+
+1. `seo-demand-serp-research-capacita`
+2. `aeo-ai-readability-capacita`
+3. `geo-ai-search-benchmark-capacita`
+4. `ai-crawler-retrieval-access-audit-capacita`
+5. `entity-authority-corroboration-capacita`
+6. `marketing-page-visibility-review-capacita`
+
+Estado de biblioteca: `0.1.0 draft/candidate`. No requieren `approved` global para uso local controlado.
+
+### Runtime técnico reusable
+
+Toolchain PR #2 quedó `MERGED / VIGENTE_EN_MAIN`.
+
+- repo: `misaeln-pc1/capacita-search-intelligence-toolchain`
+- head validado: `fe829a42e5348c745a8dc5fecebdbfd03dce9ee6`
+- merge SHA: `fb5c4a9df255953fa6bad59a8866ddf610474d1b`
+
+AI OS PR #56 quedó `MERGED / VIGENTE_EN_MAIN`, merge SHA:
+
+`901c27a77f6c1fe06c1067723267314918dfb4d3`
+
+Estado de consumo:
+
+```text
+SITEONE=READY
+ADVERTOOLS=READY
+PROMPTFOO=READY_NO_PAID_PROVIDER
+SERPBEAR=CONFIG_VALIDATED/PENDING_PROVIDER_SECURITY_REVIEW
+```
+
+Reglas críticas:
+
+- SiteOne: usar para crawl técnico, render opt-in, HTML/JSON/texto/Markdown y `AI_READABILITY_TEST`.
+- advertools: usar para robots, sitemap multi-source, estructura URL/crawl y términos; no sustituye GSC/Keyword Planner como fuente de demanda.
+- Promptfoo: usar sólo como benchmark sintético/reproducible mientras no exista provider real autorizado. `PROMPTFOO_SYNTHETIC_BENCHMARK != REAL_AI_SEARCH_RANKING`.
+- SerpBear: no iniciar. Sigue bloqueado por provider + security review en `capacita-search-intelligence-toolchain#1`.
+- No duplicar instalación o runtime dentro de Marketing.
+- No crear credenciales, costos o providers sin autorización explícita.
+
+## Piloto real completado
+
+URL piloto:
+
+`https://capacita.cl/curso-excel-intermedio-avanzado-presencial-santiago`
+
+Resultados relevantes:
+
+- SiteOne: PASS, HTTP 200, canonical/indexabilidad, estructura, JSON-LD y Markdown utilizable para AI-readability.
+- advertools: PASS, crawl HTTP 200 y sitemap multi-source corregido.
+- Sitemap WordPress: 415 URLs / target `false`.
+- Sitemap estático: 6 URLs / target `true`.
+- Agregado deduplicado: 416 URLs / target `true`.
+- `FALSE_NEGATIVE_SITEMAP_FIXED=PASS`.
+- Marketing issue #65: `CLOSED / TOOL_FALSE_NEGATIVE_RESOLVED / NO_WEB_CHANGE_REQUIRED`.
+- Promptfoo: 2/2 casos sintéticos PASS, costo/tokens/credenciales = 0.
+- SerpBear: configuración validada, runtime no iniciado.
+
+La landing no requirió cambio web por el hallazgo de sitemap.
+
+## Regla de continuidad
+
+Antes de recomendar sobre un frente ya trabajado, leer `DECISIONES.md`, este archivo y el documento canónico específico. Aplicar primero la decisión vigente y analizar sólo evidencia nueva o delta. No reiniciar estrategia desde recomendaciones genéricas de plataforma.
+
+## Google Ads — frente separado vigente
+
+Fuentes principales al retomarlo:
 
 ```text
 docs/landing-pages/EXCEL_B2C_PAID_LANDINGS_MINIMUM_BASELINE_2026-07-28.md
 docs/google-ads/GOOGLE_ADS_NEGATIVE_KEYWORDS_INTENT_POLICY.md
 ```
 
-## Regla de continuidad
-
-Antes de recomendar sobre un frente ya trabajado, leer `DECISIONES.md`, este archivo y el documento canónico específico. Aplicar primero la decisión vigente y analizar solo evidencia nueva o delta. No reiniciar estrategia desde recomendaciones genéricas de plataforma.
-
-## Estado PR / Issues principales
-
-| Item | Estado | Accion |
-|---|---|---|
-| Marketing PR #59 | `OPEN / LISTO_PARA_MERGE` | Saneamiento de memoria operativa; requiere autorización de Misael. |
-| Global PR #134 | `OPEN / LISTO_PARA_MERGE` | Versiona V2 snapshot y V3 candidata; requiere autorización de Misael. |
-| Marketing issue #60 | `OPEN / V3_CANDIDATA_NO_ACTIVA` | Validar V3 después de merge + copia manual + Bootstrap. |
-| Marketing issue #23 | `CLOSED / HISTORICO` | Ciclo V1 cerrado; no gobierna la validación actual. |
-| Marketing PR #58 | `MERGED / VIGENTE_EN_MAIN` | Política canónica de negativas Google Ads por intención. |
-| Marketing issue #56 | `CLOSED_COMPLETED` | Regla de negativas consolidada en PR #58. |
-| Marketing issue #57 | `CLOSED_DUPLICATE` | Duplicado de #56; no usar como fuente paralela. |
-| Marketing PR #54 / #55 | `MERGED / VIGENTE_EN_MAIN` | Routing Meta Ads corregido y marcado canónico. |
-| Marketing PR #51 | `MERGED / VIGENTE_EN_MAIN` | Estándar de producción Meta Ads vigente. |
-| Marketing PR #8 | `CLOSED_SUPERSEDED` | Sustituido por PR #51. |
-| Marketing PR #46 | `MERGED / VIGENTE_EN_MAIN` | Baseline mínimo de tres landings B2C pagadas. |
-| Marketing PR #47 | `MERGED / VIGENTE_EN_MAIN` | PageSense/CRO consolidado. |
-| Marketing PR #49 | `MERGED / VIGENTE_EN_MAIN` | XFER comercial Learning Games consolidado. |
-| Marketing PR #35 | `CLOSED_SUPERSEDED / HISTORICO` | Material parcialmente absorbido por PR #46 y fuentes posteriores; no mergeado. |
-| Marketing PR #45 | `CLOSED_SUPERSEDED / HISTORICO` | Auditoría previa superada por consolidaciones posteriores; no mergeado. |
-| Marketing PR #52 | `OPEN / REVISION_TECNICA_PENDIENTE` | Procedimiento/script Meta Ads read-only; conservar para revisión específica. |
-| Marketing issue #43 | `OPEN / XFER_EDGE` | Revisar solo al retomar handoff Edge. |
-| Issue #48 Google Ads residual | `OPEN / MANUAL_PRIVADO` | Auction Insights, reconciliación agregada y cluster `clases/profesor`. |
-| Issue #50 Office Ads | `OPEN / FUTURE_RETRY_ONLY` | Reintentar keyword research solo con OAuth `adwords`, curso y landing autorizados. |
-| Issue #53 Google Ads B2B | `BACKLOG / NO_EJECUTAR_AHORA` | Frente separado posterior al B2C A/B/C. |
-
-## Google Ads — regla vigente de negativas
-
-PR #58 consolidó:
+Reglas vigentes:
 
 - priorizar intención de asistir/comprar curso;
-- preservar negativas históricas de solución puntual mientras no exista evidencia que justifique retirarlas;
+- preservar negativas históricas de solución puntual mientras no exista evidencia real que justifique retirarlas;
 - excluir deliberadamente intención informativa puntual y empleo cuando corresponda;
 - `paso a paso` no es negativa global;
 - separar exclusión global de tráfico versus routing A/B/C a nivel grupo;
 - no modificar listas reales sin autorización explícita.
 
-## Baseline Excel B2C pagado vigente
+Baseline Excel B2C pagado:
 
 - Landing A: Curso Excel Básico-Intermedio presencial, `BP-001`.
 - Landing B: Excel desde cero presencial, `BP-002`.
@@ -98,7 +157,7 @@ docs/pagesense/PAGESENSE_GOAL_CONFIGURATION_AUDIT_2026-07-12.md
 - GitHub conserva Markdown, manifests, hashes, síntesis y trazabilidad liviana.
 - Bodega definitiva: SharePoint/OneDrive Empresa.
 - `external-files/marketing-performance-capacita` es staging local operativo.
-- Google Drive o Cloudflare R2 solo se usan como capas específicas cuando exista decisión documentada; no son la bóveda canónica general.
+- Google Drive o Cloudflare R2 sólo se usan como capas específicas cuando exista decisión documentada; no son la bóveda canónica general.
 
 ## Reglas operativas vigentes
 
@@ -112,9 +171,13 @@ docs/pagesense/PAGESENSE_GOAL_CONFIGURATION_AUDIT_2026-07-12.md
 
 ## Secuencia inmediata
 
-1. Mergear PR #59 si Misael lo autoriza.
-2. Mergear Global PR #134 si Misael lo autoriza.
-3. Misael copia manualmente V3 al Proyecto Marketing.
-4. Ejecutar Bootstrap y registrar resultado en issue #60.
-5. Retomar Google Ads B2C A/B/C leyendo primero la política canónica de negativas.
-6. Revisar PR #52 por separado solo si se reactiva la ruta técnica Meta Ads read-only.
+1. Aplicar el protocolo integral y las skills/runtime a la próxima página real que Misael priorice.
+2. Reutilizar GSC, Keyword Planner, SERP y evidencia existente antes de generar nueva investigación.
+3. Usar SiteOne + advertools como evidencia técnica/readability; Promptfoo sólo como benchmark sintético controlado.
+4. Mantener SerpBear bloqueado hasta resolver provider, seguridad, retención, owner y costo.
+5. Después de 2–3 páginas reales, devolver feedback a AI OS sobre utilidad, gaps y falsos positivos antes de promover las skills.
+6. Retomar Google Ads/Meta Ads por separado cuando Misael lo indique, leyendo primero sus canónicos específicos.
+
+## Estado de frentes históricos
+
+Los estados detallados de PR/issues anteriores al 2026-08-23 deben revalidarse al retomar cada frente. No usar una tabla histórica como estado vivo sin readback del PR/issue correspondiente.
