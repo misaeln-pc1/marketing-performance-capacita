@@ -10,6 +10,49 @@ La inclusión en esta lista **no implica** que una organización sea comparable 
 
 También se permite incluir organizaciones cuyo valor principal sea mostrar un nivel de madurez, escala, servicio o posicionamiento al que Capacita quiera acercarse, aun cuando no compitan directamente en todos los frentes.
 
+## Fase actual — F0 Longlist / Triage liviano
+
+Objetivo actual: **construir primero un listado amplio y priorizado**, sin gastar recursos de análisis profundo antes de saber qué organizaciones realmente merecen estudiarse.
+
+Regla operativa vigente en esta rama:
+
+```text
+F0_LONGLIST_TRIAGE
+→ F1_METODOLOGIA_SKILLS
+→ F2_ANALISIS_PROFUNDO_SOLO_PRIORIZADOS
+```
+
+### F0 — qué revisar
+
+Para cada organización basta inicialmente con:
+
+1. nombre y dominio;
+2. relación con Capacita;
+3. qué parece hacer bien o por qué interesa;
+4. posible utilidad como benchmark;
+5. prioridad para análisis posterior.
+
+### F0 — qué NO hacer todavía
+
+- no usar Semrush ni consumir unidades/créditos API;
+- no usar Keyword Planner ni herramientas pagadas sólo para clasificar el longlist;
+- no hacer auditorías SEO/AEO/GEO completas;
+- no hacer crawls extensos;
+- no investigar Ads, tráfico, backlinks o keywords en profundidad;
+- no construir todavía una metodología definitiva de benchmarking;
+- no dedicar análisis extenso a organizaciones de baja prioridad.
+
+Las herramientas de pago o con cuotas limitadas se reservan para necesidades inmediatas de Capacita y, posteriormente, para referentes que sobrevivan el triage y justifiquen el costo de análisis.
+
+### Clasificación de prioridad F0
+
+- `P1_PRIORITARIO`: alto valor potencial; debe entrar al análisis profundo posterior.
+- `P2_INTERESANTE`: aporta prácticas concretas; analizar después de P1 o cuando el frente coincida.
+- `P3_RADAR`: mantener registrado, pero sin invertir análisis por ahora.
+- `NO_PRIORIZAR`: poco fit o poco aprendizaje esperado con la evidencia disponible.
+
+La prioridad F0 **no mide quién es mejor empresa**. Mide cuánto valor esperamos obtener al analizarla para Capacita.
+
 ## Taxonomía de referencia
 
 Una organización puede tener más de una clasificación:
@@ -23,33 +66,33 @@ Una organización puede tener más de una clasificación:
 
 La clasificación debe revisarse por caso; no forzar una sola etiqueta.
 
-## Criterios de análisis cuando se active un caso
+## Longlist F0 — estado actual
 
-Según aplique, revisar:
-
-- oferta y propuesta de valor;
-- segmentos B2C/B2B;
-- cursos, servicios y modalidades;
-- precios y condiciones comerciales cuando sean públicas;
-- experiencia web, landing, CTA y conversión;
-- SEO, Local SEO, AEO y GEO/AI Search;
-- demanda, keywords, intención y presencia Ads;
-- contenidos, autoridad y señales de confianza;
-- operación formativa, plataformas y acompañamiento;
-- fortalezas/debilidades frente a Capacita;
-- prácticas reutilizables mediante benchmarking;
-- elementos que **no** conviene replicar;
-- brecha entre Capacita actual y el referente;
-- experimento o adopción mínima que permita acercarse al estándar observado.
-
-## Radar inicial
-
-| Organización | Dominio | Clasificación inicial | Áreas de interés | Estado | Evidencia pública preliminar |
+| Organización | Dominio | Clasificación inicial | Prioridad F0 | Motivo breve | Qué estudiar después si avanza |
 |---|---|---|---|---|---|
-| Grado45 | `grado45.cl` | `REFERENTE_FUNCIONAL + POSIBLE_COMPETIDOR_PARCIAL` | Diseño instruccional, eLearning, Moodle, acompañamiento tutorial, recursos educativos, formación híbrida/online y proyectos B2B; revisar también oferta propia de capacitación | `PENDIENTE_ANALISIS_PROFUNDO` | Sitio público revisado 2026-08-29: se presenta como consultora de educación a distancia; declara diseño/desarrollo/implementación de cursos, Campus Virtual Moodle, acompañamiento a estudiantes/docentes, recursos multimedia y modalidades híbrida, semipresencial y 100% online. También publica iniciativas formativas propias. |
-| Edutecno | `edutecno.cl` | `REFERENTE_ASPIRACIONAL + REFERENTE_FUNCIONAL + COMPETIDOR_PARCIAL` | Escala OTEC, B2B, eLearning, ofimática, Power BI, transformación digital, desarrollos a medida, experiencia de cliente, plataforma/campus, acompañamiento, marca y prueba social | `BENCHMARK_PRELIMINAR_REALIZADO` | Sitio público revisado 2026-08-29. Edutecno declara más de 26 años en capacitación a distancia, más de 1 millón de personas capacitadas, soluciones exportadas fuera de Chile y clientes corporativos. Su oferta empresarial incluye Excel, Power BI, Office 365, ciberseguridad, habilidades interpersonales, transformación digital, desarrollos a medida, VR/AR y programas intensivos E-Camp. |
+| Edutecno | `edutecno.cl` | `REFERENTE_ASPIRACIONAL + REFERENTE_FUNCIONAL + COMPETIDOR_PARCIAL` | `P1_PRIORITARIO` | Alto interés por escala OTEC, B2B, eLearning, portafolio tecnológico, soluciones a medida, campus, acompañamiento, marca y prueba social. El negocio parece más valioso como referencia que su web tomada de forma integral. | Modelo B2B, escala, operación, prueba social, funnel empresa, portafolio conectado, eLearning, experiencia end-to-end y qué capacidades explican su madurez. |
+| Grado45 | `grado45.cl` | `REFERENTE_FUNCIONAL + POSIBLE_COMPETIDOR_PARCIAL + PARTNER_PROVEEDOR_CANDIDATO` | `P2_INTERESANTE` | Interesa por diseño instruccional, eLearning, Moodle, acompañamiento tutorial y recursos educativos. Puede ser más útil como referente funcional o eventual proveedor/partner que como competidor general. | Diseño instruccional, operación Moodle/eLearning, acompañamiento, recursos, servicios B2B y posibles capacidades complementarias para Capacita. |
 
-## Nota específica — Grado45
+## Regla para incorporar los próximos nombres
+
+Mientras estemos en F0, cada nuevo nombre se agrega con **una sola revisión liviana** y se clasifica. No se abre un análisis completo por empresa.
+
+Formato mínimo:
+
+```text
+ORGANIZACION=
+DOMINIO=
+TIPO=
+PRIORIDAD_F0=
+POR_QUE_INTERESA=
+QUE_ESTUDIAR_DESPUES=
+```
+
+Cuando el longlist tenga volumen suficiente, se pasa a `F1_METODOLOGIA_SKILLS`: buscar/reutilizar skills, capacidades y metodologías maduras para diseñar el análisis profundo. Sólo después se activa `F2` sobre los referentes priorizados.
+
+## Antecedentes ya observados — no constituyen todavía metodología F2
+
+### Grado45
 
 Por ahora **no clasificar como competidor directo general de Capacita**.
 
@@ -57,76 +100,31 @@ Hipótesis inicial:
 
 1. **Referente funcional:** alto interés para experiencia eLearning, diseño instruccional, acompañamiento tutorial, uso de Moodle, recursos educativos y presentación de servicios B2B.
 2. **Posible competidor parcial:** puede competir en proyectos corporativos, diseño/desarrollo de capacitación digital y determinadas iniciativas formativas.
-3. **Competidor directo por curso:** debe decidirse caso a caso al comparar una oferta concreta de Grado45 con una oferta concreta de Capacita.
+3. **Partner/proveedor candidato:** algunos servicios pueden ser complementarios a Capacita si en el futuro conviene comprar capacidad antes que desarrollarla internamente.
+4. **Competidor directo por curso:** debe decidirse caso a caso al comparar una oferta concreta de Grado45 con una oferta concreta de Capacita.
 
-Próxima acción cuando corresponda: ejecutar análisis competitivo específico y separar claramente `HECHOS`, `INFERENCIAS`, `FORTALEZAS`, `DEBILIDADES`, `BENCHMARK_APLICABLE`, `NO_COPIAR` y oportunidades para Capacita.
+### Edutecno
 
-## Nota específica — Edutecno
+Edutecno debe permanecer en el radar principalmente como **referente aspiracional de empresa de capacitación**, además de competidor parcial en categorías donde existe solapamiento con Capacita.
 
-### Clasificación
+Lectura preliminar conservada:
 
-Edutecno debe permanecer en el radar principalmente como **referente aspiracional de empresa de capacitación**, además de competidor parcial en categorías donde sí existe solapamiento con Capacita.
+- comunica escala, trayectoria y confianza corporativa;
+- muestra una oferta empresarial amplia y conectada;
+- combina cursos, eLearning, programas, desarrollos a medida y tecnologías de aprendizaje;
+- utiliza clientes, testimonios y trayectoria como prueba social;
+- presenta señales de funnel B2B como diagnósticos, demos y formularios empresariales;
+- su web no debe asumirse como benchmark integral: existen elementos de contenido, copy y arquitectura que requieren evaluación antes de replicarse.
 
-No usar la etiqueta de competidor como única lectura: el objetivo explícito del benchmark es entender qué capacidades, procesos y señales de escala podrían acercar a Capacita a un nivel similar, sin copiar elementos débiles o desactualizados.
+Conclusión preliminar:
 
-### Hechos públicos observados
+```text
+EDUTECNO_NEGOCIO_REFERENTE=ALTO
+EDUTECNO_WEB_REFERENTE_TOTAL=NO_DETERMINADO / NO_ASUMIR
+EDUTECNO_F0=P1_PRIORITARIO
+```
 
-- La página principal declara más de 26 años liderando capacitación a distancia.
-- Declara más de 1 millón de personas capacitadas y exportación de soluciones a Latinoamérica y Europa.
-- Presenta testimonios de clientes corporativos y logos/señales de confianza.
-- La oferta empresarial visible incluye Excel, Power BI, Office 365, G-Suite, ciberseguridad, bienestar, igualdad de género y habilidades interpersonales.
-- Ofrece además desarrollos a medida, realidad virtual, realidad aumentada y programas intensivos E-Camp.
-- Su programa de Transformación Digital Empresarial se estructura como una malla de seis cursos 100% e-learning e incorpora un test de madurez digital y CTA de solicitud de demo.
-- Mantiene accesos diferenciados a cursos/campus y canales de soporte para alumnos.
-- Se observan iniciativas y contenidos relacionados con Inteligencia Artificial y catálogos implementados para terceros con cursos de IA, programación, Excel, Power BI y otras competencias digitales.
-
-### Benchmark que sí parece valioso
-
-1. `ESCALA_Y_MARCA_B2B`: vender capacitación como solución corporativa y relación de largo plazo, no sólo como cursos aislados.
-2. `PRUEBA_SOCIAL`: clientes, testimonios y métricas de experiencia visibles en la propuesta comercial.
-3. `PORTAFOLIO_CONECTADO`: combinar ofimática, datos, tecnología, habilidades y transformación digital bajo una oferta empresarial coherente.
-4. `SOLUCIONES_A_MEDIDA`: capacidad de desarrollar programas y contenidos específicos para organizaciones.
-5. `EXPERIENCIA_END_TO_END`: señal explícita de acompañamiento antes, durante y después de la capacitación.
-6. `CAPACIDAD_DIGITAL`: campus, eLearning, programas intensivos y operación escalable más allá de una sala o curso individual.
-7. `FUNNEL_B2B`: uso de diagnósticos/test, demo y formularios orientados a empresa/cargo para capturar intención corporativa.
-8. `AUTORIDAD`: prensa, aliados, trayectoria y evidencia de proyectos como capa de confianza comercial.
-
-### Sitio web — evaluación preliminar
-
-`NEGOCIO_REFERENTE != WEB_REFERENTE_TOTAL`
-
-La web transmite escala, trayectoria y confianza, pero **no debe copiarse completa como estándar web**.
-
-Fortalezas observables:
-
-- propuesta B2B clara en home;
-- abundante prueba social;
-- acceso directo a campus/cursos;
-- CTA de contacto y WhatsApp;
-- oferta agrupada por soluciones;
-- páginas específicas para algunos productos/lead magnets;
-- activos de autoridad como blog y prensa.
-
-Debilidades o señales a revisar antes de replicar:
-
-- catálogo principal conserva terminología/productos que parecen envejecidos (`G-Suite`, adopción de teletrabajo como novedad);
-- varias descripciones son genéricas y no exponen con fuerza resultados, duración, modalidad, nivel, precio o diferenciación por curso;
-- existen repeticiones y errores de copy visibles;
-- parte del contenido/prensa parece anclado en temáticas de pandemia o ciclos anteriores;
-- algunas páginas públicas son muy delgadas desde el punto de vista textual;
-- la arquitectura muestra múltiples dominios/subdominios/campus, lo que debe evaluarse antes de tomarla como modelo SEO o de experiencia.
-
-Conclusión preliminar: **Edutecno es un benchmark más fuerte de modelo empresarial, escala B2B, operación y prueba social que de ejecución web integral**. Para Capacita conviene estudiar qué hay detrás de esa escala y seleccionar prácticas, no clonar el sitio.
-
-### Próximo análisis recomendado cuando se procese el listado completo
-
-Comparar Edutecno y los demás referentes en una matriz común, al menos en:
-
-`ESCALA | OFERTA | B2B | B2C | E-LEARNING | PRESENCIAL | TECNOLOGIA | CONTENIDOS | CAMPUS | ACOMPAÑAMIENTO | SENCE | MARCA | PRUEBA_SOCIAL | SEO | AEO/GEO | WEB/CRO | ADS | DIFERENCIACION | BENCHMARK_APLICABLE | NO_COPIAR | BRECHA_CAPACITA`
-
-No inferir tamaño de ingresos, dotación, tráfico, rentabilidad ni performance publicitaria sin fuente verificable.
-
-## Fuentes públicas revisadas
+## Fuentes públicas ya revisadas en el antecedente
 
 ### Grado45
 
