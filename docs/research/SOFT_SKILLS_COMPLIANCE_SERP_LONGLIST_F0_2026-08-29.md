@@ -4,22 +4,66 @@ Estado: `DRAFT_NO_VIGENTE`
 
 ## Objetivo
 
-Abrir una línea competitiva separada para habilidades blandas, cultura organizacional y compliance corporativo, usando sólo búsqueda web pública y señales comerciales visibles.
+Abrir una línea competitiva separada para habilidades blandas, cultura y personas, y compliance empresarial, usando sólo búsqueda web pública y señales comerciales visibles.
 
 Esta fase es `F0_LONGLIST_TRIAGE`: no es un ranking SEO exacto, no usa Semrush, Keyword Planner ni herramientas con créditos limitados, y no reemplaza la metodología profunda que Marketing solicitará a AI OS / Skills.
 
-## Alcance temático
+## Taxonomía operativa aprobada — tres áreas
+
+Esta línea queda estructurada en tres familias comerciales distintas. No deben mezclarse automáticamente porque responden a dolores, compradores y señales de compra diferentes.
+
+### 1. HABILIDADES_BLANDAS
+
+Desarrollo de competencias interpersonales y de gestión aplicadas al desempeño.
+
+Incluye inicialmente:
 
 - liderazgo y gestión de equipos;
 - trabajo en equipo;
 - comunicación efectiva / asertiva;
 - coaching y feedback;
 - gestión de conflictos;
+- negociación y otras competencias conductuales cuando exista demanda real.
+
+Compradores probables a validar: RRHH/L&D, jefaturas, operaciones y gerencias.
+
+### 2. CULTURA_Y_PERSONAS
+
+Desarrollo de condiciones organizacionales, convivencia, inclusión, bienestar y cultura.
+
+Incluye inicialmente:
+
 - diversidad, equidad de género e inclusión laboral;
-- Ley Karin: acoso laboral, acoso sexual y violencia en el trabajo;
-- bienestar, riesgos psicosociales y cultura organizacional;
-- compliance, ética, prevención de delitos y responsabilidad penal de la persona jurídica;
-- protección de datos y otras líneas normativas empresariales cuando complementen el portafolio.
+- cultura organizacional;
+- bienestar;
+- riesgos psicosociales;
+- convivencia y prevención de violencia/acoso desde la dimensión cultural y de personas;
+- Ley Karin cuando la necesidad principal sea cultura preventiva, convivencia, liderazgo o gestión de personas.
+
+Compradores probables a validar: RRHH, People & Culture, Desarrollo Organizacional, Prevención y gerencias.
+
+### 3. COMPLIANCE_EMPRESARIAL
+
+Formación impulsada principalmente por riesgo normativo, deber de prevención, control interno o cumplimiento organizacional.
+
+Incluye inicialmente:
+
+- Ley Karin cuando la necesidad principal sea cumplimiento, protocolo, investigación o deber del empleador;
+- compliance y ética empresarial;
+- prevención de delitos y responsabilidad penal de la persona jurídica;
+- Ley 20.393 / Ley 21.595 cuando corresponda;
+- protección de datos personales;
+- otras obligaciones empresariales que generen una necesidad formativa real.
+
+Compradores probables a validar: Compliance, Legal, RRHH, Prevención de Riesgos, auditoría/controles y gerencia.
+
+### Regla de solapamiento
+
+Un mismo tema puede pertenecer a más de una familia según el problema que compra la empresa. Ejemplo: `Ley Karin` puede aparecer en `CULTURA_Y_PERSONAS` o `COMPLIANCE_EMPRESARIAL`.
+
+No duplicar automáticamente el mismo producto. Primero distinguir:
+
+`INTENCION_DE_COMPRA → BUYER/AREA → PROBLEMA → PROMESA → FORMATO → CTA`.
 
 ## Exclusiones
 
@@ -41,7 +85,7 @@ Esta fase es `F0_LONGLIST_TRIAGE`: no es un ranking SEO exacto, no usa Semrush, 
 |---:|---|---|---|:---:|
 | 1 | Transversal OTEC | Se repite en liderazgo y en requerimientos reales de Ley Karin; además ya aparece en tecnología/B2B | Portafolio transversal + ejecución corporativa visible + SENCE + e-learning/in-company | P1 |
 | 2 | OTEC Pausa | Home orientada directamente a empresas; agrupa Ley Karin, liderazgo/coaching, bienestar y habilidades; usa franquicia SENCE como argumento | Funnel B2B, venta por solución, asesoría SENCE, calculadora/lead magnet y arquitectura por necesidades | P1 |
-| 3 | OTEC Achs Servicios | Diplomado de habilidades blandas + curso Ley Karin; marca fuerte vinculada a seguridad y salud laboral | Autoridad de marca, empaquetado de soft skills como programa/diplomado, cruce cultura + riesgos psicosociales + normativa | P1 |
+| 3 | OTEC Achs Servicios | Diplomado de habilidades blandas + curso Ley Karin; marca fuerte vinculada a seguridad y salud laboral | Autoridad de marca, empaquetado de programas, cruce cultura/personas + riesgos psicosociales + compliance | P1 |
 | 4 | OTEC.CL | Páginas individuales para liderazgo, trabajo en equipo, comunicación, Ley Karin, compliance y protección de datos; compra online | SEO de catálogo, long-tail por tema, e-commerce, pricing visible, temarios extensos y venta directa asincrónica | P1 |
 | 5 | CEPREVER OTEC | Propuesta explícita para empresas: no vender cursos sueltos, sino programas adaptados; cubre habilidades, compliance, digital y SENCE | Posicionamiento corporativo, personalización, prueba social, relatores activos y cross-sell técnico/blando/compliance | P1 |
 | 6 | Fundación Chileva | Liderazgo + coaching en formato asincrónico/sincrónico; combina contenidos con sesiones de coaching | Diferenciación metodológica, acompañamiento real, programa integrado liderazgo-comunicación-equipo-conflictos | P1 |
@@ -66,15 +110,6 @@ Esta fase es `F0_LONGLIST_TRIAGE`: no es un ranking SEO exacto, no usa Semrush, 
 
 Razón: ya era core benchmark tecnológico/B2B y vuelve a aparecer en liderazgo y Ley Karin. Esto sugiere una capacidad transversal real para vender y ejecutar capacitación empresarial en múltiples dominios.
 
-Investigar después:
-
-- arquitectura de oferta por áreas;
-- evidencia de ejecuciones corporativas;
-- modelo de cotización/captación;
-- uso de SENCE;
-- cómo integra cursos técnicos, habilidades blandas y normativa;
-- qué elementos explican recurrencia en requerimientos empresariales.
-
 ### 2. OTEC Pausa — `CORE_B2B_FUNNEL`
 
 Razón: su propuesta pública está construida desde la perspectiva de la empresa y no desde fichas aisladas. Combina capacitación a medida, habilidades blandas, Ley Karin, liderazgo, bienestar y gestión de franquicia SENCE.
@@ -83,101 +118,25 @@ Benchmark potencial:
 
 `necesidad empresa → solución → modalidad → SENCE → cálculo/ahorro → contacto/cotización`.
 
-Especialmente valioso para la futura arquitectura B2B de Capacita.
-
 ### 3. OTEC Achs Servicios — `CORE_AUTHORITY_PROGRAM_PACKAGING`
 
 Razón: empaqueta habilidades blandas como diplomado y conecta liderazgo/comunicación/equipos con riesgos psicosociales, cultura organizacional y Ley Karin.
-
-Benchmark potencial:
-
-- autoridad y confianza;
-- programas integrados vs curso aislado;
-- catálogo regulatorio + habilidades;
-- cómo comunica prevención/riesgo junto con desarrollo humano.
 
 ### 4. CEPREVER OTEC — `CORE_B2B_POSITIONING`
 
 Razón: usa una propuesta explícita de programas adaptados a la operación de la empresa, relatores con experiencia real, SENCE y múltiples áreas, incluyendo habilidades para el trabajo y normativa/compliance.
 
-Benchmark potencial:
-
-- copy B2B basado en operación/resultado;
-- prueba social cuantificada;
-- programas personalizados;
-- integración de habilidades, herramientas digitales y compliance.
-
 ### 5. OTEC.CL — `CORE_SEO_ECOMMERCE`
 
 Razón: domina la lógica de catálogo indexable por tema: páginas específicas para liderazgo, comunicación, trabajo en equipo, Ley Karin, compliance y protección de datos, con temarios, precio y compra directa.
-
-No asumir que su modelo de negocio sea el ideal para Capacita. Benchmark principalmente de:
-
-- cobertura long-tail;
-- arquitectura SEO por curso/tema;
-- ficha de producto;
-- precio/CTA/e-commerce;
-- captura de demanda informacional-comercial.
 
 ### 6. Fundación Chileva — `CORE_METHODOLOGY`
 
 Razón: diferencia un curso de liderazgo incorporando sesiones de coaching y combina asincronía + sincronía. No vende sólo contenido.
 
-Benchmark potencial:
-
-- acompañamiento;
-- aplicación real al rol de jefatura;
-- formato blended;
-- producto integrado liderazgo + comunicación + trabajo en equipo + conflictos.
-
-## Patrones F0 observados
-
-### A. Modelo catálogo / e-commerce
-
-Ejemplos: OTEC.CL, Formación 360.
-
-Patrón:
-
-`keyword específica → landing de curso → temario → duración/certificación → precio → comprar/cotizar`.
-
-Ventaja: captura demanda puntual y escala contenido.
-Riesgo: commoditización y competencia por precio si no existe diferenciación.
-
-### B. Modelo solución corporativa
-
-Ejemplos: Pausa, CEPREVER, Gestión Didáctica, Transversal.
-
-Patrón:
-
-`dolor/necesidad empresa → programa personalizado → modalidad → SENCE → evidencia/autoridad → cotización`.
-
-Hipótesis: este modelo tiene mayor valor estratégico para Capacita B2B que replicar un catálogo masivo.
-
-### C. Modelo autoridad / riesgo / compliance
-
-Ejemplos: Achs OTEC, Belator, OTEC.CL en compliance y protección de datos.
-
-Patrón:
-
-`riesgo normativo → obligación/impacto → formación → herramientas/protocolo → certificación`.
-
-En Ley Karin el comprador relevante suele ser empresa, RRHH, prevención, jefatura o compliance, no sólo alumno individual.
-
-### D. Modelo metodología diferenciada
-
-Ejemplo: Fundación Chileva.
-
-Patrón:
-
-`contenido → práctica → acompañamiento/coaching → aplicación al cargo → evidencia de aprendizaje`.
-
-Puede ser más defendible que competir sólo por horas y temario.
-
 ## Familias de keywords para F1
 
-No tienen volumen asignado todavía.
-
-### Liderazgo / equipos
+### HABILIDADES_BLANDAS
 
 - curso liderazgo empresas
 - liderazgo efectivo empresas
@@ -189,36 +148,25 @@ No tienen volumen asignado todavía.
 - coaching para líderes
 - feedback efectivo
 - gestión de conflictos
-
-### Comunicación
-
 - comunicación efectiva empresas
 - comunicación asertiva
 - comunicación para líderes
 - escucha activa
-- comunicación y trabajo en equipo
 
-### Género / inclusión / cultura
+### CULTURA_Y_PERSONAS
 
 - equidad de género empresas
 - inclusión laboral empresas
 - diversidad e inclusión laboral
 - sesgos inconscientes capacitación
 - cultura organizacional inclusiva
-- gestor de inclusión laboral
-
-### Ley Karin / acoso / riesgos psicosociales
-
-- curso Ley Karin empresas
-- capacitación Ley Karin
-- prevención acoso laboral empresas
-- acoso sexual laboral capacitación
-- violencia en el trabajo
-- protocolo Ley Karin
-- investigación Ley Karin
+- bienestar laboral capacitación
 - riesgos psicosociales empresas
+- convivencia laboral
+- prevención acoso laboral empresas
+- Ley Karin cultura preventiva
 
-### Compliance
+### COMPLIANCE_EMPRESARIAL
 
 - curso compliance empresas Chile
 - compliance corporativo capacitación
@@ -229,12 +177,19 @@ No tienen volumen asignado todavía.
 - ley 20.393 capacitación
 - ley 21.595 capacitación
 - protección de datos personales empresas capacitación
+- curso Ley Karin empresas
+- protocolo Ley Karin
+- investigación Ley Karin
 
 ## Recomendación de continuidad
 
 Este frente complementa, no reemplaza, el longlist tecnológico/B2B.
 
-En F1 AI OS / Skills debe buscar metodología reusable que permita comparar ambas familias con una matriz común, pero conservar dimensiones específicas de esta línea:
+En F1 AI OS / Skills debe buscar metodología reusable que permita comparar ambas familias con una matriz común, pero conservar tres submatrices temáticas independientes:
+
+`HABILIDADES_BLANDAS | CULTURA_Y_PERSONAS | COMPLIANCE_EMPRESARIAL`.
+
+Dimensiones específicas a preservar:
 
 `DESARROLLO_HUMANO | CAMBIO_CONDUCTUAL | METODOLOGIA_EXPERIENCIAL | COACHING | CULTURA | RIESGO_NORMATIVO | COMPLIANCE | SENCE | PERSONALIZACION_EMPRESA | CERTIFICACION | EVIDENCIA_DE_APLICACION`.
 
