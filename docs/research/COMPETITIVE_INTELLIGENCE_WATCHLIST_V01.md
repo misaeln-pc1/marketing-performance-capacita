@@ -53,6 +53,36 @@ Las herramientas de pago o con cuotas limitadas se reservan para necesidades inm
 
 La prioridad F0 **no mide quién es mejor empresa**. Mide cuánto valor esperamos obtener al analizarla para Capacita.
 
+## Núcleo destacado de benchmarking — recurrencia multirango
+
+A partir del longlist F0 por Excel, Power BI, Inteligencia Artificial y B2B/empresa, se define un **núcleo destacado** de organizaciones que aparecen repetidamente en varios frentes y que Misael quiere estudiar como referentes principales.
+
+```text
+CORE_BENCHMARK_F0=
+- EDUTECNO
+- TRANSVERSAL_OTEC
+- CIDES_CORPOTRAINING
+- KIBERNUM_IT_ACADEMY
+```
+
+Estas cuatro organizaciones deben conservarse visibles aunque cambie el longlist posterior.
+
+### Regla de uso
+
+- `DESTACADO` significa **prioridad especial para benchmarking**, no aprobación para copiar literalmente.
+- En F1/F2 se debe identificar por organización: `QUE_HACEN_MEJOR`, `QUE_ES_REPLICABLE`, `QUE_REQUIERE_ADAPTACION`, `QUE_NO_CONVIENE_COPIAR`, `BRECHA_CAPACITA` y `EXPERIMENTO_MINIMO`.
+- La recurrencia en Excel + Power BI + IA + empresa/B2B es una señal especialmente valiosa porque muestra amplitud de oferta y posicionamiento transversal.
+- Si una práctica parece atractiva, se valida contra costo, mantenimiento, capacidad operativa, diferenciación y encaje con Capacita antes de adoptarla.
+
+### Lectura preliminar del núcleo
+
+| Organización | Estado | Por qué queda destacada |
+|---|---|---|
+| Edutecno | `DESTACADO_P1_ASPIRACIONAL` | Referente de escala OTEC, marca B2B, eLearning, oferta conectada, operación, prueba social y capacidad corporativa. |
+| Transversal OTEC | `DESTACADO_P1_RECURRENTE` | Se repite en Excel, Power BI, IA y empresa; combina catálogo amplio, SENCE, distintas modalidades y presencia corporativa. |
+| CIDES Corpotraining | `DESTACADO_P1_RECURRENTE` | Se repite en Excel, Power BI, IA y B2B; fuerte orientación in-company/corporativa y profundidad de oferta tecnológica/gestión. |
+| Kibernum IT Academy | `DESTACADO_P1_RECURRENTE` | Se repite en Excel, Power BI, IA/Copilot y B2B; referente potencial en formación TI corporativa, continuidad de portafolio y posicionamiento empresa. |
+
 ## Taxonomía de referencia
 
 Una organización puede tener más de una clasificación:
@@ -70,7 +100,10 @@ La clasificación debe revisarse por caso; no forzar una sola etiqueta.
 
 | Organización | Dominio | Clasificación inicial | Prioridad F0 | Motivo breve | Qué estudiar después si avanza |
 |---|---|---|---|---|---|
-| Edutecno | `edutecno.cl` | `REFERENTE_ASPIRACIONAL + REFERENTE_FUNCIONAL + COMPETIDOR_PARCIAL` | `P1_PRIORITARIO` | Alto interés por escala OTEC, B2B, eLearning, portafolio tecnológico, soluciones a medida, campus, acompañamiento, marca y prueba social. El negocio parece más valioso como referencia que su web tomada de forma integral. | Modelo B2B, escala, operación, prueba social, funnel empresa, portafolio conectado, eLearning, experiencia end-to-end y qué capacidades explican su madurez. |
+| Edutecno | `edutecno.cl` | `REFERENTE_ASPIRACIONAL + REFERENTE_FUNCIONAL + COMPETIDOR_PARCIAL` | `DESTACADO_P1_ASPIRACIONAL` | Alto interés por escala OTEC, B2B, eLearning, portafolio tecnológico, soluciones a medida, campus, acompañamiento, marca y prueba social. El negocio parece más valioso como referencia que su web tomada de forma integral. | Modelo B2B, escala, operación, prueba social, funnel empresa, portafolio conectado, eLearning, experiencia end-to-end y qué capacidades explican su madurez. |
+| Transversal OTEC | `PENDIENTE_VALIDAR_DOMINIO_CANONICO` | `REFERENTE_FUNCIONAL + COMPETIDOR_PARCIAL` | `DESTACADO_P1_RECURRENTE` | Repetición transversal en búsquedas de Excel, Power BI, IA y capacitación empresarial; combina SENCE, catálogo amplio y diversas modalidades. | Arquitectura de oferta, captación B2B, SENCE, modalidades, catálogo conectado, prueba social y presencia por múltiples categorías. |
+| CIDES Corpotraining | `PENDIENTE_VALIDAR_DOMINIO_CANONICO` | `REFERENTE_FUNCIONAL + COMPETIDOR_PARCIAL` | `DESTACADO_P1_RECURRENTE` | Repetición en Excel, Power BI, IA y empresa; señal fuerte de oferta in-company y corporativa. | Modelo in-company, fichas de cursos, profundidad por niveles, funnel empresa, marca B2B, continuidad entre tecnología y gestión. |
+| Kibernum IT Academy | `PENDIENTE_VALIDAR_DOMINIO_CANONICO` | `REFERENTE_FUNCIONAL + COMPETIDOR_PARCIAL + REFERENTE_ASPIRACIONAL_PARCIAL` | `DESTACADO_P1_RECURRENTE` | Repetición en Excel, Power BI, IA/Copilot y empresa; fuerte encaje con formación TI corporativa. | Arquitectura de academy, continuidad de rutas TI, oferta Microsoft/IA, B2B, SENCE, posicionamiento y señales de autoridad tecnológica. |
 | Grado45 | `grado45.cl` | `REFERENTE_FUNCIONAL + POSIBLE_COMPETIDOR_PARCIAL + PARTNER_PROVEEDOR_CANDIDATO` | `P2_INTERESANTE` | Interesa por diseño instruccional, eLearning, Moodle, acompañamiento tutorial y recursos educativos. Puede ser más útil como referente funcional o eventual proveedor/partner que como competidor general. | Diseño instruccional, operación Moodle/eLearning, acompañamiento, recursos, servicios B2B y posibles capacidades complementarias para Capacita. |
 
 ## Regla para incorporar los próximos nombres
@@ -121,7 +154,7 @@ Conclusión preliminar:
 ```text
 EDUTECNO_NEGOCIO_REFERENTE=ALTO
 EDUTECNO_WEB_REFERENTE_TOTAL=NO_DETERMINADO / NO_ASUMIR
-EDUTECNO_F0=P1_PRIORITARIO
+EDUTECNO_F0=DESTACADO_P1_ASPIRACIONAL
 ```
 
 ## Fuentes públicas ya revisadas en el antecedente
