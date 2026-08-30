@@ -2,71 +2,109 @@
 
 ## Objetivo de revisión vigente
 
-Revisar y consolidar el benchmark de mercado del curso `IA-TRAB-01 — Inteligencia Artificial Aplicada al Trabajo`, modalidad comercial activa `PRESENCIAL_SANTIAGO`, antes de optimizar la landing generada por la Fábrica.
-
-## Rama
+Revisar el resultado de Marketing para el batch editorial V01 de Content Factory y validar el XFER consolidado antes de que Factory aplique los deltas.
 
 ```text
-docs/marketing-ia-trabajo-presencial-benchmark-20260823
+MARKETING_ISSUE=71
+BATCH_ID=CONTENT_PRE_MARKETING_V01_2026-08-29
+ARTICLES=45
+FACTORY_ISSUE=capacita-content-factory#16
+FACTORY_PR=capacita-content-factory#17
+FACTORY_HEAD=641213040cd9fe86b28885ba15ea6322808a6f4c
+MARKETING_STATUS=XFER_READY_PENDING_FACTORY_READBACK
+PUBLICATION=NO
+EDGE=NO
+MAIN_MERGE=NO
 ```
+
+## Rama Marketing
+
+`docs/marketing-content-batch-v01-review-20260829`
 
 ## Documento principal
 
-`docs/research/IA_TRABAJO_PRESENCIAL_SANTIAGO_MARKET_BENCHMARK_V01_2026-08-23.md`
+`docs/xfer/XFER__MARKETING__CONTENT_FACTORY__CONTENT_PRE_MARKETING_V01_REVIEW__20260829-213400__v01__READY__MARKETING_REVIEW.md`
 
-## Fuentes canónicas consumidoras
+## Fuentes de control
 
-- Diseño de Cursos `CURRENT.md` del curso IA aplicada al trabajo.
-- Diseño de Cursos `XFER__IA_TRAB_PRESENCIAL_LANDING_v02_2026-08-23.md`.
-- GTM/RevOps `BUYER_PERSONAS.md`.
-- Marketing `MARKETING_PAGE_VISIBILITY_PROTOCOL_V01.md`.
+- `TASK_STATUS.md`
+- `DECISIONES.md`
+- `PROJECT_CONTEXT.md`
+- `AGENTS.md`
+- `docs/seo-ai/MARKETING_PAGE_VISIBILITY_PROTOCOL_V01.md`
+- GTM/RevOps `docs/gtm-revops/BUYER_PERSONAS.md` v1.0.0
+- Factory PR #17 / commit fijado `641213040cd9fe86b28885ba15ea6322808a6f4c`
 
-## Evidencia externa usada
+## Evidencia usada
 
-- Google Ads Keyword Planner vía HYPD, Chile/español.
-- SERP real de Google Chile vía HYPD.
-- Páginas públicas de Artificiales, ClasesIA, UDD, Conekta Capacita, NobleProg, UAI, ESE y Universidad de Chile.
+- lectura material de 45/45 artículos;
+- HYPD Keyword Research Chile/español;
+- SERP real Google Chile por clusters materiales;
+- contenido existente de `capacita.cl` para canibalización;
+- documentación oficial vigente cuando el producto cambia;
+- GSC intentado, pero `DATA_GAP_PAYMENT_REQUIRED` por suscripción inactiva en esta sesión.
 
 ## Hallazgos principales
 
 ```text
-MARKET_DEMAND=PASS
-PRESENTIAL_COMPETITION=CONFIRMED_BUT_LIMITED
-ONLINE_COMPETITION=HIGH
-FREE_SUBSTITUTE_PRESSURE=HIGH_ONLINE
-CAPACITA_COMMERCIAL_FIT=HIGH
-CAPACITA_PRIMARY_DIFFERENTIATOR=PRESENCIAL_ACCESIBLE_SANTIAGO
-PRIMARY_KEYWORD=curso inteligencia artificial
-VALUE_PROPOSITION=IA aplicada al trabajo
-TRAFFIC_ESTIMATES=DATA_GAP_SEMRUSH_PLAN
+BATCH_45_READ=YES
+TOP_10_SELECTED=YES
+E01=MERGE_WITH_EXISTING_BUSCARV_URL
+PROJECT_10_NEW_URLS=HOLD_PENDING_ARCHITECTURE
+PBI06=DASHBOARD_VS_REPORT_DELTA_REQUIRED
+NEW_SKILL_REQUIRED=NO
+FACTORY_READBACK_REQUIRED=YES
 ```
 
-Competidores presenciales mínimos para el benchmark posterior de la landing:
+Top 10 de trabajo editorial priorizado:
 
-1. Artificiales.
-2. ClasesIA.
-3. UDD.
-4. Conekta Capacita como competidor directo por propuesta de valor, con modalidad de edición no inequívoca en la página.
-5. NobleProg como referencia presencial/corporativa local.
+1. E02 — Power Query Excel.
+2. IA03 — prompts ChatGPT.
+3. IA05 — agentes IA.
+4. PBI06 — dashboard Power BI, con corrección técnica.
+5. PBI04 — DAX Power BI.
+6. IA06 — ChatGPT Work, fast-track coyuntural.
+7. IA07 — Deep Research.
+8. E03 — Copilot en Excel.
+9. PBI03 — Power Query Power BI.
+10. IA01 — IA para el trabajo, pillar.
 
-Referencias online/sincrónicas: UAI, ESE y Universidad de Chile.
+Acción adicional P0: actualizar `https://capacita.cl/funcion-buscarv-excel/` con el material E01; no crear URL duplicada.
 
-## Límites
+## Qué se revisa ahora
 
-- No se modificó la landing ni producción.
-- No se modificaron campañas Ads.
-- No se infirieron keywords privadas, conversiones ni tráfico competitivo no disponible.
-- Semrush Traffic Analytics no está disponible en el plan conectado; no se inventan visitas.
-- No se cambió el currículo canónico del curso.
-- No se amplió el curso a Python, APIs, VBA o automatización técnica hands-on.
+- coherencia del XFER con issue #71;
+- trazabilidad 45/45;
+- prioridades y deltas;
+- canibalización;
+- buyer persona/GTM aplicado sin forzar perfiles;
+- ausencia de publicación, Ads, Edge o `main`.
+
+## Qué NO se revisa todavía
+
+- HTML/productivo;
+- robots/canonical/sitemap/structured data de páginas inexistentes;
+- assets finales;
+- cambios Ads;
+- merge a `main`.
 
 ## Siguiente condición
 
-Cuando la Fábrica entregue preview/URL, ejecutar el protocolo integral SEO + Local SEO + AEO + GEO/AI Search + CRO, comparar contra el benchmark V01 y emitir P0/P1/P2 + `DO_NOT_CHANGE`.
+Content Factory consume el XFER y devuelve:
+
+```text
+CONSUMED_PASS|CONSUMED_WITH_GAPS
+commit
+changed CONTENT_IDs
+diff/QA
+open gaps
+```
+
+Marketing revisa ese readback en issue #71. Recién después se decide cierre del ciclo y eventual merge documental.
 
 ## Gate
 
 ```text
-PR_LISTO_PARA_REVISION
-NO_MERGEAR_SIN_AUTORIZACION_MISAEL
+NO_MERGEAR_TODAVIA
+PENDING_FACTORY_READBACK
 ```
