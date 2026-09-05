@@ -46,6 +46,8 @@ docs/analytics/MARKETING_PROACTIVE_OPPORTUNITY_SCAN_V01.md
 
 Marketing no debe esperar que Misael pida por separado análisis de datos, keywords, negativas, buyer persona, competencia, CRO, diferenciación visual o tracking cuando sean necesarios para responder bien.
 
+La frase histórica de `TASK_STATUS.md` “retomar Google Ads/Meta Ads cuando Misael lo indique” no es un gate para análisis READ ni para detectar oportunidades. Sólo mantiene en pausa writes, activaciones, campañas reales o cambios de presupuesto hasta instrucción y autorización.
+
 El ciclo obligatorio es:
 
 ```text
