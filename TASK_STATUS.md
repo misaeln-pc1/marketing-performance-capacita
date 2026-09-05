@@ -1,29 +1,113 @@
 # Estado de Tareas
 
-Fecha de revisión: 2026-08-23
+Fecha de revisión: 2026-08-29
 
-## Prioridad activa
+## Prioridad activa — Batch Editorial V01 / issue #71
 
-Operacionalizar el protocolo obligatorio de visibilidad de páginas usando el runtime reusable ya consolidado y aplicarlo a las siguientes páginas/landings reales de Capacita sin reabrir la metodología desde cero.
-
-Fuente local obligatoria:
+Marketing está revisando el batch editorial completo producido por `capacita-content-factory` antes de QA final, assets y cualquier handoff posterior a Edge.
 
 ```text
-docs/seo-ai/MARKETING_PAGE_VISIBILITY_PROTOCOL_V01.md
-docs/seo-ai/README.md
-DECISIONES.md
+MARKETING_ISSUE=71
+BATCH_ID=CONTENT_PRE_MARKETING_V01_2026-08-29
+FACTORY_ISSUE=capacita-content-factory#16
+FACTORY_PR=capacita-content-factory#17
+FACTORY_HEAD=641213040cd9fe86b28885ba15ea6322808a6f4c
+ARTICLES=45/45_READ
+EXCEL=5/5
+AI=20/20
+POWER_BI=10/10
+PROJECT=10/10
+MARKETING_XFER=READY
+FACTORY_READBACK=PENDING
+PUBLICATION=NO
+EDGE_HTML=NO
+ADS_CHANGE=NO
+MAIN_MERGE=NO
 ```
 
-Fuentes reusables externas al repo:
+Rama actual:
+
+`docs/marketing-content-batch-v01-review-20260829`
+
+XFER vigente del ciclo:
+
+`docs/xfer/XFER__MARKETING__CONTENT_FACTORY__CONTENT_PRE_MARKETING_V01_REVIEW__20260829-213400__v01__READY__MARKETING_REVIEW.md`
+
+### Resultado actual
 
 ```text
-misaeln-pc1/capacita-ai-operating-system
-misaeln-pc1/capacita-search-intelligence-toolchain
+BATCH_45_READ=YES
+KEYWORDS_REVIEWED=YES
+INTENT_REVIEWED=YES
+SERP_DEMAND_CHECKED=YES_WITH_GSC_DATA_GAP
+CANNIBALIZATION_CHECKED=YES
+SEO_AEO_GEO_REVIEWED=YES_EDITORIAL_STAGE
+TOP_10_SELECTED=YES
+IMAGE_BRIEFS_MESSAGE_REVIEWED=YES
+NEW_SKILL_REQUIRED=NO
 ```
 
-## Frente activo — IA Aplicada al Trabajo presencial Santiago
+### Top 10 priorizado
 
-Documento de benchmark en esta rama:
+1. E02 — Power Query Excel.
+2. IA03 — prompts ChatGPT.
+3. IA05 — agentes IA.
+4. PBI06 — dashboard Power BI, con corrección Dashboard vs Report.
+5. PBI04 — DAX Power BI.
+6. IA06 — ChatGPT Work, fast-track coyuntural.
+7. IA07 — Deep Research.
+8. E03 — Copilot en Excel.
+9. PBI03 — Power Query Power BI.
+10. IA01 — IA para el trabajo como pillar.
+
+### Decisiones de arquitectura relevantes
+
+- E01 no debe crear una URL nueva: usar el contenido para actualizar/mergear `https://capacita.cl/funcion-buscarv-excel/` e incorporar BUSCARX sin perder el activo histórico.
+- E05 funciona mejor como hub de productividad/automatización Excel que enlaza E01/E02/E03.
+- IA01 es pillar general; IA02 es ChatGPT desde cero; IA03 prompts; IA04 comparación de herramientas; IA14/IA15/IA16 son spokes por plataforma.
+- IA09 e IA10 pueden coexistir con intención distinta: verificación vs alucinaciones.
+- IA11 debe funcionar como hub IA + Excel; E03 queda Copilot y E04 Python.
+- PBI06 requiere corregir la semántica técnica: `Dashboard` nativo del Service no equivale a una `Report page` con filtros/segmentadores.
+- PBI10 usa KPI sólo como ejemplos editoriales; las definiciones reales pertenecen al owner de cada proceso.
+- PRJ01 y PRJ02 se solapan; no abrir dos URLs casi equivalentes.
+- Project queda preservado editorialmente, pero `PROJECT_10_NEW_URLS=HOLD_PENDING_ARCHITECTURE`. PRJ09 / `curva s project` es la primera candidata independiente a evaluar.
+- Los artículos Project deben mantener explícito el contexto `Project desktop` cuando corresponda; Project for the web fue retirado e integrado en Planner.
+
+### Buyer persona / GTM
+
+Fuente canónica:
+
+`misaeln-pc1/capacita-global-control/docs/gtm-revops/BUYER_PERSONAS.md` v1.0.0
+
+- BP-001 domina contenidos de productividad, Excel, Power BI y uso práctico de IA.
+- BP-003/BP-004 aplican selectivamente en B2B, equipos, agentes y Power BI empresarial.
+- Project usa `BP-000` cuando no existe match canónico suficientemente preciso; no se fuerza un perfil.
+
+### Data gaps
+
+- GSC Wizard responde `payment_required`; no existe evidencia fresca de consultas/ranking propio en esta sesión.
+- HYPD Keyword Research y SERP real Google Chile sí están disponibles y se usaron como señal.
+- No se inventa tráfico, ranking, KD, CPC ni resultado comercial faltante.
+
+### Siguiente condición
+
+Content Factory debe consumir el XFER y devolver readback con:
+
+```text
+CONSUMED_PASS|CONSUMED_WITH_GAPS
+commit
+changed CONTENT_IDs
+diff/QA
+open gaps
+```
+
+Marketing mantiene issue #71 abierto hasta revisar ese retorno.
+
+---
+
+## Frente vigente no cancelado — IA Aplicada al Trabajo presencial Santiago
+
+Documento de benchmark:
 
 `docs/research/IA_TRABAJO_PRESENCIAL_SANTIAGO_MARKET_BENCHMARK_V01_2026-08-23.md`
 
@@ -40,6 +124,8 @@ VALUE_PROPOSITION=IA aplicada al trabajo
 ```
 
 Benchmark V01 identifica competencia presencial real en Artificiales, ClasesIA, UDD y NobleProg; Conekta Capacita queda como competidor directo por propuesta de valor pero con modalidad de la edición no inequívoca en su página. UAI, ESE y Universidad de Chile quedan como referencias online/sincrónicas. El próximo delta material se ejecuta cuando la Fábrica entregue preview/URL de Capacita.
+
+Este frente no fue reemplazado ni cancelado por issue #71; queda en espera de preview/URL.
 
 ## Frente SEO / AEO / GEO / AI Search — estado vigente
 
@@ -89,6 +175,7 @@ Reglas críticas:
 - SerpBear: no iniciar. Sigue bloqueado por provider + security review en `capacita-search-intelligence-toolchain#1`.
 - No duplicar instalación o runtime dentro de Marketing.
 - No crear credenciales, costos o providers sin autorización explícita.
+- Para issue #71 no se requiere una skill nueva; la capacidad reusable existente es suficiente.
 
 ## Piloto real completado
 
@@ -191,14 +278,21 @@ docs/pagesense/PAGESENSE_GOAL_CONFIGURATION_AUDIT_2026-07-12.md
 
 ## Secuencia inmediata
 
-1. Recibir preview/URL de la landing `IA-TRAB-01-PRES-V1` desde la Fábrica.
-2. Aplicar el protocolo integral y comparar contra el benchmark V01.
-3. Reutilizar GSC, Keyword Planner, SERP y evidencia existente antes de generar nueva investigación.
-4. Usar SiteOne + advertools como evidencia técnica/readability; Promptfoo sólo como benchmark sintético controlado.
-5. Mantener SerpBear bloqueado hasta resolver provider, seguridad, retención, owner y costo.
-6. Después de 2–3 páginas reales, devolver feedback a AI OS sobre utilidad, gaps y falsos positivos antes de promover las skills.
+1. Content Factory consume el XFER de issue #71 y devuelve readback con commit/diff/QA.
+2. Marketing revisa sólo ese delta y mantiene #71 abierto hasta `CONSUMED_PASS` o gaps explícitos.
+3. El frente IA landing continúa cuando exista preview/URL, sin mezclarlo con el batch editorial.
+4. Reutilizar GSC, Keyword Planner, SERP y evidencia existente antes de generar nueva investigación; declarar data gaps si una fuente no está disponible.
+5. Usar SiteOne + advertools como evidencia técnica/readability cuando exista página real; Promptfoo sólo como benchmark sintético controlado.
+6. Mantener SerpBear bloqueado hasta resolver provider, seguridad, retención, owner y costo.
 7. Retomar Google Ads/Meta Ads por separado cuando Misael lo indique, leyendo primero sus canónicos específicos.
 
 ## Estado de frentes históricos
 
-Los estados detallados de PR/issues anteriores al 2026-08-23 deben revalidarse al retomar cada frente. No usar una tabla histórica como estado vivo sin readback del PR/issue correspondiente.
+Los estados detallados de PR/issues anteriores al 2026-08-29 deben revalidarse al retomar cada frente. No usar una tabla histórica como estado vivo sin readback del PR/issue correspondiente.
+
+## Gate actual
+
+```text
+NO_MERGEAR_TODAVIA
+PENDING_FACTORY_READBACK
+```
