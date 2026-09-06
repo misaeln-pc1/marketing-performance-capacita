@@ -68,20 +68,26 @@ Regla aplicada: Límite de 2 intentos alcanzado; detener intento de conexión vi
 | 12 | **Mantenimiento** | Código versionado en el repo de Marketing. | Dependencia de servidor MCP externo y node/python. | **METHOD_A** (control directo) |
 | 13 | **Cobertura de negativas vivas** | Cubierto por `NegativeSnapshotManager`. | GAQL query ad_group_criterion / campaign_criterion. | **Empate** |
 
-### Conclusión de Paridad
+### Conclusión de Comparativa
 
 ```text
 GOOGLE_ADS_FAST_PATH=HOLD_WITH_EVIDENCE
 GOOGLE_ADS_MCP=HOLD_WITH_EVIDENCE
-METHOD_PARITY=PARTIAL
-FALLBACK=METHOD_A
+METHOD_COMPARISON=DESIGN_ONLY
+LIVE_PARITY=NOT_RUN
+METHOD_A=BASELINE_FALLBACK
 ```
 
-No se sustituye METHOD_A por METHOD_B dado que METHOD_A está completamente adaptado a la infraestructura de Capacita, cuenta con scripts de exportación directa a staging y requiere cero pasos interactivos adicionales.
+Ambos métodos se encuentran en `HOLD_WITH_EVIDENCE` por falta de scope OAuth `adwords` en el entorno local. No se declara superioridad operativa en vivo; se adopta METHOD_A únicamente como fallback de diseño por su integración preexistente con los scripts del repositorio.
 
 ---
 
-## 4. Estado de Fuentes Conectadas (Fase 1.6, 1.7, 1.8, 1.9)
+## 4. Estado de Fuentes Conectadas (Fase 1.4 a 1.9)
+
+### Negative Keyword Guard y Live Snapshot — Fase 1.4 / 1.5
+- **Estado del núcleo offline:** `NEGATIVE_GUARD_OFFLINE_CORE=PASS`. Idempotencia persistente entre procesos, deduplicación, y reglas fail-closed validadas offline al 100%.
+- **Adaptador de estado vivo:** `LIVE_NEGATIVE_ADAPTER=IMPLEMENTED_HOLD_AUTH`. Interfaz y normalizador para las 6 entidades implementados y testeados con respuestas GAQL simuladas; en pausa de ejecución real por falta de credenciales autorizadas.
+- **Snapshot de estado vivo:** `NEGATIVE_LIVE_SNAPSHOT=HOLD_DATA_GAP`. Ante la falta de lectura viva, se emite salida machine-readable con código de salida diferenciado (código 2) y cero recomendaciones sin estado vivo.
 
 ### Google Analytics 4 (GA4) — Fase 1.6
 - **Permitido:** Scope `analytics.readonly`, metadata de propiedad, reportes mínimos de sesiones, landings, fuentes y key events.
@@ -96,37 +102,40 @@ No se sustituye METHOD_A por METHOD_B dado que METHOD_A está completamente adap
 ### Meta Ads — Fase 1.8
 - **Permitido:** Meta Marketing API oficial, scope `ads_read`, cuenta operativa bajo *Otros activos* (`...2327`).
 - **Prohibido:** `ads_management`, `leads_retrieval`, writes a campañas o presupuestos, MCP comunitario.
-- **Estado:** `META_ADS_READ=HOLD_WITH_EVIDENCE`. Procedimiento saneado y runbook operativo completados en Fase 0; token temporal local no presente en entorno privado. Cero writes ejecutados.
+- **Estado:** `META_ADS_READ=HOLD_WITH_EVIDENCE`. Procedimiento saneado y runbook operativo completados en rescate sanitizado de PR #52 en PR #86 (PR #52 histórico permanece intacto); token temporal local no presente en entorno privado. Cero writes ejecutados.
 
 ---
 
 ## 5. Zoho CRM: Allowlist READ Diseñada (Fase 1.9)
 
-Para enriquecer la atribución sin exponer datos personales ni habilitar writes en el CRM, se define la siguiente allowlist estricta para consultas vía COQL / Data Insights:
+Para enriquecer la atribución sin exponer datos personales ni habilitar writes en el CRM, se define la siguiente allowlist estricta para consultas vía COQL / Data Insights.
+
+> [!IMPORTANT]
+> Los nombres de campos listados a continuación tienen el estado `CONCEPTUAL_UNVERIFIED` hasta que se realice una inspección directa de la metadata o API names reales del módulo en Zoho CRM.
 
 ```text
-ZOHO_READ_ALLOWLIST=DESIGNED
+ZOHO_READ_ALLOWLIST=DESIGNED_CONCEPTUAL_UNVERIFIED
 ```
 
-### Módulos y Campos Permitidos (Solo Agregados y Hashes)
+### Módulos y Campos Conceptuales Permitidos (Solo Agregados y Hashes)
 
-1. **Módulo Leads / Contacts:**
-   - `Lead_Source`
-   - `Created_Time`
-   - `First_Contact_Status`
-   - `Campaign_Source_Sanitized`
+1. **Módulo Leads / Contacts [CONCEPTUAL_UNVERIFIED]:**
+   - `Lead_Source` [CONCEPTUAL_UNVERIFIED]
+   - `Created_Time` [CONCEPTUAL_UNVERIFIED]
+   - `First_Contact_Status` [CONCEPTUAL_UNVERIFIED]
+   - `Campaign_Source_Sanitized` [CONCEPTUAL_UNVERIFIED]
    - **Prohibido:** Nombre, Email, Teléfono, RUT, Dirección.
-2. **Módulo Deals (Oportunidades):**
-   - `Deal_Name_Hash` (identificador sanitizado)
-   - `Stage`
-   - `Amount`
-   - `Closing_Date`
-   - `Course_Product_Ref`
-3. **Módulo CursoAlumno / Matrícula (si aplica):**
-   - `Course_Code`
-   - `Enrollment_Status`
-   - `Payment_Confirmed_Flag`
-   - `Modality`
+2. **Módulo Deals (Oportunidades) [CONCEPTUAL_UNVERIFIED]:**
+   - `Deal_Name_Hash` (identificador sanitizado) [CONCEPTUAL_UNVERIFIED]
+   - `Stage` [CONCEPTUAL_UNVERIFIED]
+   - `Amount` [CONCEPTUAL_UNVERIFIED]
+   - `Closing_Date` [CONCEPTUAL_UNVERIFIED]
+   - `Course_Product_Ref` [CONCEPTUAL_UNVERIFIED]
+3. **Módulo CursoAlumno / Matrícula (si aplica) [CONCEPTUAL_UNVERIFIED]:**
+   - `Course_Code` [CONCEPTUAL_UNVERIFIED]
+   - `Enrollment_Status` [CONCEPTUAL_UNVERIFIED]
+   - `Payment_Confirmed_Flag` [CONCEPTUAL_UNVERIFIED]
+   - `Modality` [CONCEPTUAL_UNVERIFIED]
 
 ### Guardrails de CRM
 - Cero operaciones de `create`, `update`, `delete`.

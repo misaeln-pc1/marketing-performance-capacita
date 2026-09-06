@@ -2,10 +2,11 @@
 
 Implements:
 - Deduplication against existing live negative criteria and shared sets.
-- Cross-campaign conflict detection (B2C vs B2B).
+- Cross-campaign conflict detection (B2C vs B2B, modality, product).
+- Strict fail-closed validation for unknown campaigns, intents, scopes, and match types.
 - Scope enforcement (Routing A/B/C vs Global Exclusions).
 - "paso a paso" global exclusion prohibition.
-- Strict idempotency (second run yields zero duplicate recommendations).
+- Cross-process persistent idempotency using manifest_hash + recommendation_hash.
 """
 
 from __future__ import annotations
@@ -13,9 +14,12 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Set, Tuple
 
-from .classifier import classify_campaign, classify_keyword_intent
+from .campaign_contract import CampaignContract, CampaignRegistry, Modality, ProductType
+from .classifier import DEFAULT_REGISTRY, classify_campaign, classify_keyword_intent
+from .ledger import RecommendationLedger
 from .models import (
     CampaignType,
+    CriterionStatus,
     IntentClass,
     MatchType,
     NegativeKeywordItem,
@@ -40,21 +44,41 @@ class EvaluationResult:
 
 
 class NegativeGuard:
-    """Evaluates candidate negative keywords against live state and canonical policies."""
+    """Evaluates candidate negative keywords against live state and canonical policies fail-closed."""
 
-    def __init__(self, snapshot: Optional[NegativeSnapshot] = None):
+    def __init__(
+        self,
+        snapshot: Optional[NegativeSnapshot] = None,
+        registry: Optional[CampaignRegistry] = None,
+        ledger: Optional[RecommendationLedger] = None,
+    ):
         self.snapshot = snapshot
+        self.registry = registry or DEFAULT_REGISTRY
+        self.ledger = ledger
         self.existing_lookup: Set[Tuple[str, MatchType, SourceScope, str]] = set()
         self.campaign_shared_sets: Dict[str, Set[str]] = {}
         self.shared_set_negatives: Dict[str, Set[Tuple[str, MatchType]]] = {}
         self.previously_recommended_hashes: Set[str] = set()
 
         if self.snapshot and self.snapshot.status != "HOLD_DATA_GAP":
+            self._load_snapshot_attachments(self.snapshot)
             self._index_snapshot(self.snapshot)
 
+    def _load_snapshot_attachments(self, snapshot: NegativeSnapshot) -> None:
+        """Loads campaign shared set attachments directly from snapshot contract."""
+        for camp_id_hash, ssets in snapshot.campaign_shared_sets.items():
+            sanitized_camp = hash_identifier(camp_id_hash)
+            if sanitized_camp not in self.campaign_shared_sets:
+                self.campaign_shared_sets[sanitized_camp] = set()
+            for sset in ssets:
+                self.campaign_shared_sets[sanitized_camp].add(sset)
+
     def _index_snapshot(self, snapshot: NegativeSnapshot) -> None:
-        """Indexes live snapshot criteria for fast and exact duplicate/conflict lookup."""
-        for item in snapshot.items:
+        """Indexes active live snapshot criteria for fast and exact duplicate/conflict lookup.
+
+        Criteria with REMOVED or UNKNOWN status are strictly ignored and not treated as active.
+        """
+        for item in snapshot.active_items():
             # Key: (normalized_text, match_type, scope, campaign_or_set_identifier)
             key = (
                 item.keyword_text,
@@ -70,7 +94,7 @@ class NegativeGuard:
             if item.source_scope == SourceScope.CUSTOMER:
                 self.existing_lookup.add((item.keyword_text, item.match_type, SourceScope.CUSTOMER, "GLOBAL"))
 
-            # Track shared set associations
+            # Track shared set criteria
             if item.source_scope == SourceScope.SHARED_SET and item.shared_set_name != "NONE":
                 if item.shared_set_name not in self.shared_set_negatives:
                     self.shared_set_negatives[item.shared_set_name] = set()
@@ -78,9 +102,10 @@ class NegativeGuard:
 
     def associate_campaign_with_shared_set(self, campaign_id_hash: str, shared_set_name: str) -> None:
         """Records that a campaign is associated with a specific shared negative set."""
-        if campaign_id_hash not in self.campaign_shared_sets:
-            self.campaign_shared_sets[campaign_id_hash] = set()
-        self.campaign_shared_sets[campaign_id_hash].add(shared_set_name)
+        sanitized_id = hash_identifier(campaign_id_hash)
+        if sanitized_id not in self.campaign_shared_sets:
+            self.campaign_shared_sets[sanitized_id] = set()
+        self.campaign_shared_sets[sanitized_id].add(shared_set_name)
 
     def is_already_covered(
         self,
@@ -123,7 +148,7 @@ class NegativeGuard:
         target_ad_group_id_hash: str = "none",
     ) -> EvaluationResult:
         """Evaluates a single candidate negative keyword and returns an EvaluationResult."""
-        # Gate 0: Snapshot data gap
+        # Gate 0: Snapshot data gap (Fail-closed if no snapshot or missing live data)
         if not self.snapshot or self.snapshot.status == "HOLD_DATA_GAP":
             return EvaluationResult(
                 is_valid_recommendation=False,
@@ -135,13 +160,83 @@ class NegativeGuard:
         text, inferred_match = normalize_keyword_text(raw_keyword)
         norm_match = normalize_match_type(match_type, inferred_match)
         norm_scope = normalize_scope(target_scope)
-        camp_type = classify_campaign(target_campaign_name)
+
+        # Gate 0.1: Scope and MatchType Fail-closed checks
+        if norm_scope == SourceScope.UNKNOWN:
+            return EvaluationResult(
+                is_valid_recommendation=False,
+                policy_decision=PolicyDecision.ERROR,
+                rationale=f"UNKNOWN_SCOPE: Alcance '{target_scope}' no reconocido. Fail-closed.",
+                intent_class=IntentClass.DESCONOCIDO,
+            )
+        if norm_match == MatchType.UNKNOWN:
+            return EvaluationResult(
+                is_valid_recommendation=False,
+                policy_decision=PolicyDecision.ERROR,
+                rationale=f"UNKNOWN_MATCH_TYPE: Tipo de concordancia '{match_type}' no reconocido. Fail-closed.",
+                intent_class=IntentClass.DESCONOCIDO,
+            )
+
+        # Gate 0.2: Campaign Mapping Fail-Closed Check
+        contract = self.registry.resolve(target_campaign_name)
+        if contract is None:
+            return EvaluationResult(
+                is_valid_recommendation=False,
+                policy_decision=PolicyDecision.HOLD_REVIEW,
+                rationale=f"UNKNOWN_CAMPAIGN: Campaña '{target_campaign_name}' no registrada en contrato canónico. Fail-closed -> HOLD_REVIEW.",
+                intent_class=IntentClass.DESCONOCIDO,
+            )
+
+        camp_type = contract.audience
         intent_class = classify_keyword_intent(text)
 
         target_campaign_id_hash = hash_identifier(target_campaign_id_hash)
         target_ad_group_id_hash = hash_identifier(target_ad_group_id_hash)
 
-        # Gate 1: Deduplication against live state (if already present, preserve it and do not recommend duplicate)
+        # Gate 0.3: Protected terms check (if candidate attempts to negate core value proposition, it's CONFLICT)
+        if any(pt in text for pt in contract.protected_terms):
+            return EvaluationResult(
+                is_valid_recommendation=False,
+                policy_decision=PolicyDecision.CONFLICT,
+                rationale=f"PROTECTED_TERM: Término '{text}' es parte de la propuesta de valor protegida para '{target_campaign_name}'.",
+                intent_class=intent_class,
+            )
+
+        # Gate 0.4: Intent Fail-closed Check
+        if intent_class == IntentClass.DESCONOCIDO:
+            return EvaluationResult(
+                is_valid_recommendation=False,
+                policy_decision=PolicyDecision.HOLD_REVIEW,
+                rationale=f"UNKNOWN_INTENT: Intención para '{text}' no clasificada en taxonomía canónica. Fail-closed -> HOLD_REVIEW.",
+                intent_class=IntentClass.DESCONOCIDO,
+            )
+
+        if intent_class in contract.protected_intents:
+            return EvaluationResult(
+                is_valid_recommendation=False,
+                policy_decision=PolicyDecision.CONFLICT,
+                rationale=f"PROTECTED_INTENT: Intención '{intent_class.value}' está protegida en '{target_campaign_name}'.",
+                intent_class=intent_class,
+            )
+
+        if contract.allowed_negative_intents and intent_class not in contract.allowed_negative_intents:
+            return EvaluationResult(
+                is_valid_recommendation=False,
+                policy_decision=PolicyDecision.HOLD_REVIEW,
+                rationale=f"INTENT_NOT_ALLOWED: Intención '{intent_class.value}' no está en las negativas permitidas para '{target_campaign_name}'.",
+                intent_class=intent_class,
+            )
+
+        # Modality check: if campaign is ONLINE or MIXTA, do not negate online intent
+        if contract.modality in (Modality.ONLINE, Modality.MIXTA) and intent_class == IntentClass.MODALIDAD:
+            return EvaluationResult(
+                is_valid_recommendation=False,
+                policy_decision=PolicyDecision.CONFLICT,
+                rationale=f"MODALITY_CONFLICT: Campaña '{target_campaign_name}' es modalidad {contract.modality.value}; no se niegan términos de modalidad no presencial.",
+                intent_class=intent_class,
+            )
+
+        # Gate 1: Deduplication against live state
         if self.is_already_covered(
             text, norm_match, norm_scope, target_campaign_id_hash, target_ad_group_id_hash
         ):
@@ -182,7 +277,6 @@ class NegativeGuard:
                     intent_class=intent_class,
                 )
         elif camp_type == CampaignType.B2C:
-            # If a candidate keyword attempts to negate the core presencial or santiago offering
             core_protected_terms = {"presencial", "santiago", "curso", "capacita", "curso presencial", "curso presencial santiago"}
             if text in core_protected_terms:
                 return EvaluationResult(
@@ -206,16 +300,29 @@ class NegativeGuard:
             rationale=f"Delta válido para intención {intent_class.value} en campaña {target_campaign_name} ({camp_type.value}).",
         )
 
-        # Gate 6: Idempotency check against previously emitted recommendations
+        # Gate 6: In-memory session idempotency check
         if rec.recommendation_hash in self.previously_recommended_hashes:
             return EvaluationResult(
                 is_valid_recommendation=False,
                 policy_decision=PolicyDecision.PRESERVE,
-                rationale=f"IDEMPOTENCIA: Recomendación para '{text}' ya fue emitida previamente en esta sesión/snapshot.",
+                rationale=f"IDEMPOTENCIA: Recomendación para '{text}' ya fue emitida previamente en esta sesión.",
                 intent_class=intent_class,
             )
 
+        # Gate 7: Cross-process persistent ledger idempotency check
+        if self.ledger is not None and self.snapshot is not None:
+            if self.ledger.is_recorded(self.snapshot.manifest_hash, rec.recommendation_hash):
+                return EvaluationResult(
+                    is_valid_recommendation=False,
+                    policy_decision=PolicyDecision.PRESERVE,
+                    rationale=f"IDEMPOTENCIA_PERSISTENTE: Recomendación para '{text}' ya está registrada en el ledger persistente.",
+                    intent_class=intent_class,
+                )
+
+        # Register in session and in persistent ledger
         self.previously_recommended_hashes.add(rec.recommendation_hash)
+        if self.ledger is not None and self.snapshot is not None:
+            self.ledger.record(self.snapshot.manifest_hash, rec.recommendation_hash, rec.to_dict())
 
         return EvaluationResult(
             is_valid_recommendation=True,

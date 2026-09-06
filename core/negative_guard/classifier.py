@@ -5,8 +5,10 @@ from __future__ import annotations
 import re
 from typing import Optional
 
+from .campaign_contract import CampaignContract, CampaignRegistry
 from .models import CampaignType, IntentClass, normalize_keyword_text
 
+DEFAULT_REGISTRY = CampaignRegistry()
 
 # Canonical keyword signals based on docs/google-ads/GOOGLE_ADS_NEGATIVE_KEYWORDS_INTENT_POLICY.md
 SOLUCION_PUNTUAL_PATTERNS = [
@@ -56,9 +58,11 @@ B2B_SENCE_PATTERNS = [
     r"\bsence\b",
     r"\botic\b",
     r"\bfranquicia\s+tributaria\b",
-    r"\bcotizacion\s+empresa\b",
+    r"\bcotizacion(\s+empresa)?\b",
     r"\bfactura\b",
     r"\bpara\s+empresas\b",
+    r"\bclases\s+para\s+empresas\b",
+    r"\bcurso\s+para\s+empresas\b",
     r"\bcorporativ[oa]s?\b",
     r"\bin[- ]company\b",
 ]
@@ -91,80 +95,56 @@ ROUTING_A_B_C_PATTERNS = [
 ]
 
 
-def classify_campaign(campaign_name: str) -> CampaignType:
-    """Classifies a campaign as B2C, B2B_EMPRESA, or UNKNOWN strictly based on nomenclature and explicit tokens."""
+def classify_campaign(campaign_name: str, registry: Optional[CampaignRegistry] = None) -> CampaignType:
+    """Classifies a campaign as B2C, B2B_EMPRESA, or UNKNOWN strictly fail-closed via CampaignRegistry."""
     if not campaign_name:
         return CampaignType.UNKNOWN
 
-    name_upper = campaign_name.strip().upper()
-
-    # Explicit B2B signals
-    b2b_tokens = ["B2B", "EMPRESA", "EMPRESAS", "SENCE", "CORPORATIVO", "INCOMPANY", "IN-COMPANY"]
-    # Explicit B2C signals
-    b2c_tokens = [
-        "B2C",
-        "PRESENCIAL_SANTIAGO_B2C",
-        "EXCEL_PRESENCIAL_B2C",
-        "LANDING_A",
-        "LANDING_B",
-        "LANDING_C",
-        "SCL-EXCEL-B2C",
-    ]
-
-    has_b2b = any(token in name_upper for token in b2b_tokens)
-    has_b2c = any(token in name_upper for token in b2c_tokens)
-
-    if has_b2b and not has_b2c:
-        return CampaignType.B2B_EMPRESA
-    if has_b2c and not has_b2b:
-        return CampaignType.B2C
-
-    # If both or neither, check known campaign baseline names from context
-    if "META_TRAFFIC_EXCEL_PRESENCIAL_SANTIAGO_B2C_V3" in name_upper:
-        return CampaignType.B2C
-    if "EXCEL_BASICO_INTERMEDIO_PRESENCIAL" in name_upper and "EMPRESA" not in name_upper:
-        return CampaignType.B2C
+    reg = registry or DEFAULT_REGISTRY
+    contract = reg.resolve(campaign_name)
+    if contract:
+        return contract.audience
 
     return CampaignType.UNKNOWN
 
 
 def classify_keyword_intent(raw_keyword: str) -> IntentClass:
-    """Classifies keyword intent into canonical classes."""
+    """Classifies keyword intent into canonical classes with strict B2B precedence."""
     text, _ = normalize_keyword_text(raw_keyword)
     if not text:
         return IntentClass.DESCONOCIDO
 
-    # Clases particulares (evaluate before generic 'clases' routing)
+    # 1. Clases particulares (evaluate before generic routing)
     for pat in CLASES_PARTICULARES_PATTERNS:
         if re.search(pat, text, re.IGNORECASE):
             return IntentClass.CLASES_PARTICULARES
 
-    # Check routing signals (e.g., desde cero, paso a paso, profesor)
-    for pat in ROUTING_A_B_C_PATTERNS:
-        if re.search(pat, text, re.IGNORECASE):
-            return IntentClass.ROUTING_A_B_C
-
-    # B2B / SENCE
+    # 2. B2B / SENCE (Evaluated BEFORE ROUTING_A_B_C so 'clases para empresas' is classified as B2B)
     for pat in B2B_SENCE_PATTERNS:
         if re.search(pat, text, re.IGNORECASE):
             return IntentClass.B2B_SENCE
 
-    # Modalidad no presencial
+    # 3. Check routing signals (e.g., desde cero, paso a paso, profesor, clases)
+    for pat in ROUTING_A_B_C_PATTERNS:
+        if re.search(pat, text, re.IGNORECASE):
+            return IntentClass.ROUTING_A_B_C
+
+    # 4. Modalidad no presencial
     for pat in MODALIDAD_NO_PRESENCIAL_PATTERNS:
         if re.search(pat, text, re.IGNORECASE):
             return IntentClass.MODALIDAD
 
-    # Fuera de alcance (VBA, Power BI, Python)
+    # 5. Fuera de alcance (VBA, Power BI, Python)
     for pat in FUERA_ALCANCE_PATTERNS:
         if re.search(pat, text, re.IGNORECASE):
             return IntentClass.FUERA_ALCANCE
 
-    # Solución puntual (fórmulas, tutoriales, atajos, etc.)
+    # 6. Solución puntual (fórmulas, tutoriales, atajos, etc.)
     for pat in SOLUCION_PUNTUAL_PATTERNS:
         if re.search(pat, text, re.IGNORECASE):
             return IntentClass.SOLUCION_PUNTUAL
 
-    # Empleo
+    # 7. Empleo
     for pat in EMPLEO_PATTERNS:
         if re.search(pat, text, re.IGNORECASE):
             # Exception: "para el trabajo" is valid commercial intent, not job seeking

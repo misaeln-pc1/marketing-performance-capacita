@@ -91,6 +91,22 @@ function ConvertTo-QueryString {
   return ($pairs -join '&')
 }
 
+function Get-PropSafe {
+  param(
+    [Parameter(Mandatory=$false)]$Object,
+    [Parameter(Mandatory=$true)][string]$PropertyName
+  )
+  if ($null -eq $Object) { return $null }
+  if ($Object -is [System.Collections.IDictionary]) {
+    if ($Object.Contains($PropertyName)) { return $Object[$PropertyName] }
+    return $null
+  }
+  if ($null -ne $Object.PSObject -and $null -ne $Object.PSObject.Properties[$PropertyName]) {
+    return $Object.PSObject.Properties[$PropertyName].Value
+  }
+  return $null
+}
+
 function Invoke-MetaGet {
   param(
     [Parameter(Mandatory=$true)][string]$GraphVersion,
@@ -116,16 +132,19 @@ function Invoke-MetaGet {
   $items = New-Object System.Collections.Generic.List[object]
   while ($currentUri) {
     $resp = Invoke-RestMethod -Method Get -Uri $currentUri -Headers $headers -TimeoutSec 60
-    if ($resp -and $resp.data) {
-      foreach ($item in $resp.data) {
+    $respData = Get-PropSafe $resp 'data'
+    if ($null -ne $respData) {
+      foreach ($item in $respData) {
         $items.Add($item)
       }
     } else {
       break
     }
 
-    if ($resp.paging -and $resp.paging.next) {
-      $currentUri = $resp.paging.next
+    $paging = Get-PropSafe $resp 'paging'
+    $nextUri = if ($null -ne $paging) { Get-PropSafe $paging 'next' } else { $null }
+    if ($nextUri) {
+      $currentUri = $nextUri
     } else {
       $currentUri = $null
     }
@@ -159,29 +178,32 @@ function Export-CsvSafe {
 function Flatten-InsightRows {
   param([object[]]$Rows)
   foreach ($row in @($Rows)) {
+    if ($null -eq $row) { continue }
+    $actions = Get-PropSafe $row 'actions'
+    $costPerAction = Get-PropSafe $row 'cost_per_action_type'
     [pscustomobject]@{
-      date_start          = $row.date_start
-      date_stop           = $row.date_stop
-      campaign_name       = $row.campaign_name
-      adset_name          = $row.adset_name
-      ad_name             = $row.ad_name
-      spend               = $row.spend
-      impressions         = $row.impressions
-      reach               = $row.reach
-      frequency           = $row.frequency
-      clicks              = $row.clicks
-      inline_link_clicks  = $row.inline_link_clicks
-      ctr                 = $row.ctr
-      cpc                 = $row.cpc
-      cpm                 = $row.cpm
-      actions_json        = if ($null -ne $row.actions) { ($row.actions | ConvertTo-Json -Compress -Depth 20) } else { $null }
-      cost_per_action_json = if ($null -ne $row.cost_per_action_type) { ($row.cost_per_action_type | ConvertTo-Json -Compress -Depth 20) } else { $null }
-      breakdown_publisher_platform = $row.publisher_platform
-      breakdown_platform_position  = $row.platform_position
-      breakdown_impression_device  = $row.impression_device
-      breakdown_age                = $row.age
-      breakdown_gender             = $row.gender
-      breakdown_region             = $row.region
+      date_start          = Get-PropSafe $row 'date_start'
+      date_stop           = Get-PropSafe $row 'date_stop'
+      campaign_name       = Get-PropSafe $row 'campaign_name'
+      adset_name          = Get-PropSafe $row 'adset_name'
+      ad_name             = Get-PropSafe $row 'ad_name'
+      spend               = Get-PropSafe $row 'spend'
+      impressions         = Get-PropSafe $row 'impressions'
+      reach               = Get-PropSafe $row 'reach'
+      frequency           = Get-PropSafe $row 'frequency'
+      clicks              = Get-PropSafe $row 'clicks'
+      inline_link_clicks  = Get-PropSafe $row 'inline_link_clicks'
+      ctr                 = Get-PropSafe $row 'ctr'
+      cpc                 = Get-PropSafe $row 'cpc'
+      cpm                 = Get-PropSafe $row 'cpm'
+      actions_json        = if ($null -ne $actions) { ($actions | ConvertTo-Json -Compress -Depth 20) } else { $null }
+      cost_per_action_json = if ($null -ne $costPerAction) { ($costPerAction | ConvertTo-Json -Compress -Depth 20) } else { $null }
+      breakdown_publisher_platform = Get-PropSafe $row 'publisher_platform'
+      breakdown_platform_position  = Get-PropSafe $row 'platform_position'
+      breakdown_impression_device  = Get-PropSafe $row 'impression_device'
+      breakdown_age                = Get-PropSafe $row 'age'
+      breakdown_gender             = Get-PropSafe $row 'gender'
+      breakdown_region             = Get-PropSafe $row 'region'
     }
   }
 }

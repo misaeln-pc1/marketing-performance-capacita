@@ -13,7 +13,7 @@ No asumir como fuente operativa:
 
 - `Capacita Spa`;
 - `Capacita`;
-- `Misael Novoa Jara`.
+- `Misael N. J.` (portafolio comercial personal).
 
 La ruta operativa documentada previamente sigue siendo:
 

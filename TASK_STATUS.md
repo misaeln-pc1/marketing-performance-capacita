@@ -17,13 +17,16 @@ DECISIONES.md
 ```
 
 Estado del frente:
-- Fase 0 (Saneamiento PR #52): PASS (IDs sanitizados, rama histórica intacta, cero tokens en diff).
+- Fase 0 (Rescate sanitizado de PR #52 en PR #86; PR #52 histórico intacto): PASS (IDs sanitizados, rama histórica intacta, cero tokens en diff).
 - Fase 1.1 (Inventario del entorno): PASS.
 - Fase 1.2 (Google Ads Fast Path): HOLD_WITH_EVIDENCE (ACCESS_TOKEN_SCOPE_INSUFFICIENT).
-- Fase 1.3 (Google Ads MCP oficial): HOLD_WITH_EVIDENCE (parcial; fallback METHOD_A).
-- Fase 1.4 / 1.5 (Negative Snapshot & Guard): PASS (idempotencia y tests 100% PASS; HOLD_DATA_GAP ante ausencia de auth viva).
+- Fase 1.3 (Google Ads MCP oficial): HOLD_WITH_EVIDENCE (METHOD_COMPARISON=DESIGN_ONLY, LIVE_PARITY=NOT_RUN, METHOD_A=BASELINE_FALLBACK).
+- Fase 1.4 / 1.5 (Negative Snapshot & Guard):
+  - NEGATIVE_GUARD_OFFLINE_CORE=PASS
+  - LIVE_NEGATIVE_ADAPTER=IMPLEMENTED_HOLD_AUTH
+  - NEGATIVE_LIVE_SNAPSHOT=HOLD_DATA_GAP
 - Fase 1.6 / 1.7 / 1.8 (GA4, GSC, Meta Ads): HOLD_WITH_EVIDENCE.
-- Fase 1.9 (Zoho CRM): DESIGNED (allowlist READ agregada).
+- Fase 1.9 (Zoho CRM): DESIGNED_CONCEPTUAL_UNVERIFIED (allowlist READ agregada con campos conceptuales hasta inspección de metadata).
 - Writes a plataformas / producción: 0.
 
 ## Frentes vigentes secundarios
@@ -193,8 +196,8 @@ docs/pagesense/PAGESENSE_GOAL_CONFIGURATION_AUDIT_2026-07-12.md
 ## Archivos pesados
 
 - GitHub conserva Markdown, manifests, hashes, síntesis y trazabilidad liviana.
-- Bodega definitiva: SharePoint/OneDrive Empresa.
-- `external-files/marketing-performance-capacita` es staging local operativo.
+- Bodega canónica definitiva: SharePoint Site `Documentos/CAPACITA/Proyectos/external-files/marketing-performance-capacita`.
+- `OneDrive "Sitio de comunicación - external-files"` es acceso sincronizado local, no segunda bodega ni staging.
 - Google Drive o Cloudflare R2 sólo se usan como capas específicas cuando exista decisión documentada; no son la bóveda canónica general.
 
 ## Reglas operativas vigentes
@@ -215,7 +218,7 @@ docs/pagesense/PAGESENSE_GOAL_CONFIGURATION_AUDIT_2026-07-12.md
 4. Usar SiteOne + advertools como evidencia técnica/readability; Promptfoo sólo como benchmark sintético controlado.
 5. Mantener SerpBear bloqueado hasta resolver provider, seguridad, retención, owner y costo.
 6. Después de 2–3 páginas reales, devolver feedback a AI OS sobre utilidad, gaps y falsos positivos antes de promover las skills.
-7. Retomar Google Ads/Meta Ads por separado cuando Misael lo indique, leyendo primero sus canónicos específicos.
+7. La autorización previa de Misael gobierna y bloquea writes, cambios de presupuesto, pujas y modificaciones en producción o plataformas; no es un gate para análisis READ ni para la detección proactiva de oportunidades de Growth. Retomar frentes leyendo primero sus canónicos específicos.
 
 ## Estado de frentes históricos
 
