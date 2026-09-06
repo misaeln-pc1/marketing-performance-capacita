@@ -4,7 +4,9 @@ from __future__ import annotations
 
 import enum
 import hashlib
+import hmac
 import json
+import os
 import re
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
@@ -62,18 +64,27 @@ class CriterionStatus(str, enum.Enum):
     UNKNOWN = "UNKNOWN"
 
 
-def hash_identifier(raw_id: Optional[str], salt: str = "capacita_safe") -> str:
-    """Returns a deterministic, sanitized 12-char SHA-256 hex hash.
+SENTINEL_IDENTIFIERS = {"none", "unknown", "global", "n/a"}
 
+
+def hash_identifier(raw_id: Optional[str], key: Optional[str] = None) -> str:
+    """Returns a deterministic, sanitized 12-char HMAC-SHA256 hex hash or opaque alias.
+
+    Preserves sentinels ('none', 'unknown', 'global', 'n/a') without hashing.
     Never prints or stores the original raw identifier.
+    Uses HMAC with key outside Git (CAPACITA_HMAC_KEY env var) or runtime derived key.
     """
-    if not raw_id:
+    if raw_id is None:
         return "none"
-    # If already a hash or masked, preserve sanitization
-    if str(raw_id).startswith("hash_") or "***" in str(raw_id):
-        return str(raw_id)
     raw_str = str(raw_id).strip()
-    h = hashlib.sha256(f"{salt}:{raw_str}".encode("utf-8")).hexdigest()[:12]
+    if not raw_str or raw_str.lower() in SENTINEL_IDENTIFIERS:
+        return raw_str.lower() if raw_str else "none"
+    # If already a hash or masked, preserve sanitization
+    if raw_str.startswith("hash_") or raw_str.startswith("alias_") or "***" in raw_str:
+        return raw_str
+
+    hmac_key = key or os.environ.get("CAPACITA_HMAC_KEY") or "capacita_runtime_hmac_ephemeral"
+    h = hmac.new(hmac_key.encode("utf-8"), raw_str.encode("utf-8"), hashlib.sha256).hexdigest()[:12]
     return f"hash_{h}"
 
 
@@ -185,6 +196,7 @@ class NegativeKeywordItem:
     policy_decision: PolicyDecision = PolicyDecision.PRESERVE
     evidence_source: str = "FIXTURE"
     state_hash: str = ""
+    state_hash_mismatch: bool = False
 
     def __post_init__(self):
         cleaned, inferred_match = normalize_keyword_text(self.keyword_text)
@@ -206,8 +218,15 @@ class NegativeKeywordItem:
         self.campaign_id_hash = hash_identifier(self.campaign_id_hash)
         self.ad_group_id_hash = hash_identifier(self.ad_group_id_hash)
         self.customer_id_hash = hash_identifier(self.customer_id_hash)
-        if not self.state_hash:
-            self.state_hash = self.compute_state_hash()
+
+        # Always recompute state_hash and compare against received value
+        computed = self.compute_state_hash()
+        if self.state_hash and self.state_hash != computed:
+            self.state_hash_mismatch = True
+            self.policy_decision = PolicyDecision.ERROR
+        else:
+            self.state_hash_mismatch = False
+        self.state_hash = computed
 
     def compute_state_hash(self) -> str:
         payload = (
@@ -224,6 +243,8 @@ class NegativeKeywordItem:
         d["intent_class"] = self.intent_class.value
         d["policy_decision"] = self.policy_decision.value
         d["status"] = self.status.value
+        d["state_hash"] = self.state_hash
+        d["state_hash_mismatch"] = self.state_hash_mismatch
         return d
 
     @classmethod
@@ -364,6 +385,15 @@ class NegativeSnapshot:
         if ev_source not in ALLOWED_EVIDENCE_SOURCES:
             ev_source = "FIXTURE"
 
+        status = data.get("status", "READY")
+        hold_reason = data.get("hold_reason")
+
+        # Tamper detection check: mismatch between received and recomputed state_hash
+        tamper_detected = any(getattr(i, "state_hash_mismatch", False) for i in items)
+        if tamper_detected:
+            status = "HOLD_REVIEW"
+            hold_reason = "STATE_HASH_TAMPER_DETECTED: Manipulated state_hash detected in items. Fail-closed."
+
         snap = cls(
             schema_version=data.get("schema_version", "1.1.0"),
             snapshot_at=data.get("snapshot_at", datetime.now(timezone.utc).isoformat()),
@@ -371,7 +401,7 @@ class NegativeSnapshot:
             items=items,
             campaign_shared_sets=attachments,
             evidence_source=ev_source,
-            status=data.get("status", "READY"),
-            hold_reason=data.get("hold_reason"),
+            status=status,
+            hold_reason=hold_reason,
         )
         return snap

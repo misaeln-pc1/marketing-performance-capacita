@@ -8,55 +8,9 @@ $ErrorActionPreference = 'Stop'
 
 Write-Host "=== TEST: Meta Ads Export Mock Under Strict Mode ==="
 
-# Define the functions directly or dot-source
-function Get-PropSafe {
-  param(
-    [Parameter(Mandatory=$false)]$Object,
-    [Parameter(Mandatory=$true)][string]$PropertyName
-  )
-  if ($null -eq $Object) { return $null }
-  if ($Object -is [System.Collections.IDictionary]) {
-    if ($Object.Contains($PropertyName)) { return $Object[$PropertyName] }
-    return $null
-  }
-  if ($null -ne $Object.PSObject -and $null -ne $Object.PSObject.Properties[$PropertyName]) {
-    return $Object.PSObject.Properties[$PropertyName].Value
-  }
-  return $null
-}
-
-function Flatten-InsightRows {
-  param([object[]]$Rows)
-  foreach ($row in @($Rows)) {
-    if ($null -eq $row) { continue }
-    $actions = Get-PropSafe $row 'actions'
-    $costPerAction = Get-PropSafe $row 'cost_per_action_type'
-    [pscustomobject]@{
-      date_start          = Get-PropSafe $row 'date_start'
-      date_stop           = Get-PropSafe $row 'date_stop'
-      campaign_name       = Get-PropSafe $row 'campaign_name'
-      adset_name          = Get-PropSafe $row 'adset_name'
-      ad_name             = Get-PropSafe $row 'ad_name'
-      spend               = Get-PropSafe $row 'spend'
-      impressions         = Get-PropSafe $row 'impressions'
-      reach               = Get-PropSafe $row 'reach'
-      frequency           = Get-PropSafe $row 'frequency'
-      clicks              = Get-PropSafe $row 'clicks'
-      inline_link_clicks  = Get-PropSafe $row 'inline_link_clicks'
-      ctr                 = Get-PropSafe $row 'ctr'
-      cpc                 = Get-PropSafe $row 'cpc'
-      cpm                 = Get-PropSafe $row 'cpm'
-      actions_json        = if ($null -ne $actions) { ($actions | ConvertTo-Json -Compress -Depth 20) } else { $null }
-      cost_per_action_json = if ($null -ne $costPerAction) { ($costPerAction | ConvertTo-Json -Compress -Depth 20) } else { $null }
-      breakdown_publisher_platform = Get-PropSafe $row 'publisher_platform'
-      breakdown_platform_position  = Get-PropSafe $row 'platform_position'
-      breakdown_impression_device  = Get-PropSafe $row 'impression_device'
-      breakdown_age                = Get-PropSafe $row 'age'
-      breakdown_gender             = Get-PropSafe $row 'gender'
-      breakdown_region             = Get-PropSafe $row 'region'
-    }
-  }
-}
+# Import helper module directly from production code location
+$modulePath = Join-Path (Join-Path (Join-Path $PSScriptRoot '..') 'scripts') 'meta_ads_readonly\MetaAdsExportHelpers.psm1'
+Import-Module $modulePath -DisableNameChecking -Force
 
 # Test 1: Mock row missing ALL breakdown properties and actions
 $mockRow1 = [pscustomobject]@{
@@ -108,7 +62,23 @@ if (-not $r2.actions_json.Contains('link_click')) {
   Write-Error "Failed: actions_json should contain link_click"
   exit 1
 }
+# Test 3: Sanitization of tokens, exceptions and URLs
+$tokenSample = 'EAAB' + '1234567890abcdef'
+$sampleErr = "Error calling endpoint with access_token=" + $tokenSample
+$sanitizedErr = Sanitize-MetaText $sampleErr
+if ($sanitizedErr -match 'EAAB' -or -not ($sanitizedErr -match 'MASKED')) {
+  Write-Error "Failed: Token was not masked in exception text"
+  exit 1
+}
 
+$sampleUri = "https://graph.facebook.com/v22.0/act_123/insights?access_token=" + $tokenSample + "&limit=500"
+$sanitizedUri = Sanitize-MetaUri $sampleUri
+if ($sanitizedUri -match 'EAAB' -or -not ($sanitizedUri -match 'MASKED')) {
+  Write-Error "Failed: Token was not masked in URI string"
+  exit 1
+}
+
+Write-Host "META_PRODUCTION_CODE_MOCK=PASS"
 Write-Host "META_SCRIPT_RUNTIME=MOCK_PASS"
 Write-Host "All Meta script strict-mode tests passed."
 exit 0

@@ -4,8 +4,10 @@ Implements:
 - Deduplication against existing live negative criteria and shared sets.
 - Cross-campaign conflict detection (B2C vs B2B, modality, product).
 - Strict fail-closed validation for unknown campaigns, intents, scopes, and match types.
-- Scope enforcement (Routing A/B/C vs Global Exclusions).
-- "paso a paso" global exclusion prohibition.
+- Scope enforcement (Routing A/B/C explicit matrix vs Global Exclusions).
+- Match-aware and scope-aware protected terms validation (no naive substring matching).
+- Real product and modality compatibility checks.
+- "paso a paso" canonical rule.
 - Cross-process persistent idempotency using manifest_hash + recommendation_hash.
 """
 
@@ -14,7 +16,13 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Set, Tuple
 
-from .campaign_contract import CampaignContract, CampaignRegistry, Modality, ProductType
+from .campaign_contract import (
+    CampaignContract,
+    CampaignRegistry,
+    Modality,
+    ProductType,
+    validate_ad_group_routing,
+)
 from .classifier import DEFAULT_REGISTRY, classify_campaign, classify_keyword_intent
 from .ledger import RecommendationLedger
 from .models import (
@@ -147,7 +155,16 @@ class NegativeGuard:
         target_ad_group_name: str = "NONE",
         target_ad_group_id_hash: str = "none",
     ) -> EvaluationResult:
-        """Evaluates a single candidate negative keyword and returns an EvaluationResult."""
+        """Evaluates a single candidate negative keyword fail-closed."""
+        # Fail-closed check: Persistent Ledger corruption
+        if self.ledger is not None and getattr(self.ledger, "is_corrupt", False):
+            return EvaluationResult(
+                is_valid_recommendation=False,
+                policy_decision=PolicyDecision.HOLD_REVIEW,
+                rationale="LEDGER_CORRUPT=HOLD: El ledger persistente está corrupto. Fail-closed.",
+                intent_class=IntentClass.DESCONOCIDO,
+            )
+
         # Gate 0: Snapshot data gap (Fail-closed if no snapshot or missing live data)
         if not self.snapshot or self.snapshot.status == "HOLD_DATA_GAP":
             return EvaluationResult(
@@ -177,32 +194,80 @@ class NegativeGuard:
                 intent_class=IntentClass.DESCONOCIDO,
             )
 
-        # Gate 0.2: Campaign Mapping Fail-Closed Check
-        contract = self.registry.resolve(target_campaign_name)
+        target_campaign_id_hash = hash_identifier(target_campaign_id_hash)
+        target_ad_group_id_hash = hash_identifier(target_ad_group_id_hash)
+
+        # Gate 0.2: Campaign Mapping: Primary key campaign_id_hash, secondary check campaign_name
+        contract = self.registry.resolve(target_campaign_id_hash, target_campaign_name)
         if contract is None:
             return EvaluationResult(
                 is_valid_recommendation=False,
                 policy_decision=PolicyDecision.HOLD_REVIEW,
-                rationale=f"UNKNOWN_CAMPAIGN: Campaña '{target_campaign_name}' no registrada en contrato canónico. Fail-closed -> HOLD_REVIEW.",
+                rationale=f"UNKNOWN_CAMPAIGN: Campaña ID '{target_campaign_id_hash}' (nombre '{target_campaign_name}') no resuelta en contrato canónico. Fail-closed -> HOLD_REVIEW.",
+                intent_class=IntentClass.DESCONOCIDO,
+            )
+
+        # Gate 0.3: Product and Modality validation
+        if contract.product == ProductType.UNKNOWN:
+            return EvaluationResult(
+                is_valid_recommendation=False,
+                policy_decision=PolicyDecision.HOLD_REVIEW,
+                rationale=f"UNKNOWN_PRODUCT: Producto de campaña '{contract.campaign_name_pattern}' es UNKNOWN. Fail-closed -> HOLD_REVIEW.",
                 intent_class=IntentClass.DESCONOCIDO,
             )
 
         camp_type = contract.audience
         intent_class = classify_keyword_intent(text)
 
-        target_campaign_id_hash = hash_identifier(target_campaign_id_hash)
-        target_ad_group_id_hash = hash_identifier(target_ad_group_id_hash)
+        # Product-specific compatibility:
+        if contract.product == ProductType.POWER_BI:
+            if "power bi" in text or "powerbi" in text:
+                return EvaluationResult(
+                    is_valid_recommendation=False,
+                    policy_decision=PolicyDecision.CONFLICT,
+                    rationale="PRODUCT_CORE_OFFERING: Power BI es el producto de la campaña; no puede considerarse FUERA_ALCANCE ni excluirse.",
+                    intent_class=IntentClass.FUERA_ALCANCE,
+                )
+            # Excel taxonomy cannot be automatically applied to Power BI
+            if any(term in text for term in ("excel", "buscarv", "tablas dinamicas", "sumar.si")):
+                return EvaluationResult(
+                    is_valid_recommendation=False,
+                    policy_decision=PolicyDecision.HOLD_REVIEW,
+                    rationale="PRODUCT_MISMATCH: Taxonomía de Excel no puede aplicarse automáticamente a campaña de Power BI.",
+                    intent_class=intent_class,
+                )
 
-        # Gate 0.3: Protected terms check (if candidate attempts to negate core value proposition, it's CONFLICT)
-        if any(pt in text for pt in contract.protected_terms):
+        # Modality check: if campaign is ONLINE or MIXTA, do not negate online intent
+        if contract.modality in (Modality.ONLINE, Modality.MIXTA) and intent_class == IntentClass.MODALIDAD:
             return EvaluationResult(
                 is_valid_recommendation=False,
                 policy_decision=PolicyDecision.CONFLICT,
-                rationale=f"PROTECTED_TERM: Término '{text}' es parte de la propuesta de valor protegida para '{target_campaign_name}'.",
+                rationale=f"MODALITY_CONFLICT: Campaña '{target_campaign_name}' es modalidad {contract.modality.value}; no se niegan términos de modalidad no presencial.",
                 intent_class=intent_class,
             )
 
-        # Gate 0.4: Intent Fail-closed Check
+        # Gate 0.4: Match-aware & scope-aware protected terms check
+        # Isolated protected term -> CONFLICT
+        if text in contract.protected_terms:
+            return EvaluationResult(
+                is_valid_recommendation=False,
+                policy_decision=PolicyDecision.CONFLICT,
+                rationale=f"PROTECTED_TERM_ISOLATED: Término '{text}' es parte central de la propuesta de valor protegida para '{target_campaign_name}'.",
+                intent_class=intent_class,
+            )
+
+        # Check if text is composed only of protected/core tokens without any excludable modifier
+        words = set(text.split())
+        core_tokens = {"curso", "excel", "presencial", "santiago", "capacita"}
+        if words.issubset(core_tokens) or (intent_class == IntentClass.DESCONOCIDO and any(pt in text for pt in contract.protected_terms)):
+            return EvaluationResult(
+                is_valid_recommendation=False,
+                policy_decision=PolicyDecision.CONFLICT,
+                rationale=f"PROTECTED_TERM_COMPOUND: Consulta '{text}' está compuesta por la propuesta de valor protegida sin modificador excluible.",
+                intent_class=intent_class,
+            )
+
+        # Gate 0.5: Intent Fail-closed Check
         if intent_class == IntentClass.DESCONOCIDO:
             return EvaluationResult(
                 is_valid_recommendation=False,
@@ -227,15 +292,6 @@ class NegativeGuard:
                 intent_class=intent_class,
             )
 
-        # Modality check: if campaign is ONLINE or MIXTA, do not negate online intent
-        if contract.modality in (Modality.ONLINE, Modality.MIXTA) and intent_class == IntentClass.MODALIDAD:
-            return EvaluationResult(
-                is_valid_recommendation=False,
-                policy_decision=PolicyDecision.CONFLICT,
-                rationale=f"MODALITY_CONFLICT: Campaña '{target_campaign_name}' es modalidad {contract.modality.value}; no se niegan términos de modalidad no presencial.",
-                intent_class=intent_class,
-            )
-
         # Gate 1: Deduplication against live state
         if self.is_already_covered(
             text, norm_match, norm_scope, target_campaign_id_hash, target_ad_group_id_hash
@@ -257,13 +313,22 @@ class NegativeGuard:
                     intent_class=IntentClass.ROUTING_A_B_C,
                 )
 
-        # Gate 3: Routing A/B/C cannot be global exclusions
+        # Gate 3: Routing A/B/C explicit matrix validation
         if intent_class == IntentClass.ROUTING_A_B_C:
             if norm_scope in (SourceScope.CUSTOMER, SourceScope.SHARED_SET, SourceScope.CAMPAIGN):
                 return EvaluationResult(
                     is_valid_recommendation=False,
                     policy_decision=PolicyDecision.ROUTE,
                     rationale=f"Término '{text}' tiene intención de ROUTING_A_B_C. No debe ser negativa global; debe enrutarse a nivel de grupo de anuncios.",
+                    intent_class=intent_class,
+                )
+            # Scope is AD_GROUP -> Validate against explicit routing matrix
+            routing_decision, routing_rationale = validate_ad_group_routing(contract, text, target_ad_group_name)
+            if routing_decision != PolicyDecision.CANDIDATE:
+                return EvaluationResult(
+                    is_valid_recommendation=False,
+                    policy_decision=routing_decision,
+                    rationale=routing_rationale,
                     intent_class=intent_class,
                 )
 
@@ -274,15 +339,6 @@ class NegativeGuard:
                     is_valid_recommendation=False,
                     policy_decision=PolicyDecision.CONFLICT,
                     rationale=f"CONFLICTO SEVERO B2B: Término '{text}' (B2B/Sence) no puede aplicarse a una campaña B2B Empresa.",
-                    intent_class=intent_class,
-                )
-        elif camp_type == CampaignType.B2C:
-            core_protected_terms = {"presencial", "santiago", "curso", "capacita", "curso presencial", "curso presencial santiago"}
-            if text in core_protected_terms:
-                return EvaluationResult(
-                    is_valid_recommendation=False,
-                    policy_decision=PolicyDecision.CONFLICT,
-                    rationale=f"CONFLICTO B2C: Término '{text}' bloquea la propuesta de valor o producto central de la campaña B2C.",
                     intent_class=intent_class,
                 )
 

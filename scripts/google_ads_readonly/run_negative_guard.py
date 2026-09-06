@@ -83,6 +83,13 @@ DEMO_CANDIDATES = [
         "target_campaign_name": "SCL-EXCEL-B2C-PRESENCIAL",
         "target_campaign_id_hash": "hash_c11111111111",
     },
+    {
+        "keyword_text": "curso excel online",
+        "match_type": "BROAD",
+        "target_scope": "CAMPAIGN",
+        "target_campaign_name": "SCL-EXCEL-B2C-PRESENCIAL",
+        "target_campaign_id_hash": "hash_c11111111111",
+    },
 ]
 
 
@@ -136,6 +143,9 @@ def main() -> int:
     print(f"SNAPSHOT_LOADED: {snapshot.customer_id_hash} ({len(snapshot.active_items())} active negative items)")
     ledger_path = Path(args.ledger_dir).resolve() if args.ledger_dir else None
     ledger = RecommendationLedger(ledger_path)
+    if ledger.is_corrupt:
+        print("[FAIL-CLOSED ERROR] Persistent ledger is corrupt: LEDGER_CORRUPT=HOLD", file=sys.stderr)
+        return 1
 
     guard_1 = NegativeGuard(snapshot, ledger=ledger)
 
@@ -147,13 +157,14 @@ def main() -> int:
 
     if args.idempotency_check:
         print("\nCHECKING_CROSS_PROCESS_IDEMPOTENCY (Run 2 with fresh guard instance over same persistent ledger)...")
-        guard_2 = NegativeGuard(snapshot, ledger=ledger)
+        fresh_ledger = RecommendationLedger(ledger_path)
+        guard_2 = NegativeGuard(snapshot, ledger=fresh_ledger)
         recs_2 = guard_2.evaluate_batch(candidates)
         print(f"RUN_2_VALID_DELTA_RECOMMENDATIONS: {len(recs_2)}")
-        if len(recs_2) == 0:
+        if len(recs_1) > 0 and len(recs_2) == 0:
             print("IDEMPOTENT_RECOMMENDATIONS=PASS")
         else:
-            print("IDEMPOTENT_RECOMMENDATIONS=FAIL")
+            print(f"IDEMPOTENT_RECOMMENDATIONS=FAIL (Run 1: {len(recs_1)}, Run 2: {len(recs_2)})")
             return 1
 
     return 0

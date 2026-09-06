@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import enum
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Set
+from typing import Any, Dict, List, Optional, Set
 
-from .models import CampaignType, IntentClass, hash_identifier
+from .models import CampaignType, IntentClass, PolicyDecision, hash_identifier
 
 
 class Modality(str, enum.Enum):
@@ -26,6 +26,7 @@ class ProductType(str, enum.Enum):
 @dataclass(frozen=True)
 class CampaignContract:
     """Canonical contract defining operational attributes and negative keyword policy for a campaign."""
+    campaign_id_hash: str
     campaign_name_pattern: str
     audience: CampaignType
     product: ProductType
@@ -35,11 +36,16 @@ class CampaignContract:
     allowed_negative_intents: Set[IntentClass] = field(default_factory=set)
     protected_intents: Set[IntentClass] = field(default_factory=set)
     protected_terms: Set[str] = field(default_factory=set)
+    # Ad group routing map: normalized ad group name/pattern -> variant ('A', 'B', 'C')
+    ad_group_routing: Dict[str, str] = field(default_factory=dict)
+    # Explicit valid destinations for routing signals
+    routing_destinations: Dict[str, str] = field(default_factory=dict)
 
 
-# Known canonical campaign registry for Capacita
+# Known canonical Google Ads campaign registry for Capacita
 DEFAULT_CAMPAIGN_CONTRACTS: List[CampaignContract] = [
     CampaignContract(
+        campaign_id_hash="hash_c11111111111",
         campaign_name_pattern="SCL-EXCEL-B2C-PRESENCIAL",
         audience=CampaignType.B2C,
         product=ProductType.EXCEL,
@@ -52,15 +58,32 @@ DEFAULT_CAMPAIGN_CONTRACTS: List[CampaignContract] = [
             IntentClass.MODALIDAD,
             IntentClass.CLASES_PARTICULARES,
             IntentClass.FUERA_ALCANCE,
-            IntentClass.ROUTING_A_B_C,  # Allowed at ad group level
+            IntentClass.ROUTING_A_B_C,  # Allowed at ad group level under explicit routing matrix
+            IntentClass.B2B_SENCE,      # Canonically excludable in B2C (NEG_B2C__EMPRESA_SENCE__V1)
         },
         protected_intents=set(),
         protected_terms={
             "presencial", "santiago", "capacita", "curso presencial",
             "curso presencial santiago", "curso excel presencial",
         },
+        ad_group_routing={
+            "ADG_A_GENERAL": "A",
+            "ADG_1": "A",
+            "ADG_B_DESDE_CERO": "B",
+            "ADG_B_PASO_A_PASO": "B",
+            "ADG_C_CLASES": "C",
+            "ADG_C_PROFESOR": "C",
+        },
+        routing_destinations={
+            "desde_cero": "B",
+            "principiantes": "B",
+            "paso_a_paso": "B",
+            "profesor": "C",
+            "clases": "C",
+        },
     ),
     CampaignContract(
+        campaign_id_hash="hash_c22222222222",
         campaign_name_pattern="SCL-EXCEL-EMPRESA-B2B",
         audience=CampaignType.B2B_EMPRESA,
         product=ProductType.EXCEL,
@@ -80,50 +103,150 @@ DEFAULT_CAMPAIGN_CONTRACTS: List[CampaignContract] = [
             "empresa", "empresas", "sence", "otic", "factura", "cotizacion",
             "capacitacion empresas", "curso excel empresas",
         },
-    ),
-    CampaignContract(
-        campaign_name_pattern="META_TRAFFIC_EXCEL_PRESENCIAL_SANTIAGO_B2C_V3",
-        audience=CampaignType.B2C,
-        product=ProductType.EXCEL,
-        modality=Modality.PRESENCIAL,
-        campaign_family="EXCEL_PRESENCIAL_B2C",
-        landing_variant="N/A",
-        allowed_negative_intents={
-            IntentClass.SOLUCION_PUNTUAL,
-            IntentClass.EMPLEO,
-            IntentClass.MODALIDAD,
-            IntentClass.FUERA_ALCANCE,
-            IntentClass.ROUTING_A_B_C,
-        },
-        protected_intents=set(),
-        protected_terms={"presencial", "santiago", "curso excel presencial"},
+        ad_group_routing={},
+        routing_destinations={},
     ),
 ]
 
 
 class CampaignRegistry:
-    """Injectable registry that resolves campaigns to contracts fail-closed."""
+    """Injectable registry that resolves campaigns to contracts fail-closed.
+
+    Primary key: campaign_id_hash.
+    Secondary validation: campaign_name / campaign_family compatibility.
+    """
 
     def __init__(self, contracts: Optional[List[CampaignContract]] = None):
-        self._contracts: List[CampaignContract] = list(contracts or DEFAULT_CAMPAIGN_CONTRACTS)
-        self._custom_mappings: Dict[str, CampaignContract] = {}
+        self._contracts: List[CampaignContract] = []
+        self._id_hash_map: Dict[str, List[CampaignContract]] = {}
+        for c in (contracts or DEFAULT_CAMPAIGN_CONTRACTS):
+            self.register_contract(c)
 
-    def register_campaign(self, campaign_name: str, contract: CampaignContract) -> None:
-        """Explicitly registers a campaign name mapping."""
-        self._custom_mappings[campaign_name.strip().upper()] = contract
+    def register_contract(self, contract: CampaignContract) -> None:
+        """Registers a campaign contract indexed primarily by campaign_id_hash."""
+        c_hash = hash_identifier(contract.campaign_id_hash)
+        self._contracts.append(contract)
+        if c_hash not in self._id_hash_map:
+            self._id_hash_map[c_hash] = []
+        self._id_hash_map[c_hash].append(contract)
 
-    def resolve(self, campaign_name: str) -> Optional[CampaignContract]:
-        """Resolves campaign contract. Returns None if unknown (fail-closed)."""
-        if not campaign_name or campaign_name.strip().upper() in ("UNKNOWN", "NONE", "GLOBAL"):
+    def register_campaign(self, campaign_id_hash: str, contract: CampaignContract) -> None:
+        """Registers a campaign mapping."""
+        self.register_contract(contract)
+
+    def resolve(
+        self,
+        campaign_id_hash: str,
+        campaign_name: Optional[str] = None,
+    ) -> Optional[CampaignContract]:
+        """Resolves campaign contract fail-closed.
+
+        Primary check: campaign_id_hash.
+        Fail-closed ante:
+        - ID no registrado (0 matches -> None)
+        - Múltiples coincidencias (> 1 matches -> None)
+        - Nombre incompatible con campaign_name_pattern o campaign_family (None)
+        """
+        if not campaign_id_hash:
+            return None
+        sanitized_id = hash_identifier(campaign_id_hash)
+        if sanitized_id in ("none", "unknown", "global", "n/a"):
             return None
 
-        name_upper = campaign_name.strip().upper()
+        matching = self._id_hash_map.get(sanitized_id, [])
+        if len(matching) == 0:
+            return None
+        if len(matching) > 1:
+            # Ambiguous mapping: multiple contracts share the same campaign_id_hash -> fail-closed
+            return None
 
-        if name_upper in self._custom_mappings:
-            return self._custom_mappings[name_upper]
+        contract = matching[0]
 
-        for contract in self._contracts:
-            if contract.campaign_name_pattern.upper() in name_upper:
-                return contract
+        # Secondary check: verify name/family compatibility if provided
+        if campaign_name and campaign_name.strip().upper() not in ("UNKNOWN", "NONE", "GLOBAL", ""):
+            name_upper = campaign_name.strip().upper()
+            pat_upper = contract.campaign_name_pattern.strip().upper()
+            fam_upper = contract.campaign_family.strip().upper()
+            if pat_upper not in name_upper and fam_upper not in name_upper:
+                return None
 
-        return None
+        return contract
+
+
+def validate_ad_group_routing(
+    contract: CampaignContract,
+    text: str,
+    target_ad_group_name: str,
+) -> tuple[PolicyDecision, str]:
+    """Validates ROUTING_A_B_C candidate terms against explicit routing matrix.
+
+    Rules:
+    - A can cede 'desde cero' to B.
+    - C can cede 'desde cero' to B.
+    - B CANNOT negate 'desde cero' within group B.
+    - 'profesor'/'clases' can only be excluded if destination is expressly defined.
+    - Do NOT accept ROUTING_A_B_C in any AD_GROUP by default -> fail-closed HOLD_REVIEW.
+    """
+    if not target_ad_group_name or target_ad_group_name.strip().upper() in ("NONE", "UNKNOWN", ""):
+        return (
+            PolicyDecision.HOLD_REVIEW,
+            "ROUTING_NO_AD_GROUP: Término de routing A/B/C requiere grupo de anuncios específico.",
+        )
+
+    # Lookup ad group variant
+    adg_clean = target_ad_group_name.strip().upper()
+    variant = contract.ad_group_routing.get(adg_clean)
+    if not variant:
+        # Check partial pattern
+        for pat, var in contract.ad_group_routing.items():
+            if pat in adg_clean:
+                variant = var
+                break
+
+    if not variant:
+        return (
+            PolicyDecision.HOLD_REVIEW,
+            f"ROUTING_UNDEFINED_GROUP: Grupo '{target_ad_group_name}' no registrado en matriz de routing. Fail-closed.",
+        )
+
+    # 1. 'desde cero', 'principiantes', 'paso a paso' signals
+    is_desde_cero_signal = any(s in text for s in ("desde cero", "principiante", "paso a paso"))
+    if is_desde_cero_signal:
+        dest = contract.routing_destinations.get("desde_cero", "B")
+        if variant == dest:
+            return (
+                PolicyDecision.CONFLICT,
+                f"ROUTING_CONFLICT_SELF: No se puede negativizar 'desde cero/principiantes' dentro del Grupo {variant} (destino propio).",
+            )
+        if variant in ("A", "C"):
+            # A and C can cede to B
+            return (
+                PolicyDecision.CANDIDATE,
+                f"ROUTING_VALID: Grupo {variant} cede 'desde cero' hacia Grupo {dest}.",
+            )
+
+    # 2. 'profesor', 'clases' signals
+    is_clases_signal = any(s in text for s in ("profesor", "clases"))
+    if is_clases_signal:
+        dest = contract.routing_destinations.get("profesor", "C")
+        if not dest:
+            return (
+                PolicyDecision.HOLD_REVIEW,
+                "ROUTING_NO_DESTINATION: Destino para señal 'profesor/clases' no está expresamente definido.",
+            )
+        if variant == dest:
+            return (
+                PolicyDecision.CONFLICT,
+                f"ROUTING_CONFLICT_SELF: No se puede negativizar 'profesor/clases' dentro del Grupo {variant} (destino propio).",
+            )
+        if variant in ("A", "B"):
+            return (
+                PolicyDecision.CANDIDATE,
+                f"ROUTING_VALID: Grupo {variant} cede 'profesor/clases' hacia Grupo {dest}.",
+            )
+
+    # Any other routing signal not explicitly covered
+    return (
+        PolicyDecision.HOLD_REVIEW,
+        f"ROUTING_UNRESOLVED: Término '{text}' en Grupo {variant} no tiene ruta explícita permitida.",
+    )

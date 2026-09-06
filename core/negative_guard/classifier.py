@@ -29,6 +29,10 @@ SOLUCION_PUNTUAL_PATTERNS = [
     r"\bsintaxis\b",
     r"\batajo\b",
     r"\bcomando\b",
+    r"\bgratis\b",
+    r"\bgratuit[oa]s?\b",
+    r"\bfree\b",
+    r"\bdescargar?\b",
 ]
 
 EMPLEO_PATTERNS = [
@@ -95,13 +99,14 @@ ROUTING_A_B_C_PATTERNS = [
 ]
 
 
-def classify_campaign(campaign_name: str, registry: Optional[CampaignRegistry] = None) -> CampaignType:
+def classify_campaign(
+    campaign_id_hash: str = "none",
+    campaign_name: str = "",
+    registry: Optional[CampaignRegistry] = None,
+) -> CampaignType:
     """Classifies a campaign as B2C, B2B_EMPRESA, or UNKNOWN strictly fail-closed via CampaignRegistry."""
-    if not campaign_name:
-        return CampaignType.UNKNOWN
-
     reg = registry or DEFAULT_REGISTRY
-    contract = reg.resolve(campaign_name)
+    contract = reg.resolve(campaign_id_hash, campaign_name)
     if contract:
         return contract.audience
 

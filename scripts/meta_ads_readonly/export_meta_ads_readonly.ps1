@@ -91,21 +91,7 @@ function ConvertTo-QueryString {
   return ($pairs -join '&')
 }
 
-function Get-PropSafe {
-  param(
-    [Parameter(Mandatory=$false)]$Object,
-    [Parameter(Mandatory=$true)][string]$PropertyName
-  )
-  if ($null -eq $Object) { return $null }
-  if ($Object -is [System.Collections.IDictionary]) {
-    if ($Object.Contains($PropertyName)) { return $Object[$PropertyName] }
-    return $null
-  }
-  if ($null -ne $Object.PSObject -and $null -ne $Object.PSObject.Properties[$PropertyName]) {
-    return $Object.PSObject.Properties[$PropertyName].Value
-  }
-  return $null
-}
+Import-Module (Join-Path $PSScriptRoot 'MetaAdsExportHelpers.psm1') -DisableNameChecking -Force
 
 function Invoke-MetaGet {
   param(
@@ -175,38 +161,6 @@ function Export-CsvSafe {
   $array | Export-Csv -LiteralPath $Path -NoTypeInformation -Encoding UTF8
 }
 
-function Flatten-InsightRows {
-  param([object[]]$Rows)
-  foreach ($row in @($Rows)) {
-    if ($null -eq $row) { continue }
-    $actions = Get-PropSafe $row 'actions'
-    $costPerAction = Get-PropSafe $row 'cost_per_action_type'
-    [pscustomobject]@{
-      date_start          = Get-PropSafe $row 'date_start'
-      date_stop           = Get-PropSafe $row 'date_stop'
-      campaign_name       = Get-PropSafe $row 'campaign_name'
-      adset_name          = Get-PropSafe $row 'adset_name'
-      ad_name             = Get-PropSafe $row 'ad_name'
-      spend               = Get-PropSafe $row 'spend'
-      impressions         = Get-PropSafe $row 'impressions'
-      reach               = Get-PropSafe $row 'reach'
-      frequency           = Get-PropSafe $row 'frequency'
-      clicks              = Get-PropSafe $row 'clicks'
-      inline_link_clicks  = Get-PropSafe $row 'inline_link_clicks'
-      ctr                 = Get-PropSafe $row 'ctr'
-      cpc                 = Get-PropSafe $row 'cpc'
-      cpm                 = Get-PropSafe $row 'cpm'
-      actions_json        = if ($null -ne $actions) { ($actions | ConvertTo-Json -Compress -Depth 20) } else { $null }
-      cost_per_action_json = if ($null -ne $costPerAction) { ($costPerAction | ConvertTo-Json -Compress -Depth 20) } else { $null }
-      breakdown_publisher_platform = Get-PropSafe $row 'publisher_platform'
-      breakdown_platform_position  = Get-PropSafe $row 'platform_position'
-      breakdown_impression_device  = Get-PropSafe $row 'impression_device'
-      breakdown_age                = Get-PropSafe $row 'age'
-      breakdown_gender             = Get-PropSafe $row 'gender'
-      breakdown_region             = Get-PropSafe $row 'region'
-    }
-  }
-}
 
 $envMap = Read-DotEnv -Path $EnvPath
 Assert-RequiredEnv -Env $envMap
@@ -273,7 +227,7 @@ try {
       Export-CsvSafe $flat (Join-Path $csvDir "05_insights_${level}.csv")
       $manifest.endpoints += @{ name="insights_$level"; status='ok'; rows=@($rows).Count }
     } catch {
-      $manifest.errors += @{ name="insights_$level"; message=$_.Exception.Message }
+      $manifest.errors += @{ name="insights_$level"; message=(Sanitize-MetaText $_.Exception.Message) }
       $manifest.endpoints += @{ name="insights_$level"; status='error' }
     }
   }
@@ -295,7 +249,7 @@ try {
       Export-CsvSafe $flat (Join-Path $csvDir "06_breakdown_$($bd.name).csv")
       $manifest.endpoints += @{ name="breakdown_$($bd.name)"; status='ok'; rows=@($rows).Count }
     } catch {
-      $manifest.errors += @{ name="breakdown_$($bd.name)"; message=$_.Exception.Message }
+      $manifest.errors += @{ name="breakdown_$($bd.name)"; message=(Sanitize-MetaText $_.Exception.Message) }
       $manifest.endpoints += @{ name="breakdown_$($bd.name)"; status='error' }
     }
   }
@@ -349,7 +303,7 @@ Estado: `EXPORT_OK`
 catch {
   $manifest.status = 'EXPORT_FAIL'
   $manifest.finished_at = (Get-Date).ToString('s')
-  $manifest.errors += @{ name='fatal'; message=$_.Exception.Message }
+  $manifest.errors += @{ name='fatal'; message=(Sanitize-MetaText $_.Exception.Message) }
   Save-Json $manifest (Join-Path $exportDir 'manifest.json')
   Write-Error $_
   exit 1

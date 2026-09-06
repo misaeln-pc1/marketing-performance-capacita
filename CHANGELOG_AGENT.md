@@ -155,4 +155,27 @@
   - Creada suite de pruebas ampliada a 13 tests unitarios (`tests/test_negative_guard.py`: 100% OK en 0.026s) y runner de validación integral sobre el diff real `origin/main...HEAD` (`scripts/run_offline_validations.py`).
   - Cero writes en Google Ads, Meta Ads, CRM o producción (`ADS_WRITES=0`, `CRM_WRITES=0`, `PRODUCTION_WRITES=0`).
   - Validación de seguridad: `SECRETS_IN_GITHUB=0`, `PII_IN_GITHUB=0`, `FULL_IDS_IN_NEW_DIFF=0`, `git diff --check` limpio.
-- Estado final de entrega: PR #86 actualizado con corrección exhaustiva de hallazgos P0/P1 del Review ID `5123538405`, listo para re-revisión formal. No hacer merge.
+- Estado final de entrega: PR #86 actualizado con corrección exhaustiva de hallazgos P0/P1 del Review ID `5123538405`.
+
+## 2026-09-05 (Revisión Formal P0 - Review ID 5123583986)
+
+- Agente: Google Antigravity.
+- Rama: `feature/marketing-official-read-control-plane-p0`.
+- PR: `#86`.
+- Review ID Resuelto: `5123583986`.
+- Tarea: Task Hub #215 (Issue padre: Marketing #85).
+- Correcciones implementadas y validadas:
+  1. Google Ads Account-Level Negatives: Reemplazado el GAQL inválido de `customer_negative_criterion` por la API oficial basada en `negative_keyword_list.shared_set`, soportando tipos `NEGATIVE_KEYWORDS` y `ACCOUNT_LEVEL_NEGATIVE_KEYWORDS`, y recuperando términos reales desde `shared_criterion` con tipo `KEYWORD`.
+  2. Filtro estricto de tipos: En `shared_criterion`, `campaign_criterion` y `ad_group_criterion` se exige `type = 'KEYWORD'`, descartando criterios sin texto, con match type `UNKNOWN`, o cuyo parent/shared set esté en estado `REMOVED` o `UNKNOWN`.
+  3. Campaign Mapping: Clave principal migrada a `campaign_id_hash`, con comprobación secundaria por nombre/familia; fail-closed ante ID no registrado, nombre incompatible, cero matches o colisiones. Retiradas campañas Meta del registro de Google Ads.
+  4. Alineación B2C/B2B y Matriz A/B/C: Permitido `B2B_SENCE` como intención excluible en B2C Excel según política canónica. Implementada matriz estricta de routing A/B/C (A y C ceden a B; B bloquea exclusión de 'desde cero'; 'profesor/clases' solo en destinos válidos; fail-closed `HOLD_REVIEW` en grupos no configurados).
+  5. Compatibilidad de Producto y Modalidad: Validación real que impide aplicar taxonomía Excel a Power BI (`PRODUCT_MISMATCH -> HOLD_REVIEW`), protege términos propios del producto activo, prohíbe negativizar online en modalidad ONLINE o MIXTA, y arroja `HOLD_REVIEW` si el producto es `UNKNOWN`.
+  6. Protected Terms Match-Aware y Scope-Aware: Eliminado substring ingenuo. Términos aislados (`presencial`, `curso excel presencial`) generan `CONFLICT`; frases compuestas con modificador (`curso excel presencial gratis`, `curso excel presencial empleo`, `curso excel para empresas`) son evaluadas por intención y aceptadas como `CANDIDATE`.
+  7. Ledger Fail-Closed y Concurrencia Atómica: Corrupción genera `HOLD_REVIEW` (no `{}`). Implementado lock atómico con archivo `.lock`. Prueba de subprocesos concurrentes confirmada con `PROCESS_1_RECOMMENDATIONS > 0` y `PROCESS_2_RECOMMENDATIONS = 0`.
+  8. Hashes e Identificadores: Recálculo obligatorio de `state_hash` y detección de manipulación (`HOLD_REVIEW`). Preservación de sentinels (`none`, `unknown`, `global`, `n/a`) sin hashear. Clave HMAC dinámica fuera de Git.
+  9. Código Productivo Meta Ads: Módulo importable `MetaAdsExportHelpers.psm1` con helpers de extracción y sanitización estricta (`Sanitize-MetaText`, `Sanitize-MetaUri`). Eliminación de código duplicado en tests (`test_meta_script_mock.ps1`).
+  10. Security Validation y Suite de Pruebas: Verificación estricta de `origin/main`, diff real y archivos modificados analizados; 16 tests unitarios pasando al 100% en `test_negative_guard.py`; validación limpia de whitespace en Git.
+  11. Documentación: Deduplicación de títulos en especificación técnica, eliminación de referencias restantes a staging en control plane, y actualización de `REVIEW_REQUEST.md`, `AGENT_FEEDBACK.md` y PR #86.
+- Guardrails operativos estrictamente cumplidos: `ADS_WRITES=0`, `CRM_WRITES=0`, `PRODUCTION_WRITES=0`, `MERGE=0`.
+- Declaración oficial de estado: `OFFLINE_CORE=PASS`, `LIVE_ADAPTER=IMPLEMENTED_HOLD_AUTH`, `LIVE_SNAPSHOT=HOLD_DATA_GAP`, `LIVE_PARITY=NOT_RUN`.
+- Estado: PR #86 listo para re-revisión formal. No hacer merge.

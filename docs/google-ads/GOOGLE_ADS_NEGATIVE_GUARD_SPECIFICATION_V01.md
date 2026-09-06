@@ -1,7 +1,5 @@
 # Google Ads — Especificación Técnica del Guard de Palabras Clave Negativas V01
 
-# Google Ads — Especificación Técnica del Guard de Palabras Clave Negativas V01
-
 Estado: `NEGATIVE_GUARD_OFFLINE_CORE=PASS | LIVE_NEGATIVE_ADAPTER=IMPLEMENTED_HOLD_AUTH | NEGATIVE_LIVE_SNAPSHOT=HOLD_DATA_GAP`
 Fecha: 2026-09-05
 Issue padre: #85

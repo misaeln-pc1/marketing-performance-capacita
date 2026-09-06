@@ -160,7 +160,7 @@ flowchart TD
 
 ### 1. DAILY_READ
 - **Métricas:** Gasto diario, clics, impresiones, conversiones de plataforma, términos de búsqueda con gasto > umbral, frecuencia y anomalías.
-- **Salida:** Reporte diario Markdown sanitizado guardado fuera de Git o en staging.
+- **Salida:** Reporte diario Markdown sanitizado guardado fuera de Git o en directorio local seguro.
 
 ### 2. WEEKLY_READ
 - **Métricas:** Snapshot vivo de negativas, auditoría de términos irrelevantes, verificación de routing A/B/C, salud de landings, posicionamiento SEO orgánico.
