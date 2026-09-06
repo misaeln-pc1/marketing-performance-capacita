@@ -9,7 +9,8 @@ from .adapter import GoogleAdsNegativeReadAdapter
 from .campaign_contract import CampaignContract, CampaignRegistry, Modality, ProductType
 from .classifier import classify_campaign, classify_keyword_intent
 from .guard import EvaluationResult, NegativeGuard
-from .ledger import RecommendationLedger
+from .ledger import ClaimResult, RecommendationLedger
+from .live_executor import GoogleAdsLiveExecutor
 from .models import (
     CampaignType,
     CriterionStatus,
@@ -54,6 +55,8 @@ __all__ = [
     "classify_keyword_intent",
     "EvaluationResult",
     "NegativeGuard",
+    "ClaimResult",
     "RecommendationLedger",
+    "GoogleAdsLiveExecutor",
     "NegativeSnapshotManager",
 ]

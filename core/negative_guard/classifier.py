@@ -5,10 +5,12 @@ from __future__ import annotations
 import re
 from typing import Optional
 
-from .campaign_contract import CampaignContract, CampaignRegistry
+from .campaign_contract import CampaignContract, CampaignRegistry, DEMO_CAMPAIGN_CONTRACTS
 from .models import CampaignType, IntentClass, normalize_keyword_text
 
-DEFAULT_REGISTRY = CampaignRegistry()
+# DEFAULT_REGISTRY uses demo contracts for backward compatibility in tests/demo mode.
+# Live execution must inject a private registry via --runtime-config-path.
+DEFAULT_REGISTRY = CampaignRegistry(contracts=DEMO_CAMPAIGN_CONTRACTS)
 
 # Canonical keyword signals based on docs/google-ads/GOOGLE_ADS_NEGATIVE_KEYWORDS_INTENT_POLICY.md
 SOLUCION_PUNTUAL_PATTERNS = [

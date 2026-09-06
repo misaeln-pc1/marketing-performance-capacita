@@ -66,24 +66,46 @@ class CriterionStatus(str, enum.Enum):
 
 SENTINEL_IDENTIFIERS = {"none", "unknown", "global", "n/a"}
 
+_VALID_PREHASHED_RE = re.compile(r"^hash_[0-9a-f]{12}$")
+
 
 def hash_identifier(raw_id: Optional[str], key: Optional[str] = None) -> str:
-    """Returns a deterministic, sanitized 12-char HMAC-SHA256 hex hash or opaque alias.
+    """Returns a deterministic, sanitized 12-char HMAC-SHA256 hex hash.
 
     Preserves sentinels ('none', 'unknown', 'global', 'n/a') without hashing.
     Never prints or stores the original raw identifier.
-    Uses HMAC with key outside Git (CAPACITA_HMAC_KEY env var) or runtime derived key.
+    Requires HMAC key via ``key`` parameter or ``CAPACITA_HMAC_KEY`` env var.
+    Fails closed (ValueError) if no key is available for real identifiers.
     """
     if raw_id is None:
         return "none"
     raw_str = str(raw_id).strip()
     if not raw_str or raw_str.lower() in SENTINEL_IDENTIFIERS:
         return raw_str.lower() if raw_str else "none"
-    # If already a hash or masked, preserve sanitization
-    if raw_str.startswith("hash_") or raw_str.startswith("alias_") or "***" in raw_str:
-        return raw_str
 
-    hmac_key = key or os.environ.get("CAPACITA_HMAC_KEY") or "capacita_runtime_hmac_ephemeral"
+    # Validate pre-hashed values: only accept strict hash_<12 hex chars> format
+    if raw_str.startswith("hash_"):
+        if _VALID_PREHASHED_RE.match(raw_str):
+            return raw_str
+        raise ValueError(
+            f"INVALID_PREHASHED_ID: '{raw_str}' does not match required format hash_<12 hex chars>. "
+            "Fail-closed: reject ambiguous pre-hashed identifiers."
+        )
+
+    # Reject alias_* and masked *** patterns — not accepted as valid identifiers
+    if raw_str.startswith("alias_") or "***" in raw_str:
+        raise ValueError(
+            f"INVALID_IDENTIFIER_FORMAT: '{raw_str}' uses alias_ or *** pattern which is not accepted. "
+            "Fail-closed."
+        )
+
+    # Require explicit HMAC key — no public fallback
+    hmac_key = key or os.environ.get("CAPACITA_HMAC_KEY")
+    if not hmac_key:
+        raise ValueError(
+            "HMAC_KEY_MISSING: CAPACITA_HMAC_KEY environment variable or explicit key parameter "
+            "is required for pseudonymizing identifiers. No public fallback key is allowed."
+        )
     h = hmac.new(hmac_key.encode("utf-8"), raw_str.encode("utf-8"), hashlib.sha256).hexdigest()[:12]
     return f"hash_{h}"
 
@@ -335,10 +357,21 @@ class NegativeSnapshot:
         self.manifest_hash = self.compute_manifest_hash()
 
     def active_items(self) -> List[NegativeKeywordItem]:
-        """Returns only active negative criteria, excluding REMOVED or UNKNOWN status."""
+        """Returns only active negative criteria. Only ENABLED status is considered active.
+
+        PAUSED items are NOT active and do NOT block as PRESERVE_ACTIVE.
+        REMOVED and UNKNOWN items are excluded.
+        """
         return [
             item for item in self.items
-            if item.status not in (CriterionStatus.REMOVED, CriterionStatus.UNKNOWN)
+            if item.status == CriterionStatus.ENABLED
+        ]
+
+    def paused_items(self) -> List[NegativeKeywordItem]:
+        """Returns items with PAUSED status for differentiated signaling."""
+        return [
+            item for item in self.items
+            if item.status == CriterionStatus.PAUSED
         ]
 
     def compute_manifest_hash(self) -> str:
@@ -394,6 +427,9 @@ class NegativeSnapshot:
             status = "HOLD_REVIEW"
             hold_reason = "STATE_HASH_TAMPER_DETECTED: Manipulated state_hash detected in items. Fail-closed."
 
+        # Preserve received manifest_hash for tamper comparison after construction
+        received_manifest_hash = data.get("manifest_hash", "")
+
         snap = cls(
             schema_version=data.get("schema_version", "1.1.0"),
             snapshot_at=data.get("snapshot_at", datetime.now(timezone.utc).isoformat()),
@@ -404,4 +440,17 @@ class NegativeSnapshot:
             status=status,
             hold_reason=hold_reason,
         )
+
+        # Manifest-level tamper detection: compare received vs recomputed manifest_hash
+        if (
+            received_manifest_hash
+            and received_manifest_hash != snap.manifest_hash
+            and snap.status != "HOLD_REVIEW"  # Don't overwrite item-level tamper
+        ):
+            snap.status = "HOLD_REVIEW"
+            snap.hold_reason = (
+                f"MANIFEST_HASH_TAMPER_DETECTED: Received manifest_hash '{received_manifest_hash}' "
+                f"does not match recomputed '{snap.manifest_hash}'. Fail-closed."
+            )
+
         return snap

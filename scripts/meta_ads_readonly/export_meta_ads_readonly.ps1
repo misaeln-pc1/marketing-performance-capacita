@@ -305,6 +305,7 @@ catch {
   $manifest.finished_at = (Get-Date).ToString('s')
   $manifest.errors += @{ name='fatal'; message=(Sanitize-MetaText $_.Exception.Message) }
   Save-Json $manifest (Join-Path $exportDir 'manifest.json')
-  Write-Error $_
+  $sanitizedMessage = Sanitize-MetaText $_.Exception.Message
+  Write-Error $sanitizedMessage
   exit 1
 }

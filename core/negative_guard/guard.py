@@ -24,7 +24,7 @@ from .campaign_contract import (
     validate_ad_group_routing,
 )
 from .classifier import DEFAULT_REGISTRY, classify_campaign, classify_keyword_intent
-from .ledger import RecommendationLedger
+from .ledger import ClaimResult, RecommendationLedger
 from .models import (
     CampaignType,
     CriterionStatus,
@@ -303,7 +303,26 @@ class NegativeGuard:
                 intent_class=intent_class,
             )
 
-        # Gate 2: Check "paso a paso" exception
+        # Gate 1.1: PAUSED signal — keyword exists as PAUSED but is NOT active
+        if self.snapshot:
+            for paused_item in self.snapshot.paused_items():
+                if (
+                    paused_item.keyword_text == text
+                    and paused_item.match_type == norm_match
+                ):
+                    # PAUSED does NOT block as PRESERVE_ACTIVE — emit differentiated signal
+                    return EvaluationResult(
+                        is_valid_recommendation=False,
+                        policy_decision=PolicyDecision.HOLD_REVIEW,
+                        rationale=(
+                            f"EXISTS_PAUSED: La negativa '{text}' ({norm_match.value}) existe como PAUSED "
+                            f"en {paused_item.source_scope.value}. REVIEW_REACTIVATION: Evaluar si debe "
+                            f"reactivarse en vez de crear una nueva. Fail-closed."
+                        ),
+                        intent_class=intent_class,
+                    )
+
+        # Gate 2: Check \"paso a paso\" exception
         if "paso a paso" in text:
             if norm_scope in (SourceScope.CUSTOMER, SourceScope.SHARED_SET, SourceScope.CAMPAIGN):
                 return EvaluationResult(
@@ -365,20 +384,29 @@ class NegativeGuard:
                 intent_class=intent_class,
             )
 
-        # Gate 7: Cross-process persistent ledger idempotency check
+        # Gate 7: Cross-process persistent ledger atomic claim
         if self.ledger is not None and self.snapshot is not None:
-            if self.ledger.is_recorded(self.snapshot.manifest_hash, rec.recommendation_hash):
+            claim_result = self.ledger.claim_once(
+                self.snapshot.manifest_hash, rec.recommendation_hash, rec.to_dict()
+            )
+            if claim_result == ClaimResult.ALREADY_EXISTS:
                 return EvaluationResult(
                     is_valid_recommendation=False,
                     policy_decision=PolicyDecision.PRESERVE,
                     rationale=f"IDEMPOTENCIA_PERSISTENTE: Recomendación para '{text}' ya está registrada en el ledger persistente.",
                     intent_class=intent_class,
                 )
+            if claim_result in (ClaimResult.HOLD_CORRUPT, ClaimResult.HOLD_LOCKED):
+                return EvaluationResult(
+                    is_valid_recommendation=False,
+                    policy_decision=PolicyDecision.HOLD_REVIEW,
+                    rationale=f"LEDGER_{claim_result.value}: No se puede registrar recomendación. Fail-closed.",
+                    intent_class=intent_class,
+                )
+            # claim_result == ClaimResult.CLAIMED -> proceed to emit CANDIDATE
 
-        # Register in session and in persistent ledger
+        # Register in session
         self.previously_recommended_hashes.add(rec.recommendation_hash)
-        if self.ledger is not None and self.snapshot is not None:
-            self.ledger.record(self.snapshot.manifest_hash, rec.recommendation_hash, rec.to_dict())
 
         return EvaluationResult(
             is_valid_recommendation=True,

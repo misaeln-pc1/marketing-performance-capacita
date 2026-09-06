@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import enum
+import json
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Any, Dict, List, Optional, Set
 
 from .models import CampaignType, IntentClass, PolicyDecision, hash_identifier
@@ -42,8 +44,9 @@ class CampaignContract:
     routing_destinations: Dict[str, str] = field(default_factory=dict)
 
 
-# Known canonical Google Ads campaign registry for Capacita
-DEFAULT_CAMPAIGN_CONTRACTS: List[CampaignContract] = [
+# Demo / fixture campaign contracts — FOR TESTS AND DEMONSTRATIONS ONLY.
+# Production live execution requires private mapping loaded via load_contracts_from_json().
+DEMO_CAMPAIGN_CONTRACTS: List[CampaignContract] = [
     CampaignContract(
         campaign_id_hash="hash_c11111111111",
         campaign_name_pattern="SCL-EXCEL-B2C-PRESENCIAL",
@@ -58,8 +61,8 @@ DEFAULT_CAMPAIGN_CONTRACTS: List[CampaignContract] = [
             IntentClass.MODALIDAD,
             IntentClass.CLASES_PARTICULARES,
             IntentClass.FUERA_ALCANCE,
-            IntentClass.ROUTING_A_B_C,  # Allowed at ad group level under explicit routing matrix
-            IntentClass.B2B_SENCE,      # Canonically excludable in B2C (NEG_B2C__EMPRESA_SENCE__V1)
+            IntentClass.ROUTING_A_B_C,
+            IntentClass.B2B_SENCE,
         },
         protected_intents=set(),
         protected_terms={
@@ -97,7 +100,7 @@ DEFAULT_CAMPAIGN_CONTRACTS: List[CampaignContract] = [
             IntentClass.FUERA_ALCANCE,
         },
         protected_intents={
-            IntentClass.B2B_SENCE,  # B2B terms MUST NOT be negated in B2B campaigns
+            IntentClass.B2B_SENCE,
         },
         protected_terms={
             "empresa", "empresas", "sence", "otic", "factura", "cotizacion",
@@ -114,12 +117,16 @@ class CampaignRegistry:
 
     Primary key: campaign_id_hash.
     Secondary validation: campaign_name / campaign_family compatibility.
+
+    Default constructor creates an EMPTY registry (fail-closed).
+    For tests/demos, pass DEMO_CAMPAIGN_CONTRACTS explicitly.
+    For live execution, use load_contracts_from_json() with a private mapping file.
     """
 
     def __init__(self, contracts: Optional[List[CampaignContract]] = None):
         self._contracts: List[CampaignContract] = []
         self._id_hash_map: Dict[str, List[CampaignContract]] = {}
-        for c in (contracts or DEFAULT_CAMPAIGN_CONTRACTS):
+        for c in (contracts or []):
             self.register_contract(c)
 
     def register_contract(self, contract: CampaignContract) -> None:
@@ -171,6 +178,41 @@ class CampaignRegistry:
                 return None
 
         return contract
+
+    @classmethod
+    def load_contracts_from_json(cls, file_path: Path) -> "CampaignRegistry":
+        """Loads campaign contracts from a private JSON mapping file.
+
+        Required for live execution. The file must NOT be in the repo.
+        Fails closed if the file is missing or invalid.
+        """
+        if not file_path.is_file():
+            raise FileNotFoundError(
+                f"CAMPAIGN_MAPPING_MISSING: Private campaign contract file not found: {file_path}. "
+                "Fail-closed: live execution requires an explicit mapping file."
+            )
+        with open(file_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        if not isinstance(data, list):
+            raise ValueError("CAMPAIGN_MAPPING_FORMAT_ERROR: Expected a JSON array of campaign contracts.")
+        contracts = []
+        for entry in data:
+            c = CampaignContract(
+                campaign_id_hash=entry.get("campaign_id_hash", ""),
+                campaign_name_pattern=entry.get("campaign_name_pattern", ""),
+                audience=CampaignType(entry.get("audience", "UNKNOWN")),
+                product=ProductType(entry.get("product", "UNKNOWN")),
+                modality=Modality(entry.get("modality", "UNKNOWN")),
+                campaign_family=entry.get("campaign_family", ""),
+                landing_variant=entry.get("landing_variant", "N/A"),
+                allowed_negative_intents={IntentClass(i) for i in entry.get("allowed_negative_intents", [])},
+                protected_intents={IntentClass(i) for i in entry.get("protected_intents", [])},
+                protected_terms=set(entry.get("protected_terms", [])),
+                ad_group_routing=entry.get("ad_group_routing", {}),
+                routing_destinations=entry.get("routing_destinations", {}),
+            )
+            contracts.append(c)
+        return cls(contracts=contracts)
 
 
 def validate_ad_group_routing(

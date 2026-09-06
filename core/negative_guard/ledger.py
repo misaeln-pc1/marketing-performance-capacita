@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import enum
 import json
 import os
 import time
@@ -12,12 +13,21 @@ from typing import Any, Dict, Generator, Optional
 DEFAULT_LEDGER_DIR = Path.home() / ".capacita" / "negative_guard_ledger"
 
 
+class ClaimResult(str, enum.Enum):
+    """Result of an atomic ledger claim operation."""
+    CLAIMED = "CLAIMED"
+    ALREADY_EXISTS = "ALREADY_EXISTS"
+    HOLD_CORRUPT = "HOLD_CORRUPT"
+    HOLD_LOCKED = "HOLD_LOCKED"
+
+
 class RecommendationLedger:
     """Manages persistent deduplication keys keyed by manifest_hash + recommendation_hash.
 
     Implements:
     - Fail-closed on corruption (is_corrupt=True, no silent empty dict fallback).
     - Cross-process atomic locking to ensure concurrency safety.
+    - Atomic claim_once() that combines reload + corruption check + existence + write.
     """
 
     def __init__(self, ledger_dir: Optional[Path] = None):
@@ -105,29 +115,35 @@ class RecommendationLedger:
     def make_key(manifest_hash: str, recommendation_hash: str) -> str:
         return f"{manifest_hash}:{recommendation_hash}"
 
-    def is_recorded(self, manifest_hash: str, recommendation_hash: str) -> bool:
-        """Returns True if the recommendation has already been recorded for this snapshot manifest."""
-        with self._lock():
-            self._load()
-            if self.is_corrupt:
-                return False
-            key = self.make_key(manifest_hash, recommendation_hash)
-            return key in self._entries
-
-    def record(
+    def claim_once(
         self,
         manifest_hash: str,
         recommendation_hash: str,
         metadata: Optional[Dict[str, Any]] = None,
-    ) -> None:
-        """Records a recommendation hash under atomic lock, reloading latest state first."""
-        with self._lock():
-            self._load()
-            if self.is_corrupt:
-                raise RuntimeError(f"LEDGER_CORRUPT: Cannot record to corrupt ledger ({self.corrupt_error})")
-            key = self.make_key(manifest_hash, recommendation_hash)
-            self._entries[key] = metadata or {"recorded": True}
-            self._save()
+    ) -> ClaimResult:
+        """Atomic claim: reload + corruption check + existence + write if new.
+
+        Within a single lock:
+        1. Reload latest ledger state from disk.
+        2. Check for corruption -> HOLD_CORRUPT.
+        3. Check if key already exists -> ALREADY_EXISTS.
+        4. Write new entry atomically -> CLAIMED.
+
+        Returns ClaimResult indicating the outcome.
+        """
+        try:
+            with self._lock():
+                self._load()
+                if self.is_corrupt:
+                    return ClaimResult.HOLD_CORRUPT
+                key = self.make_key(manifest_hash, recommendation_hash)
+                if key in self._entries:
+                    return ClaimResult.ALREADY_EXISTS
+                self._entries[key] = metadata or {"recorded": True}
+                self._save()
+                return ClaimResult.CLAIMED
+        except TimeoutError:
+            return ClaimResult.HOLD_LOCKED
 
     def count(self) -> int:
         with self._lock():

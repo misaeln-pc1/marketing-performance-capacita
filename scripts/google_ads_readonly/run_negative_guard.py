@@ -21,8 +21,13 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from core.negative_guard.adapter import GoogleAdsNegativeReadAdapter
+from core.negative_guard.campaign_contract import (
+    CampaignRegistry,
+    DEMO_CAMPAIGN_CONTRACTS,
+)
 from core.negative_guard.guard import NegativeGuard
 from core.negative_guard.ledger import RecommendationLedger
+from core.negative_guard.live_executor import GoogleAdsLiveExecutor
 from core.negative_guard.models import MatchType, SourceScope
 from core.negative_guard.snapshot import NegativeSnapshotManager
 
@@ -50,6 +55,10 @@ def parse_args() -> argparse.Namespace:
         "--idempotency-check",
         action="store_true",
         help="Runs evaluation across two independent guard instances using the persistent ledger to verify zero duplicate recommendations.",
+    )
+    parser.add_argument(
+        "--runtime-config-path",
+        help="Path to external private runtime config JSON for live Google Ads API execution. Not stored in repo.",
     )
     return parser.parse_args()
 
@@ -115,11 +124,31 @@ def main() -> int:
         )
         return 1
 
+    # Resolve live executor if runtime config is provided
+    live_exec: Optional[GoogleAdsLiveExecutor] = None
+    if args.runtime_config_path:
+        try:
+            live_exec = GoogleAdsLiveExecutor(Path(args.runtime_config_path).resolve())
+        except Exception as e:
+            print(f"[FAIL-CLOSED ERROR] Runtime config error: {type(e).__name__}", file=sys.stderr)
+            return 1
+
     # Load or create snapshot
     if args.snapshot_path:
         snap_path = Path(args.snapshot_path).resolve()
         print(f"LOADING_SNAPSHOT: {snap_path.name}")
         snapshot = NegativeSnapshotManager.load_from_json(snap_path)
+    elif live_exec is not None:
+        print("ATTEMPTING_LIVE_SNAPSHOT: GoogleAdsNegativeReadAdapter with GoogleAdsLiveExecutor")
+        try:
+            adapter = GoogleAdsNegativeReadAdapter(gaql_executor=live_exec.create_gaql_executor())
+            snapshot = adapter.build_snapshot(customer_id=live_exec.customer_id)
+        except Exception as e:
+            snapshot = NegativeSnapshot(
+                status="HOLD_DATA_GAP",
+                hold_reason=f"LIVE_EXECUTOR_HOLD: {type(e).__name__}",
+                evidence_source="FAIL_CLOSED",
+            )
     else:
         print("ATTEMPTING_LIVE_SNAPSHOT: GoogleAdsNegativeReadAdapter")
         adapter = GoogleAdsNegativeReadAdapter()
@@ -147,7 +176,20 @@ def main() -> int:
         print("[FAIL-CLOSED ERROR] Persistent ledger is corrupt: LEDGER_CORRUPT=HOLD", file=sys.stderr)
         return 1
 
-    guard_1 = NegativeGuard(snapshot, ledger=ledger)
+    # Use demo registry for --demo, or load private mapping for live execution
+    if live_exec is not None:
+        if live_exec.campaign_contract_path:
+            registry = CampaignRegistry.load_contracts_from_json(
+                Path(live_exec.campaign_contract_path)
+            )
+        else:
+            print("[FAIL-CLOSED ERROR] No campaign_contract_path in runtime config.", file=sys.stderr)
+            return 1
+    else:
+        # Demo mode: use demo contracts explicitly
+        registry = CampaignRegistry(contracts=DEMO_CAMPAIGN_CONTRACTS)
+
+    guard_1 = NegativeGuard(snapshot, registry=registry, ledger=ledger)
 
     print(f"EVALUATING_CANDIDATES_COUNT: {len(candidates)}")
     recs_1 = guard_1.evaluate_batch(candidates)
@@ -158,7 +200,7 @@ def main() -> int:
     if args.idempotency_check:
         print("\nCHECKING_CROSS_PROCESS_IDEMPOTENCY (Run 2 with fresh guard instance over same persistent ledger)...")
         fresh_ledger = RecommendationLedger(ledger_path)
-        guard_2 = NegativeGuard(snapshot, ledger=fresh_ledger)
+        guard_2 = NegativeGuard(snapshot, registry=registry, ledger=fresh_ledger)
         recs_2 = guard_2.evaluate_batch(candidates)
         print(f"RUN_2_VALID_DELTA_RECOMMENDATIONS: {len(recs_2)}")
         if len(recs_1) > 0 and len(recs_2) == 0:
