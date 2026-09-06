@@ -1,24 +1,42 @@
 # Estado de Tareas
 
-Fecha de revisión: 2026-08-23
+Fecha de revisión: 2026-09-05
 
 ## Prioridad activa
 
-Operacionalizar el protocolo obligatorio de visibilidad de páginas usando el runtime reusable ya consolidado y aplicarlo a las siguientes páginas/landings reales de Capacita sin reabrir la metodología desde cero.
+Consolidar y validar Fase 0 (saneamiento PR #52) y Fase 1 (control plane oficial READ y guard vivo/idempotente de negativas de Google Ads) correspondientes a Task Hub #215 / Issue #85.
 
-Fuente local obligatoria:
+Fuentes locales obligatorias:
 
+```text
+docs/google-ads/GOOGLE_ADS_NEGATIVE_GUARD_SPECIFICATION_V01.md
+docs/google-ads/GOOGLE_ADS_NEGATIVE_KEYWORDS_INTENT_POLICY.md
+docs/analytics/MARKETING_OFFICIAL_READ_CONTROL_PLANE_V01.md
+docs/meta-ads/META_ADS_READONLY_API_ROUTE_A_PROCEDURE_V01.md
+DECISIONES.md
+```
+
+Estado del frente:
+- Fase 0 (Saneamiento PR #52): PASS (IDs sanitizados, rama histórica intacta, cero tokens en diff).
+- Fase 1.1 (Inventario del entorno): PASS.
+- Fase 1.2 (Google Ads Fast Path): HOLD_WITH_EVIDENCE (ACCESS_TOKEN_SCOPE_INSUFFICIENT).
+- Fase 1.3 (Google Ads MCP oficial): HOLD_WITH_EVIDENCE (parcial; fallback METHOD_A).
+- Fase 1.4 / 1.5 (Negative Snapshot & Guard): PASS (idempotencia y tests 100% PASS; HOLD_DATA_GAP ante ausencia de auth viva).
+- Fase 1.6 / 1.7 / 1.8 (GA4, GSC, Meta Ads): HOLD_WITH_EVIDENCE.
+- Fase 1.9 (Zoho CRM): DESIGNED (allowlist READ agregada).
+- Writes a plataformas / producción: 0.
+
+## Frentes vigentes secundarios
+
+### Frente — Visibilidad de páginas y SEO/AEO/GEO (Agosto 2026)
+
+Operacionalizar el protocolo obligatorio de visibilidad de páginas usando el runtime reusable ya consolidado y aplicarlo a las páginas/landings reales de Capacita sin reabrir la metodología desde cero.
+
+Fuente local:
 ```text
 docs/seo-ai/MARKETING_PAGE_VISIBILITY_PROTOCOL_V01.md
 docs/seo-ai/README.md
 DECISIONES.md
-```
-
-Fuentes reusables externas al repo:
-
-```text
-misaeln-pc1/capacita-ai-operating-system
-misaeln-pc1/capacita-search-intelligence-toolchain
 ```
 
 ## Frente activo — IA Aplicada al Trabajo presencial Santiago

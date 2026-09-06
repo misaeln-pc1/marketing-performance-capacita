@@ -125,3 +125,26 @@
 - Se separó acceso de crawlers de AI-readability/citabilidad y crawlers de búsqueda/recuperación de crawlers de entrenamiento.
 - Misael autorizó explícitamente el merge a `main` de este cambio documental.
 - No se modificaron campañas, Google Ads, Meta Ads, landings productivas, Edge, Cloudflare, robots, WAF, canonical, sitemap, redirects, CRM, GTM, PageSense, Turnstile, credenciales, scopes ni producción.
+
+## 2026-09-05
+
+- Agente: Google Antigravity.
+- Rama: `feature/marketing-official-read-control-plane-p0`.
+- Tarea: Task Hub #215 (Issue padre: Marketing #85).
+- Fase 0 (Saneamiento de PR #52):
+  - Se rescató el contenido útil de PR #52 sin mergear, sin borrar, sin cerrar y sin tocar su rama histórica.
+  - Se sanitizaron completamente IDs reales de cuenta publicitaria, tokens y rutas.
+  - Se crearon `docs/meta-ads/META_ADS_READONLY_LOCAL_ENV_TEMPLATE.env.example`, `docs/meta-ads/META_ADS_READONLY_EXPORT_RUNBOOK_V01.md`, `docs/meta-ads/META_ADS_READONLY_API_ROUTE_A_PROCEDURE_V01.md` y `scripts/meta_ads_readonly/export_meta_ads_readonly.ps1`.
+  - Se corrigió la referencia canónica de archivos pesados a SharePoint (`SharePoint Site / Documentos / CAPACITA/Proyectos/external-files/marketing-performance-capacita`) y OneDrive como acceso sincronizado local.
+- Fase 1 (Control Plane Oficial READ y Guard de Negativas):
+  - Inventario del entorno completado sin imprimir secretos: Git, PowerShell 5.1, Python 3.14.3, scripts Google Ads, MCPs configurados, variables por nombre.
+  - Google Ads Fast Path (METHOD_A) auditado: smoke-read ejecutado con `ACCESS_TOKEN_SCOPE_INSUFFICIENT` por falta de scope `adwords` en ADC; queda registrado como `HOLD_WITH_EVIDENCE` y retenido como fallback.
+  - Google Ads MCP oficial (METHOD_B) evaluado contra METHOD_A en 13 preguntas; paridad parcial; queda en `HOLD_WITH_EVIDENCE`.
+  - Diseñado e implementado el Guard de Palabras Clave Negativas (`core/negative_guard/` y `scripts/google_ads_readonly/run_negative_guard.py`): deduplicación, separación B2C vs B2B, routing A/B/C protegido, excepción "paso a paso", idempotencia estricta (0 recomendaciones en segundo run) y emisión de `HOLD_DATA_GAP` ante ausencia de lectura viva.
+  - GA4, GSC y Meta Ads evaluados en READ y documentados con estado `HOLD_WITH_EVIDENCE`.
+  - Diseñada allowlist READ agregada para Zoho CRM Data Insights (`ZOHO_READ_ALLOWLIST=DESIGNED`).
+  - Diseñada arquitectura de automatización periódica (DAILY_READ, WEEKLY_READ, MONTHLY_READ) sin activar schedulers productivos.
+  - Creada suite de pruebas unitarias y regresión offline con fixtures sanitizados (`tests/test_negative_guard.py`, 10/10 tests PASS) y runner de validación integral (`scripts/run_offline_validations.py`).
+  - Cero writes en Google Ads, Meta Ads, CRM o producción (`ADS_WRITES=0`, `CRM_WRITES=0`, `PRODUCTION_WRITES=0`).
+  - Validación de seguridad: `SECRETS_IN_GITHUB=0`, `PII_IN_GITHUB=0`, `FULL_IDS_IN_NEW_DIFF=0`, `git diff --check` limpio.
+- Pendientes: Apertura de PR documental-técnico para revisión de Misael y ChatGPT / Global Control. No hacer merge.
