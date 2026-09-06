@@ -2,6 +2,59 @@
 
 Fecha de revisión: 2026-09-06
 
+## Frente P0 — Content Growth: diagnóstico → contenido → curso
+
+Estado vigente al merge de este PR:
+
+```text
+CONTENT_GROWTH_PILOT_V01=ACTIVE
+AREAS=EXCEL|POWER_BI|IA_APLICADA_AL_TRABAJO
+CONTENT_UNITS=9
+ARTICLES=9
+SHORT_SCRIPTS=9
+WAVE_0=CCU-EXCEL-01
+MARKETING_ISSUE=89
+MARKETING_TASK_HUB=227
+AI_OS_ISSUE=82
+AI_OS_TASK_HUB=228
+CONTENT_FACTORY_ISSUE=25
+CONTENT_FACTORY_TASK_HUB=229
+WEB_PUBLICATION=NOT_AUTHORIZED_IN_THIS_PHASE
+YOUTUBE_PUBLICATION=NOT_AUTHORIZED_IN_THIS_PHASE
+DIAGNOSTIC_URLS=PENDING_VERIFIED_DESTINATION
+```
+
+Canónico del frente:
+
+`docs/content-growth/CONTENT_DIAGNOSTIC_FUNNEL_PILOT_V01_2026-09-06.md`
+
+Modelo aprobado:
+
+```text
+DEMANDA / PROBLEMA REAL
+→ ARTÍCULO
+→ CÁPSULA 30–45 s
+→ DIAGNÓSTICO GRATUITO
+→ RESULTADO ÚTIL
+→ CURSO RECOMENDADO
+→ LEAD
+→ DEAL / VENTA cuando exista evidencia
+```
+
+Reglas críticas:
+
+- no reiniciar este frente desde recomendaciones genéricas;
+- ejecutar primero `CCU-EXCEL-01` como vertical slice y, si no hay hold material, completar las otras 8;
+- Marketing define demanda/intención/buyer persona aplicado/pain signal/CTA/tracking/QA comercial;
+- Content Factory produce artículo + short y hace QA editorial;
+- Diseño de Cursos define currículo/competencias/niveles;
+- AI OS prepara skills/patrones reutilizables; no bloquea Wave 0;
+- Edge y YouTube/publicación quedan para fase posterior;
+- `VIEW != DIAGNOSTIC_START != DIAGNOSTIC_COMPLETE != LEAD != DEAL != VENTA`;
+- no inventar URL, scoring, nivel, currículo, precio, fecha, cupos, claim o métrica.
+
+Este frente se ejecuta en paralelo y no cancela los frentes de Control Plane/Ads ya vigentes.
+
 ## Prioridad activa
 
 Consolidar y validar Fase 0 (saneamiento PR #52) y Fase 1 (control plane oficial READ y guard vivo/idempotente de negativas de Google Ads) correspondientes a Task Hub #215 / Issue #85.
@@ -271,6 +324,14 @@ docs/pagesense/PAGESENSE_GOAL_CONFIGURATION_AUDIT_2026-07-12.md
 6. Mantener SerpBear bloqueado hasta resolver provider, seguridad, retención, owner y costo.
 7. Después de 2–3 páginas reales, devolver feedback a AI OS sobre utilidad, gaps y falsos positivos antes de promover las skills.
 8. La autorización previa de Misael gobierna y bloquea writes, cambios de presupuesto, pujas y modificaciones en producción o plataformas; no es un gate para análisis READ ni para la detección proactiva de oportunidades de Growth. Retomar Google Ads/Meta Ads por separado cuando Misael lo indique, leyendo primero sus canónicos específicos.
+
+### Secuencia Content Growth en paralelo
+
+1. Completar/validar los 9 briefs desde Marketing #89 / Task Hub #227.
+2. Entregar `CCU-EXCEL-01` a Content Factory como vertical slice.
+3. Si no existe hold material, completar las otras ocho unidades sin reabrir el alcance.
+4. Marketing hace QA de los 9 pares artículo+short.
+5. Sólo después se deriva publicación web/YouTube/diagnósticos reales bajo sus gates propios.
 
 ## Estado de frentes históricos
 
