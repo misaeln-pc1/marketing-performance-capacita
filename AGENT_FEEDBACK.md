@@ -1,24 +1,26 @@
 # AGENT_FEEDBACK
 
 ## Fecha
-2026-09-05
+2026-09-06
 
 ## Agente
-Gemini/Antigravity.
+Gemini / Google Antigravity.
 
 ## Tarea recibida
-Corrección obligatoria de los hallazgos P0 y cumplimiento integral del DoD para el Review ID `5123583986` sobre el PR #86 en la rama `feature/marketing-official-read-control-plane-p0`:
-1. Reemplazo del GAQL de `customer_negative_criterion` por el modelo oficial v17+ basado en `negative_keyword_list.shared_set`, tipos `NEGATIVE_KEYWORDS` y `ACCOUNT_LEVEL_NEGATIVE_KEYWORDS`, y términos en `shared_criterion`.
-2. Filtro estricto de tipos (`KEYWORD`), descarte de criterios sin keyword text, match type `UNKNOWN`, parents ausentes o shared sets `REMOVED`.
-3. Campaign Mapping con clave principal `campaign_id_hash`, validación secundaria por nombre/familia, fail-closed ante ID no registrado, nombre incompatible, cero matches o matches múltiples. Retiro de campañas Meta del registry Google Ads.
-4. Alineación B2C/B2B (permitir `B2B_SENCE` como intención excluible en B2C Excel) y matriz de routing A/B/C explícita (A y C ceden a B; B no negativiza dentro de B; profesor/clases solo en destinos válidos; fail-closed en grupos desconocidos).
-5. Compatibilidad estricta de producto y modalidad (taxonomía Excel no aplicable a Power BI; no negativizar online en campañas online o mixtas; producto `UNKNOWN` -> `HOLD_REVIEW`).
-6. Protected terms match-aware y scope-aware: eliminación de substring simple; evaluación por intención para frases compuestas con modificador (`curso excel presencial gratis`, `curso excel presencial empleo`, `curso excel para empresas`).
-7. Ledger fail-closed: corrupción genera `HOLD_REVIEW` (no `{}`); lock atómico entre procesos concurrentes; prueba de dos subprocesos con `PROCESS_1_RECOMMENDATIONS > 0` y `PROCESS_2_RECOMMENDATIONS = 0`.
-8. Hashes e identificadores: recálculo continuo de `state_hash` y detección de manipulación (`HOLD_REVIEW`); preservación de sentinels (`none`, `unknown`, `global`, `n/a`) sin hashear; HMAC dinámico fuera de git.
-9. Meta productive code: extracción de helpers a módulo importable `MetaAdsExportHelpers.psm1`, eliminación de código duplicado en test, y sanitización estricta de URLs, query strings y mensajes de error.
-10. Security validation: verificación obligatoria de `origin/main`, diff real `origin/main...HEAD`, escaneo de archivos completos modificados, y validación limpia de whitespace.
-11. Documentación: deduplicación de títulos, eliminación de referencias restantes a staging, actualización de PR #86, `REVIEW_REQUEST.md`, `CHANGELOG_AGENT.md` y `AGENT_FEEDBACK.md`.
+Recuperación bootstrap de trabajo interrumpido y resolución exhaustiva de los P0 del review formal sobre el PR #86 (rama `feature/marketing-official-read-control-plane-p0`, Task Hub #215, Issue padre Marketing #85):
+1. Recuperar y preservar todo el trabajo local no comprometido.
+2. Resolver los hallazgos P0:
+   - A. HMAC Fail-Closed: eliminar fallback público, requerir `CAPACITA_HMAC_KEY` externa, validar pre-hashed con regex estricto `^hash_[0-9a-f]{12}$`, rechazar `alias_*` y strings ambiguos, preservar sentinels `none`, `unknown`, `global`, `n/a`.
+   - B. Ledger Atómico: unificar en `claim_once(...)` bajo un solo lock (reload -> validación -> existencia -> escritura) retornando `CLAIMED | ALREADY_EXISTS | HOLD`. Test con 2 subprocesos concurrentes para misma key con exactamente un emisor `CLAIMED`.
+   - C. PAUSED: solo `ENABLED` es activo; `PAUSED` no bloquea como negativa activa y produce señal diferenciada `EXISTS_PAUSED` / `REVIEW_REACTIVATION` en los 4 alcances (`CUSTOMER`, `SHARED_SET`, `CAMPAIGN`, `AD_GROUP`).
+   - D. Live Executor Google Ads: `GoogleAdsLiveExecutor` SELECT-only reutilizando `GoogleAdsClient.load_from_storage` y `search_stream`, cableado al `GoogleAdsNegativeReadAdapter`, configuración externa privada `--runtime-config-path`, sin imprimir IDs ni secretos, mapping operacional privado y demo solo para tests (`LIVE_EXECUTOR_WIRED=IMPLEMENTED_HOLD_AUTH`, `LIVE_API_CALL=NOT_RUN`, `LIVE_SNAPSHOT=HOLD_DATA_GAP`).
+   - E. Meta Ads Error Sanitization: script productivo sanitiza excepciones fatales antes de `Write-Error`; test e2e `test_meta_e2e_sanitization.ps1` con código productivo y mock con token/URL sensible valida `TOKEN_IN_STDOUT=0`, `TOKEN_IN_STDERR=0`, `TOKEN_IN_MANIFEST=0`.
+   - F. Manifest Tamper Detection: recálculo y comparación de `manifest_hash` al cargar snapshot en `from_dict`; mismatch genera `HOLD_REVIEW` / `MANIFEST_HASH_TAMPER_DETECTED`; preservado también el chequeo a nivel de item `state_hash`.
+3. Reconciliar la rama con `origin/main` (que avanzó con PR #88: handoff Marketing → Edge, `VENUE_ID`, `CAMPAIGN_LAUNCH_ALLOWED`) sin perder ni sobrescribir el trabajo de PR #88, resolviendo cuidadosamente `TASK_STATUS.md`.
+4. Ejecutar suite completa de pruebas (25 unit tests Python, 2 PowerShell scripts, runner de seguridad offline).
+5. Commit + push sobre la misma rama.
+6. Actualizar PR #86.
+7. Detenerse sin hacer merge a `main`.
 
 ## Resultado
 Hecho.
@@ -26,71 +28,56 @@ Hecho.
 ## Evidencia
 * Rama: `feature/marketing-official-read-control-plane-p0`
 * PR: #86
-* Commit SHA: `f772342638e8feb8bd2c50e37f130a55ec333326`
-* Diff stat: 26 archivos modificados/añadidos en el branch.
-* Comandos ejecutados:
-  - `python -m unittest tests/test_negative_guard.py` (16 tests unitarios y de integración offline: 100% OK en ~0.48s)
-  - `powershell -NoProfile -ExecutionPolicy Bypass -File tests/test_meta_script_mock.ps1` (`META_SCRIPT_RUNTIME=MOCK_PASS`)
-  - `python scripts/google_ads_readonly/run_negative_guard.py --snapshot-path tests/fixtures/negative_snapshot_fixtures.json --candidates-json "[{\"keyword_text\": \"curso excel online\", \"match_type\": \"PHRASE\", \"source_scope\": \"CAMPAIGN\", \"target_campaign_id_hash\": \"hash_c11111111111\"}]" --idempotency-check` (Run 1 = 1 recomendación; Run 2 = 0 recomendaciones)
-  - `python scripts/run_offline_validations.py` (validación integral del diff contra `origin/main`: 16 tests unitarios PASS, idempotencia 2 subprocesos PASS, escaneo de diff y archivos completos con 0 secretos, 0 PII y 0 IDs crudos, git whitespace limpio)
-* Pruebas realizadas:
-  - 16/16 tests unitarios completados satisfactoriamente.
-  - Account-level negatives vía shared sets y shared criteria probados.
-  - Filtro de tipo no-keyword (`LOCATION`, `PLACEMENT`, `USER_LIST`), match type `UNKNOWN` y shared sets `REMOVED` probado.
-  - Mapeo por `campaign_id_hash` con fail-closed ante ID desconocido, nombre incompatible y colisión probado.
-  - Matriz de routing A/B/C y alineación B2C/B2B probada.
-  - Verificación de producto/modalidad probada.
-  - Frases compuestas con protected terms evaluadas por intención probadas.
-  - Ledger con fail-closed ante archivo corrupto y concurrencia atómica probado.
-  - Detección de manipulación de `state_hash` probada.
-  - Identificadores seudonimizados preservando sentinels probados.
-  - Módulo productivo Meta Ads con sanitización probado.
-  - Auditoría de seguridad sobre diff completo `origin/main...HEAD`: 0 secretos, 0 PII, 0 IDs crudos.
+* HEAD inicial bootstrap: `2bdd3c8870dda3d80edb83bf8bdde1a8597a6313`
+* Commits agregados:
+  - `72a71dc`: `fix(marketing): resolve review P0 findings (HMAC fail-closed, atomic ledger claim, PAUSED signal, live executor wiring, manifest tamper, Meta error sanitization)`
+  - `cfad2cd`: `chore(marketing): reconcile PR #86 with main (merge PR #88 edge handoff and slot publication)`
+* Diff stat contra `origin/main`: 28 archivos modificados/creados, +5296 / -62 líneas.
+* Comandos ejecutados y validaciones:
+  - `python -m unittest discover -s tests -p "test_*.py"`: 25 tests OK en ~2.5s.
+  - `powershell -ExecutionPolicy Bypass -File tests/test_meta_script_mock.ps1`: `META_PRODUCTION_CODE_MOCK=PASS`, `META_SCRIPT_RUNTIME=MOCK_PASS`.
+  - `powershell -ExecutionPolicy Bypass -File tests/test_meta_e2e_sanitization.ps1`: `TOKEN_IN_STDOUT=0`, `TOKEN_IN_STDERR=0`, `TOKEN_IN_MANIFEST=0`, `META_END_TO_END_ERROR_SANITIZATION=PASS`.
+  - `python scripts/run_offline_validations.py`: `ALL OFFLINE VALIDATIONS PASSED CLEANLY (100%)`, `SECRETS_IN_DIFF_AND_FILES=0`, `PII_IN_DIFF_AND_FILES=0`, `RAW_IDS_IN_DIFF_AND_FILES=0`.
+  - `git diff origin/main...HEAD --check`: salida limpia, sin errores de whitespace ni marcadores de conflicto.
+* Pruebas destacadas implementadas:
+  - `test_19_invalid_prehashed_id_rejected`: validación estricta de formato `^hash_[0-9a-f]{12}$` y rechazo de `alias_*` / strings enmascarados.
+  - `test_20_sentinels_preserved`: sentinels `none`, `unknown`, `global`, `n/a` preservados sin hashing.
+  - `test_21_atomic_ledger_claim_concurrent_subprocesses`: dos subprocesos de Python compitiendo concurrentemente por la misma recomendación: exactamente un `CLAIMED` y un `ALREADY_EXISTS`, total entradas en ledger = 1.
+  - `test_22_paused_not_active`: los criterios `PAUSED` no se consideran activos en `active_items()`, cubren los 4 scopes (`CUSTOMER`, `SHARED_SET`, `CAMPAIGN`, `AD_GROUP`) y generan señal diferenciada `EXISTS_PAUSED` / `REVIEW_REACTIVATION`.
+  - `test_23_live_executor_wired_hold_auth`: `GoogleAdsLiveExecutor` existe, solo permite `SELECT`, y falla cerrado ante configuración ausente o incompleta.
+  - `test_24_private_campaign_mapping_required`: registry sin contratos falla cerrado ante cualquier candidato; carga de archivo inexistente falla cerrado.
+  - `test_25_manifest_hash_tamper_detection`: manipulación de shared sets, status, hold_reason, adición de items o remoción de items detectada con `MANIFEST_HASH_TAMPER_DETECTED -> HOLD_REVIEW`; roundtrip limpio preserva `READY`.
 
 ## Objeciones o desacuerdos
-Plenamente de acuerdo con el review de ChatGPT / Global Control (Review ID: `5123583986`).
-Todas las observaciones P0 y requerimientos del DoD fueron abordados de manera quirúrgica y exhaustiva, asegurando fail-closed en cada subsistema y respetando los guardrails operativos de Capacita.
+Ninguno. Plenamente alineado con el plan de control global y las especificaciones técnicas. La arquitectura fail-closed previene cualquier emisión errónea o fuga de información.
 
 ## Riesgos detectados
-1. **Scope y Credenciales Vivas (Google Ads & Meta Ads):** El adaptador y los scripts están listos y validados con mocks/fixtures, pero las conexiones vivas permanecen en `HOLD_WITH_EVIDENCE` / `HOLD_DATA_GAP` hasta que Misael autorice y configure credenciales OAuth con scope `adwords` y tokens formales de Meta.
-2. **Metadata de Zoho CRM:** Los nombres de campos en la documentación analítica permanecen como `CONCEPTUAL_UNVERIFIED` hasta que se ejecute una lectura formal de metadata de la API de Zoho CRM.
+1. **Credenciales en vivo (Google Ads & Meta Ads):** El executor y los adaptadores están completamente cableados y cubiertos por pruebas offline; la ejecución en vivo requiere inyección de archivo runtime privado y credenciales con scope adecuado (`adwords` para Google Ads, token para Meta). Se mantiene honestamente en `HOLD_AUTH` / `HOLD_DATA_GAP` sin llamadas de red no autorizadas.
+2. **Campos conceptuales en CRM:** Se preserva `DESIGNED_CONCEPTUAL_UNVERIFIED` para campos de Zoho CRM hasta contar con inspección de metadata formal.
 
-## Archivos modificados
-- `DECISIONES.md`
-- `TASK_STATUS.md`
-- `CHANGELOG_AGENT.md`
-- `AGENT_FEEDBACK.md`
-- `REVIEW_REQUEST.md`
-- `docs/analytics/MARKETING_OFFICIAL_READ_CONTROL_PLANE_V01.md`
-- `docs/google-ads/GOOGLE_ADS_NEGATIVE_GUARD_SPECIFICATION_V01.md`
-- `docs/meta-ads/META_ADS_READONLY_API_ROUTE_A_PROCEDURE_V01.md`
+## Archivos modificados en este ciclo
 - `core/negative_guard/__init__.py`
-- `core/negative_guard/models.py`
+- `core/negative_guard/campaign_contract.py`
 - `core/negative_guard/classifier.py`
 - `core/negative_guard/guard.py`
-- `core/negative_guard/snapshot.py`
-- `core/negative_guard/campaign_contract.py`
-- `core/negative_guard/adapter.py`
 - `core/negative_guard/ledger.py`
+- `core/negative_guard/models.py`
+- `core/negative_guard/live_executor.py` [NUEVO]
 - `scripts/google_ads_readonly/run_negative_guard.py`
 - `scripts/meta_ads_readonly/export_meta_ads_readonly.ps1`
-- `scripts/run_offline_validations.py`
 - `tests/fixtures/negative_snapshot_fixtures.json`
 - `tests/test_negative_guard.py`
-
-## Archivos creados
-- `core/negative_guard/campaign_contract.py`
-- `core/negative_guard/adapter.py`
-- `core/negative_guard/ledger.py`
-- `scripts/meta_ads_readonly/MetaAdsExportHelpers.psm1`
-- `tests/test_meta_script_mock.ps1`
+- `tests/test_meta_e2e_sanitization.ps1` [NUEVO]
+- `TASK_STATUS.md`
+- `AGENT_FEEDBACK.md`
+- `REVIEW_REQUEST.md`
+- `CHANGELOG_AGENT.md`
 
 ## Qué no se tocó
-- No se tocó la rama `main` ni se realizó merge (`MERGE=0`).
-- La rama histórica de PR #52 permaneció intacta; no se hizo merge de PR #52.
-- No se crearon ramas nuevas ni PRs paralelos; todo el trabajo se concentró en PR #86.
-- No se realizaron mutaciones ni escrituras en Google Ads, Meta Ads ni Zoho CRM (`ADS_WRITES=0`, `CRM_WRITES=0`, `PRODUCTION_WRITES=0`).
-- No se generaron tokens ni credenciales vivas en repositorios ni logs.
+- NO se mergeó a `main` (`MERGE=0`).
+- NO se tocó la rama histórica de PR #52.
+- NO se ejecutaron mutaciones en plataformas de Ads (`ADS_WRITES=0`), CRM (`CRM_WRITES=0`) ni producción (`PRODUCTION_WRITES=0`).
+- NO se subieron tokens, credenciales ni PII.
 
 ## Siguiente recomendación
-Hacer commit de las correcciones sobre la rama `feature/marketing-official-read-control-plane-p0`, hacer push a `origin` para actualizar el PR #86, actualizar la descripción del PR y notificar en los canales correspondientes (PR #86, Issue #85, Task Hub #215, AI OS #40).
+Hacer push del commit de documentación sobre la rama `feature/marketing-official-read-control-plane-p0`, actualizar el body del PR #86 en GitHub reflejando los 25 tests y la reconciliación con `main`, y notificar en Task Hub #215, Marketing #85 y AI OS #40. Mantener el PR en estado `DRAFT_READY_FOR_FINAL_REVIEW` sin mergear.

@@ -179,3 +179,23 @@
 - Guardrails operativos estrictamente cumplidos: `ADS_WRITES=0`, `CRM_WRITES=0`, `PRODUCTION_WRITES=0`, `MERGE=0`.
 - Declaración oficial de estado: `OFFLINE_CORE=PASS`, `LIVE_ADAPTER=IMPLEMENTED_HOLD_AUTH`, `LIVE_SNAPSHOT=HOLD_DATA_GAP`, `LIVE_PARITY=NOT_RUN`.
 - Estado: PR #86 listo para re-revisión formal. No hacer merge.
+
+## 2026-09-06 (Re-revisión P0 y Reconciliación con main)
+
+- Agente: Gemini / Google Antigravity.
+- Rama: `feature/marketing-official-read-control-plane-p0`.
+- PR: `#86`.
+- Tarea: Task Hub #215 (Issue padre: Marketing #85).
+- HEAD inicial bootstrap: `2bdd3c8870dda3d80edb83bf8bdde1a8597a6313`.
+- Correcciones P0 implementadas y validadas:
+  1. HMAC Fail-Closed: Eliminado todo fallback público/fijo de `CAPACITA_HMAC_KEY`. Requerida clave externa; fail-closed ante clave ausente para IDs reales. Implementada validación regex estricta `^hash_[0-9a-f]{12}$` para valores pre-hasheados, rechazando `alias_*` y strings ambiguos. Preservados sentinels canónicos (`none`, `unknown`, `global`, `n/a`).
+  2. Ledger Atómico: Reemplazado patrón `is_recorded() -> record()` por `claim_once(...)` interproceso bajo un único lock atómico con recarga de disco y validación de corrupción (`HOLD_CORRUPT`). Verificado mediante test obligatorio con 2 subprocesos concurrentes (`test_21`).
+  3. Tratamiento Estricto de PAUSED: Solo `ENABLED` es considerado activo en `active_items()`. Los criterios `PAUSED` no bloquean como activa y emiten señal diferenciada `EXISTS_PAUSED` / `REVIEW_REACTIVATION` a través de los 4 alcances (`CUSTOMER`, `SHARED_SET`, `CAMPAIGN`, `AD_GROUP`), verificado en `test_22`.
+  4. Google Ads Live Executor Cableado: Implementado `core/negative_guard/live_executor.py` con `GoogleAdsClient.load_from_storage` y `search_stream` (SELECT-only), transformando filas a diccionarios para `GoogleAdsNegativeReadAdapter`. Configuración externa privada vía `--runtime-config-path` (`google_ads_config_path`, `customer_id`, `campaign_contract_path`, `ledger_path`). Mappings demo confinados a tests y mapping operacional privado para live (`LIVE_EXECUTOR_WIRED=IMPLEMENTED_HOLD_AUTH`, `LIVE_API_CALL=NOT_RUN`, `LIVE_SNAPSHOT=HOLD_DATA_GAP`).
+  5. Meta Ads Error Sanitization: Script productivo `export_meta_ads_readonly.ps1` no expone URLs, tokens ni query strings en excepciones fatales. Implementado test end-to-end `test_meta_e2e_sanitization.ps1` que valida `TOKEN_IN_STDOUT=0`, `TOKEN_IN_STDERR=0`, `TOKEN_IN_MANIFEST=0`.
+  6. Manifest Hash Tamper Detection: Recálculo y comparación de `manifest_hash` al deserializar snapshot; manipulación genera `HOLD_REVIEW` con `MANIFEST_HASH_TAMPER_DETECTED`. Preservada detección a nivel de item `state_hash`.
+  7. Reconciliación con main: Merge limpio de `origin/main` (PR #88) integrando handoff Marketing → Edge (`MARKETING_EDGE_SLOT_PUBLICATION_HANDOFF_V01.md`), `VENUE_ID`, `CAMPAIGN_LAUNCH_ALLOWED=YES` y reconciliando `TASK_STATUS.md` sin pérdida de contexto ni contradicciones semánticas.
+- Pruebas: 25 tests unitarios en Python (`test_negative_guard.py`) 100% OK; 2 tests en PowerShell 100% OK; runner `run_offline_validations.py` 100% OK.
+- Guardrails: `ADS_WRITES=0`, `CRM_WRITES=0`, `PRODUCTION_WRITES=0`, `MERGE=0`.
+- Estado: PR #86 en estado `DRAFT_READY_FOR_FINAL_REVIEW`.
+
