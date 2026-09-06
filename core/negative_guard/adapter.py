@@ -201,12 +201,20 @@ class GoogleAdsNegativeReadAdapter:
                 set_name = parent_info["name"]
                 is_account_level = parent_info.get("is_account_level", False) or s_id in account_level_set_ids
 
-                raw_kw = row.get("keyword_text") or (row.get("keyword") or {}).get("text", "")
+                raw_kw = (
+                    row.get("keyword_text")
+                    or (row.get("keyword") or {}).get("text", "")
+                    or (row.get("shared_criterion") or {}).get("keyword", {}).get("text", "")
+                )
                 cleaned_kw, inferred_match = normalize_keyword_text(raw_kw)
                 if not cleaned_kw:
                     continue
 
-                raw_match = row.get("match_type") or (row.get("keyword") or {}).get("match_type", "BROAD")
+                raw_match = (
+                    row.get("match_type")
+                    or (row.get("keyword") or {}).get("match_type")
+                    or (row.get("shared_criterion") or {}).get("keyword", {}).get("match_type", "BROAD")
+                )
                 norm_match = normalize_match_type(raw_match, inferred_match)
                 if norm_match == MatchType.UNKNOWN:
                     continue
@@ -273,7 +281,10 @@ class GoogleAdsNegativeReadAdapter:
                 if crit_type != "KEYWORD":
                     continue
 
-                status = normalize_criterion_status(row.get("status", "ENABLED"))
+                status = normalize_criterion_status(
+                    row.get("status")
+                    or (row.get("campaign_criterion") or {}).get("status", "ENABLED")
+                )
                 if status in (CriterionStatus.REMOVED, CriterionStatus.UNKNOWN):
                     continue
 
@@ -282,12 +293,20 @@ class GoogleAdsNegativeReadAdapter:
                     continue
                 c_name = str(row.get("campaign_name") or (row.get("campaign") or {}).get("name", "GLOBAL"))
 
-                raw_kw = row.get("keyword_text") or (row.get("keyword") or {}).get("text", "")
+                raw_kw = (
+                    row.get("keyword_text")
+                    or (row.get("keyword") or {}).get("text", "")
+                    or (row.get("campaign_criterion") or {}).get("keyword", {}).get("text", "")
+                )
                 cleaned_kw, inferred_match = normalize_keyword_text(raw_kw)
                 if not cleaned_kw:
                     continue
 
-                raw_match = row.get("match_type") or (row.get("keyword") or {}).get("match_type", "BROAD")
+                raw_match = (
+                    row.get("match_type")
+                    or (row.get("keyword") or {}).get("match_type")
+                    or (row.get("campaign_criterion") or {}).get("keyword", {}).get("match_type", "BROAD")
+                )
                 norm_match = normalize_match_type(raw_match, inferred_match)
                 if norm_match == MatchType.UNKNOWN:
                     continue
@@ -314,7 +333,10 @@ class GoogleAdsNegativeReadAdapter:
                 if crit_type != "KEYWORD":
                     continue
 
-                status = normalize_criterion_status(row.get("status", "ENABLED"))
+                status = normalize_criterion_status(
+                    row.get("status")
+                    or (row.get("ad_group_criterion") or {}).get("status", "ENABLED")
+                )
                 if status in (CriterionStatus.REMOVED, CriterionStatus.UNKNOWN):
                     continue
 
@@ -325,12 +347,20 @@ class GoogleAdsNegativeReadAdapter:
                 c_name = str(row.get("campaign_name") or (row.get("campaign") or {}).get("name", "GLOBAL"))
                 g_name = str(row.get("ad_group_name") or (row.get("ad_group") or {}).get("name", "NONE"))
 
-                raw_kw = row.get("keyword_text") or (row.get("keyword") or {}).get("text", "")
+                raw_kw = (
+                    row.get("keyword_text")
+                    or (row.get("keyword") or {}).get("text", "")
+                    or (row.get("ad_group_criterion") or {}).get("keyword", {}).get("text", "")
+                )
                 cleaned_kw, inferred_match = normalize_keyword_text(raw_kw)
                 if not cleaned_kw:
                     continue
 
-                raw_match = row.get("match_type") or (row.get("keyword") or {}).get("match_type", "BROAD")
+                raw_match = (
+                    row.get("match_type")
+                    or (row.get("keyword") or {}).get("match_type")
+                    or (row.get("ad_group_criterion") or {}).get("keyword", {}).get("match_type", "BROAD")
+                )
                 norm_match = normalize_match_type(raw_match, inferred_match)
                 if norm_match == MatchType.UNKNOWN:
                     continue

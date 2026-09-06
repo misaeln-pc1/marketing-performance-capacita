@@ -195,6 +195,24 @@
   5. Meta Ads Error Sanitization: Script productivo `export_meta_ads_readonly.ps1` no expone URLs, tokens ni query strings en excepciones fatales. Implementado test end-to-end `test_meta_e2e_sanitization.ps1` que valida `TOKEN_IN_STDOUT=0`, `TOKEN_IN_STDERR=0`, `TOKEN_IN_MANIFEST=0`.
   6. Manifest Hash Tamper Detection: Recálculo y comparación de `manifest_hash` al deserializar snapshot; manipulación genera `HOLD_REVIEW` con `MANIFEST_HASH_TAMPER_DETECTED`. Preservada detección a nivel de item `state_hash`.
   7. Reconciliación con main: Merge limpio de `origin/main` (PR #88) integrando handoff Marketing → Edge (`MARKETING_EDGE_SLOT_PUBLICATION_HANDOFF_V01.md`), `VENUE_ID`, `CAMPAIGN_LAUNCH_ALLOWED=YES` y reconciliando `TASK_STATUS.md` sin pérdida de contexto ni contradicciones semánticas.
-- Pruebas: 25 tests unitarios en Python (`test_negative_guard.py`) 100% OK; 2 tests en PowerShell 100% OK; runner `run_offline_validations.py` 100% OK.
-- Guardrails: `ADS_WRITES=0`, `CRM_WRITES=0`, `PRODUCTION_WRITES=0`, `MERGE=0`.
 - Estado: PR #86 en estado `DRAFT_READY_FOR_FINAL_REVIEW`.
+
+## 2026-09-06 (Resolución Review 5124064245 — Compatibilidad Protobuf y Proto-Plus en Live Executor)
+
+- Agente: Gemini / Google Antigravity.
+- Rama: `feature/marketing-official-read-control-plane-p0`.
+- PR: `#86`.
+- Review ID Resuelto: `5124064245`.
+- Tarea: Task Hub #215 (Issue padre: Marketing #85).
+- Correcciones implementadas y validadas:
+  1. Compatibilidad Dual Protobuf y Proto-Plus: En `core/negative_guard/live_executor.py`, `_protobuf_row_to_dict()` y el método auxiliar `_row_to_protobuf_message()` fueron implementados para soportar explícitamente tanto `proto-plus` (`proto.Message`) como protobuf nativo (`google.protobuf.message.Message`).
+  2. Utilidad Oficial de Conversión: Para mensajes `proto-plus`, se convierte primero al protobuf subyacente utilizando la función oficial `google.ads.googleads.util.convert_proto_plus_to_protobuf` (con soporte para `type(row).pb(row)` / `row._pb`).
+  3. Preservación de Estructura Anidada para el Adaptador: La serialización vía `MessageToDict` preserva los nombres de campo de proto (`preserving_proto_field_name=True`), normaliza colisiones de nombres (`type_` -> `type`) y promueve el objeto anidado `keyword` a la raíz de la fila, asegurando que `GoogleAdsNegativeReadAdapter` acceda inmediatamente a `campaign`, `ad_group`, `shared_set`, `customer_negative_criterion`, `shared_criterion`, `campaign_criterion`, `ad_group_criterion` y `keyword`.
+  4. Eliminación Definitiva de Fallbacks Inseguros: Se eliminó cualquier fallback operativo basado en `str(row)` o invención de estructuras.
+  5. Fail-Closed ante Tipo Desconocido: Si la fila no es un mensaje protobuf o proto-plus válido, se lanza `TypeError` fail-closed (`ROW_CONVERSION_FAILED`), rechazando strings, enteros, diccionarios planos o tipos desconocidos.
+  6. Fortalecimiento Defensivo del Adaptador: `core/negative_guard/adapter.py` fue complementado para inspeccionar directamente el sub-objeto `keyword` dentro de cada criterio (`shared_criterion`, `campaign_criterion`, `ad_group_criterion`) y el estado anidado `status`, asegurando interoperabilidad transparente bidireccional.
+  7. Suite de Pruebas Ampliada a 29 Tests: Se agregaron 4 nuevas pruebas unitarias (`test_26_protobuf_row_conversion`, `test_27_proto_plus_row_conversion`, `test_28_row_conversion_consumed_by_adapter`, `test_29_unknown_row_fail_closed`) cubriendo conversión real sobre `GoogleAdsRow` nativo y proto-plus, consumo completo por el adaptador y fail-closed sobre tipos no soportados.
+- Pruebas: 29 tests unitarios en Python (`test_negative_guard.py`) 100% OK; 2 tests en PowerShell 100% OK; runner `run_offline_validations.py` 100% OK; `git diff --check` limpio.
+- Guardrails: `LIVE_API_CALL=NOT_RUN`, `LIVE_SNAPSHOT=HOLD_DATA_GAP`, `ADS_WRITES=0`, `CRM_WRITES=0`, `PRODUCTION_WRITES=0`, `MERGE=0`.
+- Estado: PR #86 en estado `DRAFT_READY_FOR_FINAL_REVIEW`.
+

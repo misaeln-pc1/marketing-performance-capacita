@@ -26,6 +26,10 @@ Covers:
 23. Live executor wired (hold auth).
 24. Private campaign mapping required (empty registry fail-closed).
 25. Manifest hash tamper detection.
+26. GoogleAdsRow-like native protobuf conversion to dict with nested structure.
+27. GoogleAdsRow-like proto-plus conversion to dict with nested structure.
+28. Converted rows consumed end-to-end by GoogleAdsNegativeReadAdapter.
+29. Unknown/unsupported row types fail closed (TypeError, no _raw/invented structure).
 """
 
 from __future__ import annotations
@@ -78,6 +82,28 @@ from core.negative_guard.models import (
     strip_accents,
 )
 from core.negative_guard.snapshot import NegativeSnapshotManager
+
+try:
+    from google.ads.googleads.v24.services.types.google_ads_service import GoogleAdsRow as V24GoogleAdsRow
+    from google.ads.googleads.v24.resources.types.campaign import Campaign as V24Campaign
+    from google.ads.googleads.v24.resources.types.ad_group import AdGroup as V24AdGroup
+    from google.ads.googleads.v24.resources.types.shared_set import SharedSet as V24SharedSet
+    from google.ads.googleads.v24.resources.types.customer_negative_criterion import CustomerNegativeCriterion as V24CustomerNegativeCriterion
+    from google.ads.googleads.v24.resources.types.shared_criterion import SharedCriterion as V24SharedCriterion
+    from google.ads.googleads.v24.resources.types.campaign_criterion import CampaignCriterion as V24CampaignCriterion
+    from google.ads.googleads.v24.resources.types.ad_group_criterion import AdGroupCriterion as V24AdGroupCriterion
+    from google.ads.googleads.v24.resources.types.campaign_shared_set import CampaignSharedSet as V24CampaignSharedSet
+    from google.ads.googleads.v24.common.types.criteria import KeywordInfo as V24KeywordInfo, NegativeKeywordListInfo as V24NegativeKeywordListInfo
+    from google.ads.googleads.v24.enums.types.keyword_match_type import KeywordMatchTypeEnum as V24KeywordMatchTypeEnum
+    from google.ads.googleads.v24.enums.types.shared_set_type import SharedSetTypeEnum as V24SharedSetTypeEnum
+    from google.ads.googleads.v24.enums.types.shared_set_status import SharedSetStatusEnum as V24SharedSetStatusEnum
+    from google.ads.googleads.v24.enums.types.criterion_type import CriterionTypeEnum as V24CriterionTypeEnum
+    from google.ads.googleads.v24.enums.types.campaign_shared_set_status import CampaignSharedSetStatusEnum as V24CampaignSharedSetStatusEnum
+    from google.ads.googleads.util import convert_proto_plus_to_protobuf
+    _V24_AVAILABLE = True
+except ImportError:
+    _V24_AVAILABLE = False
+    convert_proto_plus_to_protobuf = None
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 FIXTURES_PATH = Path(__file__).parent / "fixtures" / "negative_snapshot_fixtures.json"
@@ -895,6 +921,245 @@ print(result.value)
         clean = NegativeSnapshot.from_dict(snap_dict)
         self.assertNotEqual(clean.status, "HOLD_REVIEW",
                             "Clean roundtrip should not trigger tamper detection")
+
+    def test_26_protobuf_row_conversion(self):
+        """Test 26: PROTOBUF_ROW_CONVERSION — GoogleAdsRow-like native protobuf conversion to nested dict."""
+        if _V24_AVAILABLE and convert_proto_plus_to_protobuf is not None:
+            row_pp = V24GoogleAdsRow(
+                campaign=V24Campaign(id=1001, name="SCL-EXCEL-B2C-PRESENCIAL"),
+                campaign_criterion=V24CampaignCriterion(
+                    criterion_id=801,
+                    type_=V24CriterionTypeEnum.CriterionType.KEYWORD,
+                    keyword=V24KeywordInfo(text="curso excel gratis", match_type=V24KeywordMatchTypeEnum.KeywordMatchType.EXACT),
+                    negative=True,
+                    status="ENABLED",
+                ),
+            )
+            row_native = convert_proto_plus_to_protobuf(row_pp)
+            res = GoogleAdsLiveExecutor._protobuf_row_to_dict(row_native)
+        else:
+            class MockFieldDesc:
+                def __init__(self, name):
+                    self.name = name
+
+            class MockMsgDesc:
+                def __init__(self, field_names):
+                    self.fields = [MockFieldDesc(n) for n in field_names]
+
+            class MockNativeRow:
+                def __init__(self):
+                    self.campaign = {"id": "1001", "name": "SCL-EXCEL-B2C-PRESENCIAL"}
+                    self.campaign_criterion = {
+                        "criterion_id": "801",
+                        "type": "KEYWORD",
+                        "keyword": {"text": "curso excel gratis", "match_type": "EXACT"},
+                        "negative": True,
+                        "status": "ENABLED",
+                    }
+                    self.DESCRIPTOR = MockMsgDesc(["campaign", "campaign_criterion"])
+
+                def ListFields(self):
+                    return [
+                        (MockFieldDesc("campaign"), self.campaign),
+                        (MockFieldDesc("campaign_criterion"), self.campaign_criterion),
+                    ]
+
+            res = GoogleAdsLiveExecutor._protobuf_row_to_dict(MockNativeRow())
+
+        self.assertIsInstance(res, dict)
+        self.assertNotIn("_raw", res, "Operational fallback '_raw' must never be produced")
+        self.assertIn("campaign", res)
+        self.assertIn("campaign_criterion", res)
+        self.assertIn("keyword", res)
+
+        # Verify real nested structure
+        self.assertEqual(str(res["campaign"]["id"]), "1001")
+        self.assertEqual(res["campaign"]["name"], "SCL-EXCEL-B2C-PRESENCIAL")
+        self.assertEqual(str(res["campaign_criterion"]["criterion_id"]), "801")
+        self.assertEqual(res["campaign_criterion"]["type"], "KEYWORD")
+        self.assertEqual(res["campaign_criterion"]["keyword"]["text"], "curso excel gratis")
+        self.assertEqual(res["campaign_criterion"]["keyword"]["match_type"], "EXACT")
+        self.assertEqual(res["keyword"]["text"], "curso excel gratis")
+        self.assertEqual(res["keyword"]["match_type"], "EXACT")
+
+    def test_27_proto_plus_row_conversion(self):
+        """Test 27: PROTO_PLUS_ROW_CONVERSION — GoogleAdsRow-like proto-plus conversion to nested dict."""
+        if _V24_AVAILABLE:
+            row_pp = V24GoogleAdsRow(
+                campaign=V24Campaign(id=1001, name="SCL-EXCEL-B2C-PRESENCIAL"),
+                campaign_criterion=V24CampaignCriterion(
+                    criterion_id=801,
+                    type_=V24CriterionTypeEnum.CriterionType.KEYWORD,
+                    keyword=V24KeywordInfo(text="curso excel gratis", match_type=V24KeywordMatchTypeEnum.KeywordMatchType.EXACT),
+                    negative=True,
+                    status="ENABLED",
+                ),
+            )
+            res = GoogleAdsLiveExecutor._protobuf_row_to_dict(row_pp)
+        else:
+            class MockProtoPlusRow:
+                def __init__(self):
+                    class MockFieldDesc:
+                        def __init__(self, name):
+                            self.name = name
+
+                    class MockMsgDesc:
+                        def __init__(self, field_names):
+                            self.fields = [MockFieldDesc(n) for n in field_names]
+
+                    class MockNativeRow:
+                        def __init__(self):
+                            self.campaign = {"id": "1001", "name": "SCL-EXCEL-B2C-PRESENCIAL"}
+                            self.campaign_criterion = {
+                                "criterion_id": "801",
+                                "type": "KEYWORD",
+                                "keyword": {"text": "curso excel gratis", "match_type": "EXACT"},
+                                "negative": True,
+                                "status": "ENABLED",
+                            }
+                            self.DESCRIPTOR = MockMsgDesc(["campaign", "campaign_criterion"])
+
+                        def ListFields(self):
+                            return [
+                                (MockFieldDesc("campaign"), self.campaign),
+                                (MockFieldDesc("campaign_criterion"), self.campaign_criterion),
+                            ]
+
+                    self._pb = MockNativeRow()
+
+            res = GoogleAdsLiveExecutor._protobuf_row_to_dict(MockProtoPlusRow())
+
+        self.assertIsInstance(res, dict)
+        self.assertNotIn("_raw", res, "Operational fallback '_raw' must never be produced")
+        self.assertIn("campaign", res)
+        self.assertIn("campaign_criterion", res)
+        self.assertIn("keyword", res)
+
+        # Real conversion validation
+        self.assertEqual(str(res["campaign"]["id"]), "1001")
+        self.assertEqual(res["campaign"]["name"], "SCL-EXCEL-B2C-PRESENCIAL")
+        self.assertEqual(str(res["campaign_criterion"]["criterion_id"]), "801")
+        self.assertEqual(res["campaign_criterion"]["type"], "KEYWORD")
+        self.assertEqual(res["campaign_criterion"]["keyword"]["text"], "curso excel gratis")
+        self.assertEqual(res["campaign_criterion"]["keyword"]["match_type"], "EXACT")
+        self.assertEqual(res["keyword"]["text"], "curso excel gratis")
+        self.assertEqual(res["keyword"]["match_type"], "EXACT")
+
+    def test_28_row_conversion_consumed_by_adapter(self):
+        """Test 28: ADAPTER_NESTED_STRUCTURE — Converted rows across all scopes consumed by adapter."""
+        if not _V24_AVAILABLE:
+            self.skipTest("google-ads-python v24 not available in environment")
+
+        r_shared_set = V24GoogleAdsRow(
+            shared_set=V24SharedSet(
+                id=501,
+                name="GLOBAL_ACC_NEGATIVES",
+                type_=V24SharedSetTypeEnum.SharedSetType.ACCOUNT_LEVEL_NEGATIVE_KEYWORDS,
+                status=V24SharedSetStatusEnum.SharedSetStatus.ENABLED,
+            )
+        )
+        r_cust_crit = V24GoogleAdsRow(
+            customer_negative_criterion=V24CustomerNegativeCriterion(
+                id=601,
+                type_=V24CriterionTypeEnum.CriterionType.NEGATIVE_KEYWORD_LIST,
+                negative_keyword_list=V24NegativeKeywordListInfo(
+                    shared_set="customers/123/sharedSets/501"
+                ),
+            )
+        )
+        r_shared_crit = V24GoogleAdsRow(
+            shared_criterion=V24SharedCriterion(
+                criterion_id=701,
+                shared_set="customers/123/sharedSets/501",
+                type_=V24CriterionTypeEnum.CriterionType.KEYWORD,
+                keyword=V24KeywordInfo(text="gratis", match_type=V24KeywordMatchTypeEnum.KeywordMatchType.EXACT),
+            )
+        )
+        r_camp_shared = V24GoogleAdsRow(
+            campaign_shared_set=V24CampaignSharedSet(
+                campaign="customers/123/campaigns/1001",
+                shared_set="customers/123/sharedSets/501",
+                status=V24CampaignSharedSetStatusEnum.CampaignSharedSetStatus.ENABLED,
+            )
+        )
+        r_camp_crit = V24GoogleAdsRow(
+            campaign=V24Campaign(id=1001, name="SCL-EXCEL-B2C-PRESENCIAL"),
+            campaign_criterion=V24CampaignCriterion(
+                criterion_id=801,
+                type_=V24CriterionTypeEnum.CriterionType.KEYWORD,
+                keyword=V24KeywordInfo(text="clases particulares", match_type=V24KeywordMatchTypeEnum.KeywordMatchType.PHRASE),
+                negative=True,
+            )
+        )
+        r_adg_crit = V24GoogleAdsRow(
+            campaign=V24Campaign(id=1001, name="SCL-EXCEL-B2C-PRESENCIAL"),
+            ad_group=V24AdGroup(id=2001, name="ADG_A_GENERAL"),
+            ad_group_criterion=V24AdGroupCriterion(
+                criterion_id=901,
+                type_=V24CriterionTypeEnum.CriterionType.KEYWORD,
+                keyword=V24KeywordInfo(text="desde cero", match_type=V24KeywordMatchTypeEnum.KeywordMatchType.EXACT),
+                negative=True,
+            )
+        )
+
+        def mock_gaql(cust_id: str, query: str):
+            if "FROM shared_set" in query:
+                return [GoogleAdsLiveExecutor._protobuf_row_to_dict(r_shared_set)]
+            elif "customer_negative_criterion" in query:
+                return [GoogleAdsLiveExecutor._protobuf_row_to_dict(r_cust_crit)]
+            elif "FROM shared_criterion" in query:
+                return [GoogleAdsLiveExecutor._protobuf_row_to_dict(r_shared_crit)]
+            elif "campaign_shared_set" in query:
+                return [GoogleAdsLiveExecutor._protobuf_row_to_dict(r_camp_shared)]
+            elif "campaign_criterion" in query:
+                return [GoogleAdsLiveExecutor._protobuf_row_to_dict(r_camp_crit)]
+            elif "ad_group_criterion" in query:
+                return [GoogleAdsLiveExecutor._protobuf_row_to_dict(r_adg_crit)]
+            return []
+
+        adapter = GoogleAdsNegativeReadAdapter(gaql_executor=mock_gaql)
+        snap = adapter.build_snapshot(customer_id="1234567890", evidence_source="SIMULATED_PROTOBUF_STREAM")
+
+        self.assertEqual(snap.status, "READY")
+        self.assertEqual(len(snap.items), 3)
+
+        # Customer/account-level item
+        cust_items = [i for i in snap.items if i.source_scope == SourceScope.CUSTOMER]
+        self.assertEqual(len(cust_items), 1)
+        self.assertEqual(cust_items[0].keyword_text, "gratis")
+        self.assertEqual(cust_items[0].match_type, MatchType.EXACT)
+        self.assertEqual(cust_items[0].campaign_name, "GLOBAL")
+
+        # Campaign item
+        camp_items = [i for i in snap.items if i.source_scope == SourceScope.CAMPAIGN]
+        self.assertEqual(len(camp_items), 1)
+        self.assertEqual(camp_items[0].keyword_text, "clases particulares")
+        self.assertEqual(camp_items[0].match_type, MatchType.PHRASE)
+        self.assertEqual(camp_items[0].campaign_name, "SCL-EXCEL-B2C-PRESENCIAL")
+
+        # Ad group item
+        adg_items = [i for i in snap.items if i.source_scope == SourceScope.AD_GROUP]
+        self.assertEqual(len(adg_items), 1)
+        self.assertEqual(adg_items[0].keyword_text, "desde cero")
+        self.assertEqual(adg_items[0].match_type, MatchType.EXACT)
+        self.assertEqual(adg_items[0].campaign_name, "SCL-EXCEL-B2C-PRESENCIAL")
+        self.assertEqual(adg_items[0].ad_group_name, "ADG_A_GENERAL")
+
+    def test_29_unknown_row_fail_closed(self):
+        """Test 29: UNKNOWN_ROW_FAIL_CLOSED — Unsupported row types fail closed with TypeError."""
+        bad_inputs = [
+            "SELECT * FROM campaign",
+            12345,
+            {"campaign": {"id": 1001}},
+            None,
+            [1, 2, 3],
+            object(),
+        ]
+        for bad in bad_inputs:
+            with self.subTest(bad_type=type(bad)):
+                with self.assertRaises(TypeError) as ctx:
+                    GoogleAdsLiveExecutor._protobuf_row_to_dict(bad)
+                self.assertIn("ROW_CONVERSION_FAILED", str(ctx.exception))
 
 
 if __name__ == "__main__":

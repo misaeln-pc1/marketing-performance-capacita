@@ -208,6 +208,8 @@ def main() -> int:
         "20260526",
         "5123538405",  # Public GitHub PR Review ID 1
         "5123583986",  # Public GitHub PR Review ID 2
+        "5123699503",  # Public GitHub PR Review ID 3
+        "5124064245",  # Public GitHub PR Review ID 4
     ]
 
     diff_secret_violations = scan_text(secret_patterns, all_scan_text, allowlist=scanner_allowlist)
