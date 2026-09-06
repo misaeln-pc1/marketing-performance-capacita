@@ -62,7 +62,6 @@ Marketing no edita HTML, schema, sitemap, `lastmod`, Worker, Cloudflare ni `main
 Estado:
 
 ```text
-MARKETING_EDGE_SLOT_HANDOFF=PENDING_MERGE_ISSUE_87
 EDGE_ALL_LANDINGS_ROLLOUT=PENDING
 EDGE_ZOHO_SLOT_AUTOMATION=PENDING_ISSUE_24
 ```
