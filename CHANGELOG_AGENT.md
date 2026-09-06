@@ -198,4 +198,3 @@
 - Pruebas: 25 tests unitarios en Python (`test_negative_guard.py`) 100% OK; 2 tests en PowerShell 100% OK; runner `run_offline_validations.py` 100% OK.
 - Guardrails: `ADS_WRITES=0`, `CRM_WRITES=0`, `PRODUCTION_WRITES=0`, `MERGE=0`.
 - Estado: PR #86 en estado `DRAFT_READY_FOR_FINAL_REVIEW`.
-
