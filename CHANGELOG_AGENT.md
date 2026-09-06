@@ -125,3 +125,94 @@
 - Se separó acceso de crawlers de AI-readability/citabilidad y crawlers de búsqueda/recuperación de crawlers de entrenamiento.
 - Misael autorizó explícitamente el merge a `main` de este cambio documental.
 - No se modificaron campañas, Google Ads, Meta Ads, landings productivas, Edge, Cloudflare, robots, WAF, canonical, sitemap, redirects, CRM, GTM, PageSense, Turnstile, credenciales, scopes ni producción.
+
+## 2026-09-05
+
+- Agente: Google Antigravity.
+- Rama: `feature/marketing-official-read-control-plane-p0`.
+- PR: `#86` (existente).
+- Tarea: Task Hub #215 (Issue padre: Marketing #85).
+- Fase 0 (Rescate sanitizado de PR #52 en PR #86; PR #52 histórico intacto):
+  - Se rescató el contenido útil de PR #52 sin mergear, sin borrar, sin cerrar y sin tocar su rama histórica.
+  - Se sanitizaron completamente IDs reales de cuenta publicitaria, tokens y rutas.
+  - Se crearon `docs/meta-ads/META_ADS_READONLY_LOCAL_ENV_TEMPLATE.env.example`, `docs/meta-ads/META_ADS_READONLY_EXPORT_RUNBOOK_V01.md`, `docs/meta-ads/META_ADS_READONLY_API_ROUTE_A_PROCEDURE_V01.md` y `scripts/meta_ads_readonly/export_meta_ads_readonly.ps1`.
+  - Se corrigió la referencia canónica de archivos pesados a SharePoint (`SharePoint Site / Documentos / CAPACITA/Proyectos/external-files/marketing-performance-capacita`) y OneDrive como acceso sincronizado local.
+- Fase 1 (Control Plane Oficial READ y Guard de Negativas):
+  - Inventario del entorno completado sin imprimir secretos: Git, PowerShell 5.1, Python 3.14.3, scripts Google Ads, MCPs configurados, variables por nombre.
+  - Calibración de estados honestos tras revisión formal ID `5123538405`: `OFFLINE_CORE=PASS`, `LIVE_ADAPTER=IMPLEMENTED_HOLD_AUTH`, `LIVE_SNAPSHOT=HOLD_DATA_GAP`, `METHOD_COMPARISON=DESIGN_ONLY`, `LIVE_PARITY=NOT_RUN`, `METHOD_A=BASELINE_FALLBACK`.
+  - Google Ads Fast Path (METHOD_A) auditado: smoke-read ejecutado con `ACCESS_TOKEN_SCOPE_INSUFFICIENT` por falta de scope `adwords` en ADC; queda registrado como `HOLD_WITH_EVIDENCE` y retenido como fallback.
+  - Google Ads MCP oficial (METHOD_B) evaluado contra METHOD_A en 13 preguntas; paridad `NOT_RUN` en ejecución live; queda en `HOLD_WITH_EVIDENCE`.
+  - Diseñado e implementado el Guard de Palabras Clave Negativas (`core/negative_guard/` y `scripts/google_ads_readonly/run_negative_guard.py`):
+    - Adaptador READ de estado vivo (`GoogleAdsNegativeReadAdapter`) para 6 entidades de negativas (customer negative, shared set, shared criterion, campaign shared set, campaign criterion, ad group criterion) con filtrado de status `REMOVED`/`UNKNOWN`, enmascaramiento seguro de IDs y fail-closed a `HOLD_DATA_GAP`.
+    - Contrato de campaña fail-closed (`CampaignContract`, `CampaignRegistry`) con tipado estricto (audiencia, producto, modalidad) y rechazo explícito de entidades o intenciones desconocidas.
+    - Idempotencia persistente cross-process (`RecommendationLedger`) almacenada fuera de git / tempdir con clave `manifest_hash + recommendation_hash`.
+    - Normalización diacrítica/Unicode (NFKD) para tildes y precedencia estricta de B2B sobre routing.
+    - Snapshot completo (Schema 1.1.0) con attachments de shared sets, estados activos, razón de hold y validación de round-trip.
+    - CLI fail-closed requiriendo `--candidates-json` o `--demo` explícito, devolviendo exit code 2 machine-readable en `HOLD_DATA_GAP`.
+  - Script PowerShell de Meta Ads blindado para `Set-StrictMode -Version Latest` mediante `Get-PropSafe` y validado con prueba mock (`tests/test_meta_script_mock.ps1`, `META_SCRIPT_RUNTIME=MOCK_PASS`).
+  - GA4, GSC y Meta Ads evaluados en READ y documentados con estado `HOLD_WITH_EVIDENCE`.
+  - Diseñada allowlist READ agregada para Zoho CRM Data Insights, marcando nombres de campos como `CONCEPTUAL_UNVERIFIED` hasta lectura de metadata real.
+  - Creada suite de pruebas ampliada a 13 tests unitarios (`tests/test_negative_guard.py`: 100% OK en 0.026s) y runner de validación integral sobre el diff real `origin/main...HEAD` (`scripts/run_offline_validations.py`).
+  - Cero writes en Google Ads, Meta Ads, CRM o producción (`ADS_WRITES=0`, `CRM_WRITES=0`, `PRODUCTION_WRITES=0`).
+  - Validación de seguridad: `SECRETS_IN_GITHUB=0`, `PII_IN_GITHUB=0`, `FULL_IDS_IN_NEW_DIFF=0`, `git diff --check` limpio.
+- Estado final de entrega: PR #86 actualizado con corrección exhaustiva de hallazgos P0/P1 del Review ID `5123538405`.
+
+## 2026-09-05 (Revisión Formal P0 - Review ID 5123583986)
+
+- Agente: Google Antigravity.
+- Rama: `feature/marketing-official-read-control-plane-p0`.
+- PR: `#86`.
+- Review ID Resuelto: `5123583986`.
+- Tarea: Task Hub #215 (Issue padre: Marketing #85).
+- Correcciones implementadas y validadas:
+  1. Google Ads Account-Level Negatives: Reemplazado el GAQL inválido de `customer_negative_criterion` por la API oficial basada en `negative_keyword_list.shared_set`, soportando tipos `NEGATIVE_KEYWORDS` y `ACCOUNT_LEVEL_NEGATIVE_KEYWORDS`, y recuperando términos reales desde `shared_criterion` con tipo `KEYWORD`.
+  2. Filtro estricto de tipos: En `shared_criterion`, `campaign_criterion` y `ad_group_criterion` se exige `type = 'KEYWORD'`, descartando criterios sin texto, con match type `UNKNOWN`, o cuyo parent/shared set esté en estado `REMOVED` o `UNKNOWN`.
+  3. Campaign Mapping: Clave principal migrada a `campaign_id_hash`, con comprobación secundaria por nombre/familia; fail-closed ante ID no registrado, nombre incompatible, cero matches o colisiones. Retiradas campañas Meta del registro de Google Ads.
+  4. Alineación B2C/B2B y Matriz A/B/C: Permitido `B2B_SENCE` como intención excluible en B2C Excel según política canónica. Implementada matriz estricta de routing A/B/C (A y C ceden a B; B bloquea exclusión de 'desde cero'; 'profesor/clases' solo en destinos válidos; fail-closed `HOLD_REVIEW` en grupos no configurados).
+  5. Compatibilidad de Producto y Modalidad: Validación real que impide aplicar taxonomía Excel a Power BI (`PRODUCT_MISMATCH -> HOLD_REVIEW`), protege términos propios del producto activo, prohíbe negativizar online en modalidad ONLINE o MIXTA, y arroja `HOLD_REVIEW` si el producto es `UNKNOWN`.
+  6. Protected Terms Match-Aware y Scope-Aware: Eliminado substring ingenuo. Términos aislados (`presencial`, `curso excel presencial`) generan `CONFLICT`; frases compuestas con modificador (`curso excel presencial gratis`, `curso excel presencial empleo`, `curso excel para empresas`) son evaluadas por intención y aceptadas como `CANDIDATE`.
+  7. Ledger Fail-Closed y Concurrencia Atómica: Corrupción genera `HOLD_REVIEW` (no `{}`). Implementado lock atómico con archivo `.lock`. Prueba de subprocesos concurrentes confirmada con `PROCESS_1_RECOMMENDATIONS > 0` y `PROCESS_2_RECOMMENDATIONS = 0`.
+  8. Hashes e Identificadores: Recálculo obligatorio de `state_hash` y detección de manipulación (`HOLD_REVIEW`). Preservación de sentinels (`none`, `unknown`, `global`, `n/a`) sin hashear. Clave HMAC dinámica fuera de Git.
+  9. Código Productivo Meta Ads: Módulo importable `MetaAdsExportHelpers.psm1` con helpers de extracción y sanitización estricta (`Sanitize-MetaText`, `Sanitize-MetaUri`). Eliminación de código duplicado en tests (`test_meta_script_mock.ps1`).
+  10. Security Validation y Suite de Pruebas: Verificación estricta de `origin/main`, diff real y archivos modificados analizados; 16 tests unitarios pasando al 100% en `test_negative_guard.py`; validación limpia de whitespace en Git.
+  11. Documentación: Deduplicación de títulos en especificación técnica, eliminación de referencias restantes a staging en control plane, y actualización de `REVIEW_REQUEST.md`, `AGENT_FEEDBACK.md` y PR #86.
+- Guardrails operativos estrictamente cumplidos: `ADS_WRITES=0`, `CRM_WRITES=0`, `PRODUCTION_WRITES=0`, `MERGE=0`.
+- Declaración oficial de estado: `OFFLINE_CORE=PASS`, `LIVE_ADAPTER=IMPLEMENTED_HOLD_AUTH`, `LIVE_SNAPSHOT=HOLD_DATA_GAP`, `LIVE_PARITY=NOT_RUN`.
+- Estado: PR #86 listo para re-revisión formal. No hacer merge.
+
+## 2026-09-06 (Re-revisión P0 y Reconciliación con main)
+
+- Agente: Gemini / Google Antigravity.
+- Rama: `feature/marketing-official-read-control-plane-p0`.
+- PR: `#86`.
+- Tarea: Task Hub #215 (Issue padre: Marketing #85).
+- HEAD inicial bootstrap: `2bdd3c8870dda3d80edb83bf8bdde1a8597a6313`.
+- Correcciones P0 implementadas y validadas:
+  1. HMAC Fail-Closed: Eliminado todo fallback público/fijo de `CAPACITA_HMAC_KEY`. Requerida clave externa; fail-closed ante clave ausente para IDs reales. Implementada validación regex estricta `^hash_[0-9a-f]{12}$` para valores pre-hasheados, rechazando `alias_*` y strings ambiguos. Preservados sentinels canónicos (`none`, `unknown`, `global`, `n/a`).
+  2. Ledger Atómico: Reemplazado patrón `is_recorded() -> record()` por `claim_once(...)` interproceso bajo un único lock atómico con recarga de disco y validación de corrupción (`HOLD_CORRUPT`). Verificado mediante test obligatorio con 2 subprocesos concurrentes (`test_21`).
+  3. Tratamiento Estricto de PAUSED: Solo `ENABLED` es considerado activo en `active_items()`. Los criterios `PAUSED` no bloquean como activa y emiten señal diferenciada `EXISTS_PAUSED` / `REVIEW_REACTIVATION` a través de los 4 alcances (`CUSTOMER`, `SHARED_SET`, `CAMPAIGN`, `AD_GROUP`), verificado en `test_22`.
+  4. Google Ads Live Executor Cableado: Implementado `core/negative_guard/live_executor.py` con `GoogleAdsClient.load_from_storage` y `search_stream` (SELECT-only), transformando filas a diccionarios para `GoogleAdsNegativeReadAdapter`. Configuración externa privada vía `--runtime-config-path` (`google_ads_config_path`, `customer_id`, `campaign_contract_path`, `ledger_path`). Mappings demo confinados a tests y mapping operacional privado para live (`LIVE_EXECUTOR_WIRED=IMPLEMENTED_HOLD_AUTH`, `LIVE_API_CALL=NOT_RUN`, `LIVE_SNAPSHOT=HOLD_DATA_GAP`).
+  5. Meta Ads Error Sanitization: Script productivo `export_meta_ads_readonly.ps1` no expone URLs, tokens ni query strings en excepciones fatales. Implementado test end-to-end `test_meta_e2e_sanitization.ps1` que valida `TOKEN_IN_STDOUT=0`, `TOKEN_IN_STDERR=0`, `TOKEN_IN_MANIFEST=0`.
+  6. Manifest Hash Tamper Detection: Recálculo y comparación de `manifest_hash` al deserializar snapshot; manipulación genera `HOLD_REVIEW` con `MANIFEST_HASH_TAMPER_DETECTED`. Preservada detección a nivel de item `state_hash`.
+  7. Reconciliación con main: Merge limpio de `origin/main` (PR #88) integrando handoff Marketing → Edge (`MARKETING_EDGE_SLOT_PUBLICATION_HANDOFF_V01.md`), `VENUE_ID`, `CAMPAIGN_LAUNCH_ALLOWED=YES` y reconciliando `TASK_STATUS.md` sin pérdida de contexto ni contradicciones semánticas.
+- Estado: PR #86 en estado `DRAFT_READY_FOR_FINAL_REVIEW`.
+
+## 2026-09-06 (Resolución Review 5124064245 — Compatibilidad Protobuf y Proto-Plus en Live Executor)
+
+- Agente: Gemini / Google Antigravity.
+- Rama: `feature/marketing-official-read-control-plane-p0`.
+- PR: `#86`.
+- Review ID Resuelto: `5124064245`.
+- Tarea: Task Hub #215 (Issue padre: Marketing #85).
+- Correcciones implementadas y validadas:
+  1. Compatibilidad Dual Protobuf y Proto-Plus: En `core/negative_guard/live_executor.py`, `_protobuf_row_to_dict()` y el método auxiliar `_row_to_protobuf_message()` fueron implementados para soportar explícitamente tanto `proto-plus` (`proto.Message`) como protobuf nativo (`google.protobuf.message.Message`).
+  2. Utilidad Oficial de Conversión: Para mensajes `proto-plus`, se convierte primero al protobuf subyacente utilizando la función oficial `google.ads.googleads.util.convert_proto_plus_to_protobuf` (con soporte para `type(row).pb(row)` / `row._pb`).
+  3. Preservación de Estructura Anidada para el Adaptador: La serialización vía `MessageToDict` preserva los nombres de campo de proto (`preserving_proto_field_name=True`), normaliza colisiones de nombres (`type_` -> `type`) y promueve el objeto anidado `keyword` a la raíz de la fila, asegurando que `GoogleAdsNegativeReadAdapter` acceda inmediatamente a `campaign`, `ad_group`, `shared_set`, `customer_negative_criterion`, `shared_criterion`, `campaign_criterion`, `ad_group_criterion` y `keyword`.
+  4. Eliminación Definitiva de Fallbacks Inseguros: Se eliminó cualquier fallback operativo basado en `str(row)` o invención de estructuras.
+  5. Fail-Closed ante Tipo Desconocido: Si la fila no es un mensaje protobuf o proto-plus válido, se lanza `TypeError` fail-closed (`ROW_CONVERSION_FAILED`), rechazando strings, enteros, diccionarios planos o tipos desconocidos.
+  6. Fortalecimiento Defensivo del Adaptador: `core/negative_guard/adapter.py` fue complementado para inspeccionar directamente el sub-objeto `keyword` dentro de cada criterio (`shared_criterion`, `campaign_criterion`, `ad_group_criterion`) y el estado anidado `status`, asegurando interoperabilidad transparente bidireccional.
+  7. Suite de Pruebas Ampliada a 29 Tests: Se agregaron 4 nuevas pruebas unitarias (`test_26_protobuf_row_conversion`, `test_27_proto_plus_row_conversion`, `test_28_row_conversion_consumed_by_adapter`, `test_29_unknown_row_fail_closed`) cubriendo conversión real sobre `GoogleAdsRow` nativo y proto-plus, consumo completo por el adaptador y fail-closed sobre tipos no soportados.
+- Pruebas: 29 tests unitarios en Python (`test_negative_guard.py`) 100% OK; 2 tests en PowerShell 100% OK; runner `run_offline_validations.py` 100% OK; `git diff --check` limpio.
+- Guardrails: `LIVE_API_CALL=NOT_RUN`, `LIVE_SNAPSHOT=HOLD_DATA_GAP`, `ADS_WRITES=0`, `CRM_WRITES=0`, `PRODUCTION_WRITES=0`, `MERGE=0`.
+- Estado: PR #86 en estado `DRAFT_READY_FOR_FINAL_REVIEW`.
+

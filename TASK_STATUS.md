@@ -4,10 +4,38 @@ Fecha de revisión: 2026-09-06
 
 ## Prioridad activa
 
-Operacionalizar el protocolo obligatorio de visibilidad de páginas usando el runtime reusable ya consolidado y aplicarlo a las siguientes páginas/landings reales de Capacita sin reabrir la metodología desde cero.
+Consolidar y validar Fase 0 (saneamiento PR #52) y Fase 1 (control plane oficial READ y guard vivo/idempotente de negativas de Google Ads) correspondientes a Task Hub #215 / Issue #85.
 
-Fuente local obligatoria:
+Fuentes locales obligatorias:
 
+```text
+docs/google-ads/GOOGLE_ADS_NEGATIVE_GUARD_SPECIFICATION_V01.md
+docs/google-ads/GOOGLE_ADS_NEGATIVE_KEYWORDS_INTENT_POLICY.md
+docs/analytics/MARKETING_OFFICIAL_READ_CONTROL_PLANE_V01.md
+docs/meta-ads/META_ADS_READONLY_API_ROUTE_A_PROCEDURE_V01.md
+DECISIONES.md
+```
+
+Estado del frente:
+- Fase 0 (Rescate sanitizado de PR #52 en PR #86; PR #52 histórico intacto): PASS (IDs sanitizados, rama histórica intacta, cero tokens en diff).
+- Fase 1.1 (Inventario del entorno): PASS.
+- Fase 1.2 (Google Ads Fast Path): HOLD_WITH_EVIDENCE (ACCESS_TOKEN_SCOPE_INSUFFICIENT).
+- Fase 1.3 (Google Ads MCP oficial): HOLD_WITH_EVIDENCE (METHOD_COMPARISON=DESIGN_ONLY, LIVE_PARITY=NOT_RUN, METHOD_A=BASELINE_FALLBACK).
+- Fase 1.4 / 1.5 (Negative Snapshot & Guard):
+  - NEGATIVE_GUARD_OFFLINE_CORE=PASS
+  - LIVE_NEGATIVE_ADAPTER=IMPLEMENTED_HOLD_AUTH
+  - NEGATIVE_LIVE_SNAPSHOT=HOLD_DATA_GAP
+- Fase 1.6 / 1.7 / 1.8 (GA4, GSC, Meta Ads): HOLD_WITH_EVIDENCE.
+- Fase 1.9 (Zoho CRM): DESIGNED_CONCEPTUAL_UNVERIFIED (allowlist READ agregada con campos conceptuales hasta inspección de metadata).
+- Writes a plataformas / producción: 0.
+
+## Frentes vigentes secundarios
+
+### Frente — Visibilidad de páginas y SEO/AEO/GEO (Agosto 2026)
+
+Operacionalizar el protocolo obligatorio de visibilidad de páginas usando el runtime reusable ya consolidado y aplicarlo a las páginas/landings reales de Capacita sin reabrir la metodología desde cero.
+
+Fuente local:
 ```text
 docs/seo-ai/MARKETING_PAGE_VISIBILITY_PROTOCOL_V01.md
 docs/seo-ai/MARKETING_EDGE_SLOT_PUBLICATION_HANDOFF_V01.md
@@ -65,7 +93,6 @@ Estado:
 EDGE_ALL_LANDINGS_ROLLOUT=PENDING
 EDGE_ZOHO_SLOT_AUTOMATION=PENDING_ISSUE_24
 ```
-
 ## Frente activo — IA Aplicada al Trabajo presencial Santiago
 
 Documento de benchmark en esta rama:
@@ -220,8 +247,8 @@ docs/pagesense/PAGESENSE_GOAL_CONFIGURATION_AUDIT_2026-07-12.md
 ## Archivos pesados
 
 - GitHub conserva Markdown, manifests, hashes, síntesis y trazabilidad liviana.
-- Bodega definitiva: SharePoint/OneDrive Empresa.
-- `external-files/marketing-performance-capacita` es staging local operativo.
+- Bodega canónica definitiva: SharePoint Site `Documentos/CAPACITA/Proyectos/external-files/marketing-performance-capacita`.
+- `OneDrive "Sitio de comunicación - external-files"` es acceso sincronizado local, no segunda bodega ni staging.
 - Google Drive o Cloudflare R2 sólo se usan como capas específicas cuando exista decisión documentada; no son la bóveda canónica general.
 
 ## Reglas operativas vigentes
@@ -243,7 +270,7 @@ docs/pagesense/PAGESENSE_GOAL_CONFIGURATION_AUDIT_2026-07-12.md
 5. Usar SiteOne + advertools como evidencia técnica/readability; Promptfoo sólo como benchmark sintético controlado.
 6. Mantener SerpBear bloqueado hasta resolver provider, seguridad, retención, owner y costo.
 7. Después de 2–3 páginas reales, devolver feedback a AI OS sobre utilidad, gaps y falsos positivos antes de promover las skills.
-8. Retomar Google Ads/Meta Ads por separado cuando Misael lo indique, leyendo primero sus canónicos específicos.
+8. La autorización previa de Misael gobierna y bloquea writes, cambios de presupuesto, pujas y modificaciones en producción o plataformas; no es un gate para análisis READ ni para la detección proactiva de oportunidades de Growth. Retomar Google Ads/Meta Ads por separado cuando Misael lo indique, leyendo primero sus canónicos específicos.
 
 ## Estado de frentes históricos
 
