@@ -1,6 +1,6 @@
 # Estado de Tareas
 
-Fecha de revisión: 2026-08-23
+Fecha de revisión: 2026-09-06
 
 ## Prioridad activa
 
@@ -10,6 +10,7 @@ Fuente local obligatoria:
 
 ```text
 docs/seo-ai/MARKETING_PAGE_VISIBILITY_PROTOCOL_V01.md
+docs/seo-ai/MARKETING_EDGE_SLOT_PUBLICATION_HANDOFF_V01.md
 docs/seo-ai/README.md
 DECISIONES.md
 ```
@@ -19,6 +20,50 @@ Fuentes reusables externas al repo:
 ```text
 misaeln-pc1/capacita-ai-operating-system
 misaeln-pc1/capacita-search-intelligence-toolchain
+misaeln-pc1/capacita-edge
+```
+
+## Regla activa — Handoff Marketing → Edge para landings y campañas
+
+Cuando Marketing cree, revise, relance o use una landing como destino de campaña y existan fechas, horarios, precios, disponibilidad, modalidad o sede, debe aplicar:
+
+```text
+docs/seo-ai/MARKETING_EDGE_SLOT_PUBLICATION_HANDOFF_V01.md
+```
+
+Y consumir desde `main` de Capacita Edge:
+
+```text
+misaeln-pc1/capacita-edge/docs/LANDING_CAPA18_BOOTSTRAP_CURRENT.md
+misaeln-pc1/capacita-edge/docs/MARKETING_LANDING_SLOT_CHANGE_RUNBOOK.md
+misaeln-pc1/capacita-edge/docs/templates/MARKETING_SLOT_CHANGE_REQUEST.md
+```
+
+Regla operativa:
+
+```text
+MARKETING ENTREGA UNA SOLA SOLICITUD
+→ EDGE ACTUALIZA SLOT + HTML + JSON-LD + SITEMAP/LASTMOD
+→ EDGE PUBLICA Y HACE READBACK
+→ MARKETING ACTIVA SÓLO CON CAMPAIGN_LAUNCH_ALLOWED=YES
+```
+
+Para la sede habitual:
+
+```text
+VENUE_ID=https://capacita.cl/#sede-santiago-centro
+VENUE_CHANGE=NO
+```
+
+No repetir calle, comuna, región o coordenadas en cambios normales. Sólo un cambio real de sede usa `VENUE_CHANGE=YES` con evidencia y aprobación.
+
+Marketing no edita HTML, schema, sitemap, `lastmod`, Worker, Cloudflare ni `main`, y no duplica localmente los contratos técnicos de Edge.
+
+Estado:
+
+```text
+EDGE_ALL_LANDINGS_ROLLOUT=PENDING
+EDGE_ZOHO_SLOT_AUTOMATION=PENDING_ISSUE_24
 ```
 
 ## Frente activo — IA Aplicada al Trabajo presencial Santiago
@@ -193,11 +238,12 @@ docs/pagesense/PAGESENSE_GOAL_CONFIGURATION_AUDIT_2026-07-12.md
 
 1. Recibir preview/URL de la landing `IA-TRAB-01-PRES-V1` desde la Fábrica.
 2. Aplicar el protocolo integral y comparar contra el benchmark V01.
-3. Reutilizar GSC, Keyword Planner, SERP y evidencia existente antes de generar nueva investigación.
-4. Usar SiteOne + advertools como evidencia técnica/readability; Promptfoo sólo como benchmark sintético controlado.
-5. Mantener SerpBear bloqueado hasta resolver provider, seguridad, retención, owner y costo.
-6. Después de 2–3 páginas reales, devolver feedback a AI OS sobre utilidad, gaps y falsos positivos antes de promover las skills.
-7. Retomar Google Ads/Meta Ads por separado cuando Misael lo indique, leyendo primero sus canónicos específicos.
+3. Para toda fecha/precio/horario/campaña, aplicar `docs/seo-ai/MARKETING_EDGE_SLOT_PUBLICATION_HANDOFF_V01.md` y la plantilla vigente de Edge.
+4. Reutilizar GSC, Keyword Planner, SERP y evidencia existente antes de generar nueva investigación.
+5. Usar SiteOne + advertools como evidencia técnica/readability; Promptfoo sólo como benchmark sintético controlado.
+6. Mantener SerpBear bloqueado hasta resolver provider, seguridad, retención, owner y costo.
+7. Después de 2–3 páginas reales, devolver feedback a AI OS sobre utilidad, gaps y falsos positivos antes de promover las skills.
+8. Retomar Google Ads/Meta Ads por separado cuando Misael lo indique, leyendo primero sus canónicos específicos.
 
 ## Estado de frentes históricos
 
