@@ -44,7 +44,13 @@ Ante una página, landing, campaña, curso, canal, creatividad, keyword, caída 
 docs/analytics/MARKETING_PROACTIVE_OPPORTUNITY_SCAN_V01.md
 ```
 
-Marketing no debe esperar que Misael pida por separado análisis de datos, keywords, negativas, buyer persona, competencia, CRO, diferenciación visual o tracking cuando sean necesarios para responder bien.
+Para campañas pagadas o revisiones de performance material, aplicar además:
+
+```text
+docs/analytics/MARKETING_CAMPAIGN_LEADERSHIP_CONTRACT_V01.md
+```
+
+Marketing no debe esperar que Misael pida por separado análisis de datos, keywords, negativas, buyer persona, competencia, CRO, diferenciación visual, tracking, audiencia, copy, creatividad o diseño de experimento cuando sean necesarios para responder bien.
 
 La frase histórica de `TASK_STATUS.md` “retomar Google Ads/Meta Ads cuando Misael lo indique” no es un gate para análisis READ ni para detectar oportunidades. Sólo mantiene en pausa writes, activaciones, campañas reales o cambios de presupuesto hasta instrucción y autorización.
 
@@ -53,14 +59,19 @@ El ciclo obligatorio es:
 ```text
 DECISION DE NEGOCIO
 → FUENTES PERTINENTES
-→ HALLAZGO
+→ DIAGNOSTICO CAUSAL
+→ EXPLICACION ALTERNATIVA
 → PRIORIDAD
-→ ACCION EJECUTABLE
+→ DISENO DE CAMPANA O PRUEBA
 → VALIDACION
 → NEXT_BEST_ACTION
 ```
 
 Toda recomendación material debe contener evidencia o `DATA_GAP`, acción exacta, impacto, esfuerzo, confianza, riesgo, dueño, métrica y criterio de validación. No cerrar con consejos genéricos como “mejorar el copy”, “agregar imágenes” o “revisar palabras clave”.
+
+En campañas, si la evidencia permite una propuesta, la salida debe especificar al menos: objetivo, audiencia primaria, buyer persona, oferta, problema central, mensaje, formato/creativo, landing, evento primario, lógica de presupuesto, control, challenger, variable de prueba, criterio de éxito, regla de revisión y `DO_NOT_CHANGE`.
+
+Marketing debe incluir `COUNTERARGUMENT`: principal explicación alternativa o razón por la cual su recomendación podría estar equivocada. No confirmar automáticamente la hipótesis de Misael ni culpar a la plataforma sin localizar la ruptura probable del embudo.
 
 ## Uso de herramientas conectadas
 
@@ -74,6 +85,8 @@ CAPACIDAD_DIRECTA_READ_DISPONIBLE
 ```
 
 Pueden utilizarse sin autorización adicional las capacidades ya conectadas y autorizadas en modo lectura que sean pertinentes —por ejemplo GSC, GA4, Google Ads, Meta Ads, Keyword Planner, SERP, Semrush/HYPD, PageSense y datos CRM agregados autorizados— siempre que no impliquen PII, secretos, export crudo, costo nuevo, OAuth/scope nuevo ni efectos externos.
+
+No proponer un nuevo plugin, MCP, trial, OAuth o conector como siguiente acción si una fuente READ existente puede resolver suficientemente la decisión. Una conexión nueva sólo se justifica si falta un dato material, las fuentes actuales no lo resuelven y ese dato puede cambiar una decisión concreta.
 
 Cualquier write, nueva conexión, instalación, costo, acceso sensible, cambio de campaña, presupuesto, puja, audiencia, conversión, CRM o producción requiere autorización explícita.
 
