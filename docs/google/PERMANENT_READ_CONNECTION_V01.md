@@ -1,119 +1,174 @@
 # Permanent Google READ Connection V01
 
 Issue: `#102`
+PR: `#103`
 Branch: `feature/marketing-google-official-permanent-read`
-Estado: `IMPLEMENTATION_IN_PROGRESS`
+Estado: `IMPLEMENTED_PENDING_LIVE_OAUTH`
 
 ## Objetivo
 
-Establecer una conexión oficial, reutilizable y sin dependencia de trials para que Marketing pueda leer Google Ads y GA4 de forma consistente.
+Establecer una conexión oficial, reutilizable y sin dependencia de trials para que Marketing pueda consultar Google Ads + GA4 de forma consistente desde ChatGPT.
 
 ## Decisión de arquitectura
 
 ```text
-PRIMARY_AUTH = Google OAuth / Application Default Credentials (ADC)
-GOOGLE_ADS = official Google Ads API
-GA4 = official Google Analytics Admin + Data APIs
-THIRD_PARTY_TRIALS = OPTIONAL_ONLY
-SECRETS_IN_GITHUB = 0
-ADS_WRITES = 0
-GA4_WRITES = 0
+Google Ads API oficial (READ)
++ GA4 Data API oficial (READ)
++ Google Sheets API (write limitado al reporting sink)
+→ Historial_Rendimiento_GoogleAds
+→ ChatGPT / Marketing READ
+```
+
+```text
+PRIMARY_AUTH=Google OAuth / Application Default Credentials (ADC)
+THIRD_PARTY_TRIALS=OPTIONAL_ONLY
+ADS_WRITES=0
+GA4_CONFIG_WRITES=0
+SECRETS_IN_GITHUB=0
+PII_QUERY_STRING_CAPTURED=0
 ```
 
 Se reutiliza el fast path existente de `#85/#86`; este frente no crea otro control plane.
 
 ## Cambio oficial de Google — septiembre 2026
 
-Google retiró los developer tokens para Google Ads API el 2026-09-09. El acceso se asocia ahora al proyecto Google Cloud que posee el OAuth client o service account. Los headers `developer-token` legacy pueden seguir siendo enviados por código antiguo, pero el servidor los ignora.
+Google retiró los developer tokens para Google Ads API el 2026-09-09. El acceso se asocia ahora al Google Cloud project que posee el OAuth client o service account. Headers `developer-token` legacy pueden seguir presentes en código antiguo, pero el servidor los ignora.
 
-Consecuencia: **no crear un proyecto OAuth nuevo al azar**. Debe reutilizarse el proyecto Google Cloud que heredó el acceso Google Ads API, salvo que Google Cloud Console confirme explícitamente acceso para otro proyecto.
+Consecuencia: **no crear un Google Cloud project/OAuth client en un proyecto nuevo por reflejo**. Debe reutilizarse el proyecto que conserva el acceso de Google Ads API, salvo verificación explícita de otro proyecto autorizado.
 
-## Autenticación elegida para el baseline actual
+## Autenticación elegida
 
-Para el entorno Windows/local ya existente se mantiene `single-user OAuth + ADC`, porque el fast path actual ya está diseñado para ADC y el último bloqueo observado fue `ACCESS_TOKEN_SCOPE_INSUFFICIENT`.
+Para el entorno Windows/local existente se conserva `single-user OAuth + ADC` porque:
 
-Scopes autorizados:
+- el fast path ya consume ADC;
+- el bloqueo observado fue `ACCESS_TOKEN_SCOPE_INSUFFICIENT`, no ausencia de infraestructura;
+- evita service-account delegation, claves JSON permanentes y una migración innecesaria.
+
+Scopes del consentimiento único:
 
 ```text
 https://www.googleapis.com/auth/adwords
 https://www.googleapis.com/auth/analytics.readonly
+https://www.googleapis.com/auth/spreadsheets
 https://www.googleapis.com/auth/cloud-platform
 ```
 
-La credencial ADC se guarda por `gcloud` fuera del repo. El OAuth client JSON también debe permanecer fuera de GitHub.
+`spreadsheets` no habilita writes en Ads ni GA4; se usa únicamente para mantener el bridge de reporting ya conectado a ChatGPT.
 
-> Un refresh token es persistente y las librerías Google renuevan access tokens automáticamente. Google aún puede revocar el refresh token por seguridad o si el usuario revoca consentimiento. `PERMANENTE` significa infraestructura propia/reutilizable, no token eterno.
+ADC se guarda por `gcloud` fuera del repo. OAuth client JSON, refresh token y `google-ads.yaml` nunca se versionan.
 
-## Instalación única
+> `PERMANENTE` significa infraestructura propia y reutilizable con refresh automático de access tokens. Google puede revocar un refresh token por seguridad o por revocación explícita del usuario.
 
-Script:
+## Bridge existente y delta mínimo
+
+La hoja `Historial_Rendimiento_GoogleAds` ya es la fuente histórica operativa de Google Ads y mostró datos diarios recientes en la revisión 2026-09-13. No se reemplazan sus pestañas Ads.
+
+Se agregaron únicamente:
 
 ```text
-scripts/google_official_read/setup_google_read.ps1
+Log_Diario_GA4_Campaigns
+Log_Diario_GA4_Landing_Pages
+Control_Plane_Status
 ```
 
-Entradas privadas locales:
+GA4 se restringe a sesiones pagadas `google / cpc` para reconciliación Ads → web.
 
-- OAuth Desktop Client JSON del proyecto Google Cloud que conserva acceso Google Ads API.
-- `google-ads.yaml` existente fuera del repo con `use_application_default_credentials: true` y routing de cuenta cuando corresponda.
+### Privacidad
 
-El script:
-
-1. verifica `gcloud` y Python;
-2. instala/actualiza sólo librerías oficiales Google necesarias;
-3. abre **un único consentimiento Google** para Ads + GA4 READ;
-4. guarda ADC fuera del repo;
-5. ejecuta un health check unificado READ-only.
-
-## Health check
+Se usa la dimensión GA4 `landingPage`, no `landingPagePlusQueryString`.
 
 ```text
-scripts/google_official_read/check_google_read.py
+PII_QUERY_STRING_CAPTURED=0
 ```
 
-Criterio mínimo:
+Esto evita replicar parámetros de URL potencialmente sensibles al histórico de reporting.
+
+## Implementación
+
+Ruta:
 
 ```text
-GOOGLE_ADS_AUTH=PASS
-GOOGLE_ADS_ACCESSIBLE_CUSTOMERS=>0
-GA4_AUTH=PASS
-GA4_PROPERTIES=>0
+scripts/google_official_read/
 ```
 
-Si falta configuración o permisos, devuelve `HOLD`; nunca inventa datos ni intenta writes.
+Componentes:
 
-## Acceso desde ChatGPT
+- `requirements.txt`: versiones oficiales Google pinneadas.
+- `setup_google_read.ps1`: instalación/consentimiento/validación/scheduler en una sola ejecución.
+- `select_ga4_property.py`: descubre la propiedad GA4 accesible; si hay varias, permite seleccionar una vez.
+- `check_google_read.py`: health check vivo Google Ads + propiedad GA4 + Sheet.
+- `publish_ga4_to_sheet.py`: rolling upsert idempotente de 3 días.
+- `run_daily_google_read.py`: orquestación diaria y actualización de estado.
+- `run_daily_google_read.ps1`: wrapper con log local fuera de GitHub.
+- `install_google_read_task.ps1`: Windows Scheduled Task reversible.
 
-La autenticación local resuelve el acceso oficial de los runners de Capacita, pero un chat web no puede ejecutar arbitrariamente procesos del PC local. Para que ChatGPT consuma resultados sin plugins pagados, el patrón objetivo es:
+## Observabilidad
+
+`Control_Plane_Status` mantiene estado separado para:
 
 ```text
-OFFICIAL GOOGLE APIs
-→ runner READ reproducible
-→ snapshot agregado/sanitizado
-→ superficie ya conectada a ChatGPT
-→ Marketing analiza
+Google Ads API
+GA4 Data API
+GA4 → Reporting Sheet
 ```
 
-La superficie preferida es Google Drive/Sheets ya conectada, reutilizando el modelo `Historial_Rendimiento_GoogleAds` si sigue vigente. SharePoint queda como bodega canónica para archivos pesados, no como requisito para consultas tabulares frecuentes.
-
-Este bridge no reemplaza la fuente oficial: sólo transporta snapshots READ al chat.
-
-## DO_NOT_CHANGE
-
-- no conectar otro trial como ruta primaria;
-- no guardar OAuth client secrets, refresh tokens o ADC en GitHub;
-- no usar Ads writes;
-- no usar GA4 Admin writes;
-- no cambiar presupuestos, pujas, anuncios, keywords, negativas o conversiones;
-- no crear un Google Cloud project nuevo si el actual ya heredó el acceso Ads API.
-
-## Estado esperado de cierre
+Regla:
 
 ```text
-GOOGLE_OFFICIAL_AUTH=PASS
-GOOGLE_ADS_READ=PASS
-GA4_READ=PASS
-CHATGPT_READ_BRIDGE=PASS
-THIRD_PARTY_TRIAL_DEPENDENCY=NO
-NO_MERGEAR_TODAVIA hasta evidencia viva
+NO_DATA != CONNECTION_FAILED
+```
+
+Una fecha sin delivery no se interpreta como falla si el health check está `PASS`.
+
+## Scheduling
+
+Default preparado:
+
+```text
+TASK=Capacita-Marketing-Google-Read
+DAILY_AT=05:30
+START_WHEN_AVAILABLE=YES
+LOGON=INTERACTIVE_USER
+```
+
+La hora es modificable sin rehacer OAuth. `StartWhenAvailable` reduce pérdidas si el PC no estaba disponible exactamente a la hora programada. Con `Interactive` no se almacena contraseña de Windows; el job corre cuando la sesión del usuario está disponible.
+
+## Guardrails
+
+```text
+NO_NEW_TRIAL_AS_BASELINE
+NO_ADS_MUTATIONS
+NO_GA4_CONFIG_MUTATIONS
+NO_GTM_MUTATIONS
+NO_CREDENTIALS_IN_GITHUB
+NO_RAW_QUERY_STRING_STORAGE
+SHEET_WRITE_SCOPE=REPORTING_ONLY_BY_CONTRACT
+```
+
+## Validación pendiente
+
+Todo lo estructural está preparado, pero no declarar conexión terminada sin ejecución en el PC que contiene las credenciales privadas.
+
+DoD vivo:
+
+```text
+OFFLINE_BRIDGE_TESTS=PASS
+GOOGLE_ADS_API=PASS
+GA4_DATA_API=PASS
+REPORTING_SHEET=PASS
+GA4_SHEET_BRIDGE=PASS
+SCHEDULE=PASS
+CONTROL_PLANE_STATUS=PASS
+SECRETS_IN_GITHUB=0
+ADS_WRITES=0
+GA4_CONFIG_WRITES=0
+```
+
+## Cierre
+
+Hasta evidencia viva:
+
+```text
+NO_MERGEAR_TODAVIA
+REQUIERE_CHECKS
 ```
