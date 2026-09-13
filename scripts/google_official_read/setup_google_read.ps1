@@ -9,7 +9,9 @@ param(
     [string]$GA4PropertyId,
 
     [Parameter(Mandatory=$true)]
-    [string]$SpreadsheetId
+    [string]$SpreadsheetId,
+
+    [string]$DailyAt = '05:30'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -39,10 +41,13 @@ if ($GA4PropertyId -notmatch '^(properties/)?\d+$') {
 if ([string]::IsNullOrWhiteSpace($SpreadsheetId)) {
     throw 'INVALID_SPREADSHEET_ID'
 }
+if ($DailyAt -notmatch '^([01]\d|2[0-3]):[0-5]\d$') {
+    throw 'INVALID_DAILY_TIME'
+}
 
 $Requirements = Join-Path $PSScriptRoot 'requirements.txt'
-$HealthCheck = Join-Path $PSScriptRoot 'check_google_read.py'
-$PublishGA4 = Join-Path $PSScriptRoot 'publish_ga4_to_sheet.py'
+$DailyRunner = Join-Path $PSScriptRoot 'run_daily_google_read.py'
+$TaskInstaller = Join-Path $PSScriptRoot 'install_google_read_task.ps1'
 $ResolvedAdsConfig = (Resolve-Path $GoogleAdsConfigPath).Path
 
 Write-Host 'Installing/updating official Google client libraries...'
@@ -65,23 +70,23 @@ $env:GA4_PROPERTY_ID = $GA4PropertyId
 $env:GOOGLE_MARKETING_SPREADSHEET_ID = $SpreadsheetId
 $env:GA4_REFRESH_LOOKBACK_DAYS = '3'
 
-Write-Host 'Running unified READ-only health check...'
-python $HealthCheck
-$HealthExit = $LASTEXITCODE
-if ($HealthExit -ne 0) {
-    Write-Host 'CAPACITA_GOOGLE_READ_SETUP=HOLD_HEALTH'
-    exit $HealthExit
+Write-Host 'Running live health checks and first GA4 bridge refresh...'
+python $DailyRunner
+$DailyExit = $LASTEXITCODE
+if ($DailyExit -ne 0) {
+    Write-Host 'CAPACITA_GOOGLE_READ_SETUP=HOLD_LIVE_CHECK'
+    exit $DailyExit
 }
 
-Write-Host 'Publishing the first GA4 paid-Google snapshot to the existing reporting Sheet...'
-python $PublishGA4
-$PublishExit = $LASTEXITCODE
-if ($PublishExit -ne 0) {
-    Write-Host 'CAPACITA_GOOGLE_READ_SETUP=HOLD_GA4_BRIDGE'
-    exit $PublishExit
+Write-Host "Installing resilient daily task at $DailyAt..."
+& powershell.exe -NoProfile -ExecutionPolicy Bypass -File $TaskInstaller -DailyAt $DailyAt
+if ($LASTEXITCODE -ne 0) {
+    Write-Host 'CAPACITA_GOOGLE_READ_SETUP=HOLD_SCHEDULER'
+    exit $LASTEXITCODE
 }
 
 Write-Host 'CAPACITA_GOOGLE_READ_SETUP=PASS'
 Write-Host 'Credentials are stored by gcloud ADC outside the repository.'
+Write-Host 'Daily task installed with StartWhenAvailable.'
 Write-Host 'No Google Ads or GA4 configuration writes were executed.'
 exit 0
