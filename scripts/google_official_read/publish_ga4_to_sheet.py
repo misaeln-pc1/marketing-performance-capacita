@@ -30,33 +30,12 @@ CAMPAIGN_SHEET = "Log_Diario_GA4_Campaigns"
 LANDING_SHEET = "Log_Diario_GA4_Landing_Pages"
 
 CAMPAIGN_HEADERS = [
-    "Fecha",
-    "Campaña",
-    "Fuente",
-    "Medio",
-    "Sesiones",
-    "Sesiones_Con_Interaccion",
-    "Tasa_Interaccion",
-    "Usuarios",
-    "Usuarios_Nuevos",
-    "Eventos_Clave",
-    "Key_Unica",
-    "Fecha_Carga",
+    "Fecha", "Campaña", "Fuente", "Medio", "Sesiones", "Sesiones_Con_Interaccion",
+    "Tasa_Interaccion", "Usuarios", "Usuarios_Nuevos", "Eventos_Clave", "Key_Unica", "Fecha_Carga",
 ]
 LANDING_HEADERS = [
-    "Fecha",
-    "Landing_Page",
-    "Campaña",
-    "Fuente",
-    "Medio",
-    "Sesiones",
-    "Sesiones_Con_Interaccion",
-    "Tasa_Interaccion",
-    "Usuarios",
-    "Usuarios_Nuevos",
-    "Eventos_Clave",
-    "Key_Unica",
-    "Fecha_Carga",
+    "Fecha", "Landing_Page", "Campaña", "Fuente", "Medio", "Sesiones", "Sesiones_Con_Interaccion",
+    "Tasa_Interaccion", "Usuarios", "Usuarios_Nuevos", "Eventos_Clave", "Key_Unica", "Fecha_Carga",
 ]
 
 
@@ -90,16 +69,7 @@ def date_iso(raw: str) -> str:
     return raw
 
 
-def campaign_name(google_ads_name: str, generic_name: str) -> str:
-    google_ads_name = (google_ads_name or "").strip()
-    if google_ads_name and google_ads_name != "(not set)":
-        return google_ads_name
-    return (generic_name or "").strip()
-
-
-def is_paid_google(google_ads_name: str, source: str, medium: str) -> bool:
-    if (google_ads_name or "").strip() not in {"", "(not set)"}:
-        return True
+def is_paid_google(source: str, medium: str) -> bool:
     return (source or "").strip().lower() == "google" and (medium or "").strip().lower() == "cpc"
 
 
@@ -108,12 +78,8 @@ def run_report(client: BetaAnalyticsDataClient, property_id: str, dimensions: Se
         property=f"properties/{property_id}",
         dimensions=[Dimension(name=name) for name in dimensions],
         metrics=[
-            Metric(name="sessions"),
-            Metric(name="engagedSessions"),
-            Metric(name="engagementRate"),
-            Metric(name="totalUsers"),
-            Metric(name="newUsers"),
-            Metric(name="keyEvents"),
+            Metric(name="sessions"), Metric(name="engagedSessions"), Metric(name="engagementRate"),
+            Metric(name="totalUsers"), Metric(name="newUsers"), Metric(name="keyEvents"),
         ],
         date_ranges=[DateRange(start_date=f"{lookback_days}daysAgo", end_date="yesterday")],
         limit=100000,
@@ -125,27 +91,15 @@ def build_campaign_rows(response, loaded_at: str) -> list[list[object]]:
     output: list[list[object]] = []
     for row in response.rows:
         date = date_iso(row.dimension_values[0].value)
-        ads_campaign = row.dimension_values[1].value
-        generic_campaign = row.dimension_values[2].value
-        source = row.dimension_values[3].value
-        medium = row.dimension_values[4].value
-        if not is_paid_google(ads_campaign, source, medium):
+        campaign = row.dimension_values[1].value
+        source = row.dimension_values[2].value
+        medium = row.dimension_values[3].value
+        if not is_paid_google(source, medium):
             continue
-        campaign = campaign_name(ads_campaign, generic_campaign)
         key = f"{date}||{campaign}||{source}||{medium}"
         output.append([
-            date,
-            campaign,
-            source,
-            medium,
-            int(metric(row, 0)),
-            int(metric(row, 1)),
-            metric(row, 2),
-            int(metric(row, 3)),
-            int(metric(row, 4)),
-            metric(row, 5),
-            key,
-            loaded_at,
+            date, campaign, source, medium, int(metric(row, 0)), int(metric(row, 1)), metric(row, 2),
+            int(metric(row, 3)), int(metric(row, 4)), metric(row, 5), key, loaded_at,
         ])
     return output
 
@@ -155,28 +109,15 @@ def build_landing_rows(response, loaded_at: str) -> list[list[object]]:
     for row in response.rows:
         date = date_iso(row.dimension_values[0].value)
         landing = row.dimension_values[1].value  # `landingPage`: deliberately excludes query string.
-        ads_campaign = row.dimension_values[2].value
-        generic_campaign = row.dimension_values[3].value
-        source = row.dimension_values[4].value
-        medium = row.dimension_values[5].value
-        if not is_paid_google(ads_campaign, source, medium):
+        campaign = row.dimension_values[2].value
+        source = row.dimension_values[3].value
+        medium = row.dimension_values[4].value
+        if not is_paid_google(source, medium):
             continue
-        campaign = campaign_name(ads_campaign, generic_campaign)
         key = f"{date}||{landing}||{campaign}||{source}||{medium}"
         output.append([
-            date,
-            landing,
-            campaign,
-            source,
-            medium,
-            int(metric(row, 0)),
-            int(metric(row, 1)),
-            metric(row, 2),
-            int(metric(row, 3)),
-            int(metric(row, 4)),
-            metric(row, 5),
-            key,
-            loaded_at,
+            date, landing, campaign, source, medium, int(metric(row, 0)), int(metric(row, 1)), metric(row, 2),
+            int(metric(row, 3)), int(metric(row, 4)), metric(row, 5), key, loaded_at,
         ])
     return output
 
@@ -189,8 +130,7 @@ def chunks(items: Sequence[dict], size: int = 400) -> Iterable[Sequence[dict]]:
 def assert_headers(service, spreadsheet_id: str, sheet: str, expected: Sequence[str]) -> None:
     end_col = chr(ord("A") + len(expected) - 1)
     result = service.spreadsheets().values().get(
-        spreadsheetId=spreadsheet_id,
-        range=f"'{sheet}'!A1:{end_col}1",
+        spreadsheetId=spreadsheet_id, range=f"'{sheet}'!A1:{end_col}1"
     ).execute()
     actual = (result.get("values") or [[]])[0]
     if actual != list(expected):
@@ -202,8 +142,7 @@ def upsert_rows(service, spreadsheet_id: str, sheet: str, rows: Sequence[Sequenc
         return 0, 0
 
     existing = service.spreadsheets().values().get(
-        spreadsheetId=spreadsheet_id,
-        range=f"'{sheet}'!A2:Z",
+        spreadsheetId=spreadsheet_id, range=f"'{sheet}'!A2:Z"
     ).execute().get("values", [])
 
     key_to_row: dict[str, int] = {}
@@ -257,21 +196,18 @@ def main() -> int:
         assert_headers(sheets, spreadsheet_id, LANDING_SHEET, LANDING_HEADERS)
 
         campaign_response = run_report(
-            analytics,
-            property_id,
-            ["date", "sessionGoogleAdsCampaignName", "sessionCampaignName", "sessionSource", "sessionMedium"],
+            analytics, property_id,
+            ["date", "sessionCampaignName", "sessionSource", "sessionMedium"],
             lookback_days,
         )
         landing_response = run_report(
-            analytics,
-            property_id,
-            ["date", "landingPage", "sessionGoogleAdsCampaignName", "sessionCampaignName", "sessionSource", "sessionMedium"],
+            analytics, property_id,
+            ["date", "landingPage", "sessionCampaignName", "sessionSource", "sessionMedium"],
             lookback_days,
         )
 
         campaign_rows = build_campaign_rows(campaign_response, loaded_at)
         landing_rows = build_landing_rows(landing_response, loaded_at)
-
         campaign_updated, campaign_added = upsert_rows(
             sheets, spreadsheet_id, CAMPAIGN_SHEET, campaign_rows, key_index=10
         )
