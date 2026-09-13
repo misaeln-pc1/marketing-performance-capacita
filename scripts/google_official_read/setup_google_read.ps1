@@ -5,8 +5,7 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$GoogleAdsConfigPath,
 
-    [Parameter(Mandatory=$true)]
-    [string]$GA4PropertyId,
+    [string]$GA4PropertyId = '',
 
     [Parameter(Mandatory=$true)]
     [string]$SpreadsheetId,
@@ -35,9 +34,6 @@ if (-not (Test-Path $OAuthClientJson)) {
 if (-not (Test-Path $GoogleAdsConfigPath)) {
     throw 'GOOGLE_ADS_CONFIG_NOT_FOUND'
 }
-if ($GA4PropertyId -notmatch '^(properties/)?\d+$') {
-    throw 'INVALID_GA4_PROPERTY_ID'
-}
 if ([string]::IsNullOrWhiteSpace($SpreadsheetId)) {
     throw 'INVALID_SPREADSHEET_ID'
 }
@@ -48,9 +44,10 @@ if ($DailyAt -notmatch '^([01]\d|2[0-3]):[0-5]\d$') {
 $Requirements = Join-Path $PSScriptRoot 'requirements.txt'
 $DailyRunner = Join-Path $PSScriptRoot 'run_daily_google_read.py'
 $TaskInstaller = Join-Path $PSScriptRoot 'install_google_read_task.ps1'
+$GA4Selector = Join-Path $PSScriptRoot 'select_ga4_property.py'
 $ResolvedAdsConfig = (Resolve-Path $GoogleAdsConfigPath).Path
 
-Write-Host 'Installing/updating official Google client libraries...'
+Write-Host 'Installing pinned official Google client libraries...'
 python -m pip install -r $Requirements
 if ($LASTEXITCODE -ne 0) { throw 'PYTHON_DEPENDENCY_INSTALL_FAILED' }
 
@@ -58,6 +55,18 @@ Write-Host 'Opening ONE Google authorization flow for Google Ads + GA4 READ + re
 $Scopes = "$AdwordsScope,$AnalyticsScope,$SheetsScope,$CloudScope"
 gcloud auth application-default login --client-id-file="$OAuthClientJson" --scopes="$Scopes"
 if ($LASTEXITCODE -ne 0) { throw 'ADC_LOGIN_FAILED' }
+
+if ([string]::IsNullOrWhiteSpace($GA4PropertyId)) {
+    Write-Host 'Discovering GA4 properties accessible to this Google account...'
+    $SelectedProperty = (& python $GA4Selector).Trim()
+    if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($SelectedProperty)) {
+        throw 'GA4_PROPERTY_SELECTION_FAILED'
+    }
+    $GA4PropertyId = $SelectedProperty
+}
+if ($GA4PropertyId -notmatch '^(properties/)?\d+$') {
+    throw 'INVALID_GA4_PROPERTY_ID'
+}
 
 # Persist only non-secret runtime pointers. ADC tokens remain managed by gcloud outside GitHub.
 [Environment]::SetEnvironmentVariable('GOOGLE_ADS_CONFIGURATION_FILE_PATH', $ResolvedAdsConfig, 'User')
