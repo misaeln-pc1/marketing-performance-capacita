@@ -41,15 +41,21 @@ if ($DailyAt -notmatch '^([01]\d|2[0-3]):[0-5]\d$') {
     throw 'INVALID_DAILY_TIME'
 }
 
+$RepoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
 $Requirements = Join-Path $PSScriptRoot 'requirements.txt'
 $DailyRunner = Join-Path $PSScriptRoot 'run_daily_google_read.py'
 $TaskInstaller = Join-Path $PSScriptRoot 'install_google_read_task.ps1'
 $GA4Selector = Join-Path $PSScriptRoot 'select_ga4_property.py'
+$TestsDir = Join-Path $RepoRoot 'tests'
 $ResolvedAdsConfig = (Resolve-Path $GoogleAdsConfigPath).Path
 
 Write-Host 'Installing pinned official Google client libraries...'
 python -m pip install -r $Requirements
 if ($LASTEXITCODE -ne 0) { throw 'PYTHON_DEPENDENCY_INSTALL_FAILED' }
+
+Write-Host 'Running offline bridge invariants before OAuth...'
+python -m unittest discover -s $TestsDir -p 'test_google_official_read.py'
+if ($LASTEXITCODE -ne 0) { throw 'OFFLINE_GOOGLE_READ_TESTS_FAILED' }
 
 Write-Host 'Opening ONE Google authorization flow for Google Ads + GA4 READ + reporting Sheet...'
 $Scopes = "$AdwordsScope,$AnalyticsScope,$SheetsScope,$CloudScope"
