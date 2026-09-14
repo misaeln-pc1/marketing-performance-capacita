@@ -23,3 +23,14 @@ Acciones disponibles:
 ```
 
 El proceso principal queda en primer plano. Se detiene con `Ctrl+C`. No realiza writes en Google Ads y no configura GA4.
+
+Para validar directamente la autenticación del MCP oficial sin mostrar ni guardar identificadores de cliente:
+
+```powershell
+$env:GOOGLE_APPLICATION_CREDENTIALS = 'C:\Users\TECH\secrets\google-ads-mcp-service-account.json'
+$env:GOOGLE_PROJECT_ID = 'capacitacl-210323'
+$env:GOOGLE_CLOUD_PROJECT = $env:GOOGLE_PROJECT_ID
+python .\scripts\google_ads_mcp_read\probe_official_mcp.py
+```
+
+El smoke sólo informa PASS/HOLD y el número de cuentas accesibles. No ejecuta búsquedas de campañas ni operaciones de escritura.

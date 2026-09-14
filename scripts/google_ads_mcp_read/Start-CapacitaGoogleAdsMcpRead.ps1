@@ -41,12 +41,16 @@ function Assert-Prerequisites {
         throw 'GOOGLE_ADS_SERVICE_ACCOUNT_FIELDS_MISSING'
     }
 
-    $pipx = Get-Command pipx -CommandType Application -ErrorAction SilentlyContinue
-    if ($null -eq $pipx) {
+    $python = @(Get-Command python -CommandType Application -ErrorAction SilentlyContinue)[0]
+    if ($null -eq $python) {
+        throw 'PIPX_NOT_FOUND'
+    }
+    & $python.Source -m pipx --version *> $null
+    if ($LASTEXITCODE -ne 0) {
         throw 'PIPX_NOT_FOUND'
     }
 
-    return $pipx.Source
+    return $python.Source
 }
 
 function Resolve-TunnelId {
@@ -149,8 +153,8 @@ function Write-LocalProfile {
     New-Item -ItemType Directory -Path $ProfileDirectory -Force | Out-Null
     Set-Content -LiteralPath $TunnelIdPath -Value $ResolvedTunnelId -Encoding ascii -NoNewline
 
-    $pipxCommandPath = $PipxPath.Replace('\', '/')
-    $mcpCommand = $pipxCommandPath + ' run --spec git+https://github.com/googleads/google-ads-mcp.git google-ads-mcp'
+    $pythonCommandPath = $PipxPath.Replace('\', '/')
+    $mcpCommand = $pythonCommandPath + ' -m pipx run --spec git+https://github.com/googleads/google-ads-mcp.git google-ads-mcp'
     & $TunnelClientPath init `
         --force `
         --sample sample_mcp_stdio_local `
