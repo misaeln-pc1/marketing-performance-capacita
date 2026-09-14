@@ -197,6 +197,15 @@
   7. Reconciliación con main: Merge limpio de `origin/main` (PR #88) integrando handoff Marketing → Edge (`MARKETING_EDGE_SLOT_PUBLICATION_HANDOFF_V01.md`), `VENUE_ID`, `CAMPAIGN_LAUNCH_ALLOWED=YES` y reconciliando `TASK_STATUS.md` sin pérdida de contexto ni contradicciones semánticas.
 - Estado: PR #86 en estado `DRAFT_READY_FOR_FINAL_REVIEW`.
 
+## 2026-09-13 (Cierre Google Ads MCP READ — Issue #104)
+
+- Se incorporó el launcher reproducible `scripts/google_ads_mcp_read/Start-CapacitaGoogleAdsMcpRead.ps1`, con entrada oculta de Runtime API key, recuperación local del Tunnel ID y credencial Google fuera del repo.
+- Se agregó `probe_official_mcp.py` y se validaron inicialización, herramientas READ, autenticación y una cuenta accesible sin registrar identificadores.
+- Se asoció el OpenAI Secure MCP Tunnel al workspace autorizado y se conectó la aplicación privada `Capacita Google Ads READ`.
+- ChatGPT ejecutó la consulta viva `customers_list_accessible_customers` y devolvió `CUSTOMER_COUNT=1`.
+- Se consolidó el runbook reusable y se creó el XFER final v02 con estado `PASS`.
+- Guardrails preservados: `SECRETS_IN_GITHUB=0`, `ADS_WRITES=0`, `GA4_CONFIG_WRITES=0`, `MERGE=0`.
+
 ## 2026-09-06 (Resolución Review 5124064245 — Compatibilidad Protobuf y Proto-Plus en Live Executor)
 
 - Agente: Gemini / Google Antigravity.

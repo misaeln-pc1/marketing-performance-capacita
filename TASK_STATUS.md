@@ -1,6 +1,29 @@
 # Estado de Tareas
 
-Fecha de revisión: 2026-09-06
+Fecha de revisión: 2026-09-13
+
+## Google Ads MCP READ — Issue #104
+
+Estado vivo validado desde ChatGPT:
+
+```text
+PRIMARY_PATH=DIRECT_MCP
+LOCAL_LAUNCHER_REPRODUCIBLE=PASS
+TUNNEL_REAL_TO_GOOGLE_ADS_MCP=PASS
+WORKSPACE_TUNNEL_BINDING=PASS
+CHATGPT_GOOGLE_ADS_TOOLS=PASS
+GOOGLE_ADS_MCP_AUTH=PASS
+GOOGLE_ADS_ACCOUNT_ACCESS=1
+LIVE_READ_QUERY=PASS
+ADS_WRITES=0
+GA4_CONFIG_WRITES=0
+SECRETS_IN_GITHUB=0
+MERGE=0
+```
+
+Canónico operativo: `docs/ads-connectivity/ADS_MCP_SECURE_CONNECTION_RUNBOOK_V01_2026-09-13.md`.
+
+Evidencia de cierre: `docs/xfer/XFER__WORK__MARKETING__GOOGLE_ADS_MCP_READ_FINAL__20260913-220106__v02__READY__PASS.md`.
 
 ## Frente P0 — Content Growth: diagnóstico → contenido → curso
 
