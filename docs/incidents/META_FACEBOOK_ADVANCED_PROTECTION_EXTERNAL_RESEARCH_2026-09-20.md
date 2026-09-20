@@ -203,3 +203,46 @@ STATUS=PROPOSED_NOT_AUTHORIZED
 ```
 
 La ruta gratuita específica de Protección avanzada desde Instagram queda agotada con la interfaz actual. El siguiente candidato, si Misael decide continuar, es revisar la elegibilidad/flujo de Meta Verified desde Instagram **hasta antes de confirmar cualquier pago o cambio de seguridad**.
+
+
+## Registro anti-bucle — rutas Meta Verified / soporte ya exploradas
+
+Evidencia visual adicional revisada en este incidente:
+
+```text
+HELP_AND_TECH_SUPPORT_META_VERIFIED_ENTRY=VISIBLE
+META_TECH_REPORT_PERSONAL_REPLY=NO
+META_TECH_REPORT_EMAIL_CONFIRMATION=NO
+BUSINESS_STANDARD_VISIBLE=YES
+BUSINESS_STANDARD_PRICE_FROM_CLP=5600_PER_PROFILE_MONTH
+BUSINESS_STANDARD_ENHANCED_HELP=CHAT_OR_EMAIL_WITH_REPRESENTATIVES
+BUSINESS_PLUS_VISIBLE=YES
+BUSINESS_PLUS_PRICE_FROM_CLP=18990_PER_PROFILE_MONTH
+BUSINESS_PLUS_ENHANCED_HELP=YES
+PAID_SUPPORT_FLOW=BLOCKED_BY_FACEBOOK_AUTH_LOOP
+PAID_SUPPORT_COVERAGE_FOR_RESTRICTED_FACEBOOK=NOT_VERIFIED
+```
+
+Las capturas no se almacenan en GitHub porque muestran información personal y de cuenta. Esta síntesis es la evidencia persistente.
+
+### Regla anti-repetición
+
+Futuros chats/agentes no deben volver a pedir:
+
+- localizar dónde está Meta Verified;
+- abrir otra vez Business Standard/Business Plus sólo para comprobar que existen;
+- comprobar nuevamente que el reporte técnico no genera respuesta personal;
+- buscar Advanced Protection otra vez en el mismo menú de seguridad de Instagram;
+- crear una nueva passkey;
+- rehacer contraseña, 2FA, cookies, incógnito o dispositivos.
+
+Sólo reabrir una de esas rutas si aparece una **señal nueva objetiva**: cambio de interfaz, mensaje distinto de Meta, nuevo acceso, nuevo administrador, cambio de estado del perfil o documentación oficial nueva.
+
+### Fuente operativa prioritaria al retomar
+
+```text
+READ_FIRST=marketing-performance-capacita#108
+THEN=docs/incidents/META_FACEBOOK_RESTRICTED_ADVANCED_PROTECTION_LOOP_2026-09-19.md
+THEN_THIS_FILE=YES
+ASK_USER_TO_REPEAT_PRIOR_NAVIGATION=NO
+```
