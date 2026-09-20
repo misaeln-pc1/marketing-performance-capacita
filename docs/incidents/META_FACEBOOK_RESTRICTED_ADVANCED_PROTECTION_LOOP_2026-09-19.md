@@ -2,7 +2,7 @@
 
 Fecha del incidente documentado: 2026-09-19  
 Repo dueño: `misaeln-pc1/marketing-performance-capacita`  
-Estado: `HOLD_META_SUPPORT / RECOVERY_PENDING`  
+Estado: `HOLD_META_TECH_REPORT / PERIODIC_RECHECK`  
 Semáforo: `AMARILLO` operacional; cualquier credencial, pago, permiso o cambio de seguridad sigue siendo `ROJO`.
 
 ## Resumen ejecutivo
@@ -260,3 +260,37 @@ No cerrar hasta tener evidencia de al menos una de estas condiciones:
 - Meta entrega resolución/diagnóstico oficial y una ruta funcional de recuperación; o
 - existe un fallback administrativo seguro y validado para Ads mientras el perfil sigue restringido, con el incidente de seguridad todavía abierto.
 
+
+## Aclaración de seguimiento — 2026-09-20
+
+El Asistente de ayuda de Meta aclaró explícitamente que los reportes enviados mediante **Reportar un problema** por fallos técnicos:
+
+- no generan una respuesta personal;
+- no generan confirmación por correo;
+- no tienen seguimiento individual visible;
+- se utilizan como señal técnica para mejorar/corregir la plataforma.
+
+La **Bandeja de ayuda** aplica principalmente a reportes de normas/contenido y no sirve como tracker del bug técnico de este incidente.
+
+Por tanto, la estrategia de seguimiento cambia de:
+
+\`\`\`text
+ESPERAR_RESPUESTA_META
+\`\`\`
+
+a:
+
+\`\`\`text
+TECH_REPORT_SENT
+→ NO_INDIVIDUAL_RESPONSE_EXPECTED
+→ PERIODIC_RECHECK_PROFILE_STATUS
+→ PERIODIC_RECHECK_SECURITY_CHECK_FLOW
+→ RETOMAR SOLO SI HAY CAMBIO
+\`\`\`
+
+Comprobación mínima recomendada al retomar:
+
+1. Instagram → Centro de cuentas → perfiles.
+2. Verificar si Facebook sigue mostrando \`Restringido\`.
+3. Sólo si cambió el estado, probar \`IR A FACEBOOK\` una vez.
+4. No repetir cambios de contraseña, cookies, 2FA o passkey sin evidencia nueva.
