@@ -274,23 +274,164 @@ La **Bandeja de ayuda** aplica principalmente a reportes de normas/contenido y n
 
 Por tanto, la estrategia de seguimiento cambia de:
 
-\`\`\`text
+```text
 ESPERAR_RESPUESTA_META
-\`\`\`
+```
 
 a:
 
-\`\`\`text
+```text
 TECH_REPORT_SENT
 → NO_INDIVIDUAL_RESPONSE_EXPECTED
 → PERIODIC_RECHECK_PROFILE_STATUS
 → PERIODIC_RECHECK_SECURITY_CHECK_FLOW
 → RETOMAR SOLO SI HAY CAMBIO
-\`\`\`
+```
 
 Comprobación mínima recomendada al retomar:
 
 1. Instagram → Centro de cuentas → perfiles.
-2. Verificar si Facebook sigue mostrando \`Restringido\`.
-3. Sólo si cambió el estado, probar \`IR A FACEBOOK\` una vez.
+2. Verificar si Facebook sigue mostrando `Restringido`.
+3. Sólo si cambió el estado, probar `IR A FACEBOOK` una vez.
 4. No repetir cambios de contraseña, cookies, 2FA o passkey sin evidencia nueva.
+
+
+## Escalamiento comercial y soporte pagado — 2026-09-20
+
+Ante la gravedad comercial del bloqueo, se investigaron rutas de soporte pagado dentro de Meta desde Instagram.
+
+### Ofertas observadas en la interfaz
+
+Se observaron al menos estas ofertas:
+
+```text
+Business Standard
+Desde $5.600/mes por perfil
+Ayuda mejorada: chat o correo electrónico con representantes
+Beneficio de prueba visible
+```
+
+y:
+
+```text
+Business Plus
+Desde $18.990/mes por perfil
+Ayuda mejorada
+"Resuelve los problemas más rápido"
+Beneficio de prueba visible
+```
+
+Business Plus además mostraba beneficios adicionales de visibilidad/perfil en Facebook e Instagram. No se documenta aquí ninguna promesa de SLA porque la interfaz observada no mostró un tiempo garantizado de resolución.
+
+### Bloqueo circular del soporte pagado
+
+Al intentar avanzar para obtener el plan/soporte, la interfaz volvió a exigir autenticación mediante Facebook.
+
+Resultado:
+
+```text
+NEED_HUMAN_SUPPORT
+→ META_BUSINESS_PLAN_FLOW
+→ AUTH_VIA_FACEBOOK_REQUIRED
+→ FACEBOOK_PROFILE_RESTRICTED
+→ SECURITY_CHECK_REQUIRED
+→ CHECKPOINT_LOOP
+```
+
+Por tanto, la vía pagada no quedó validada como acceso efectivo a soporte humano para este incidente.
+
+### Cobertura de perfil observada
+
+Al revisar la selección/asignación del plan desde la superficie disponible, la interfaz mostraba principalmente el perfil de Instagram y solicitaba asignar una categoría. No quedó demostrado que la suscripción pudiera aplicarse al perfil Facebook restringido ni que habilitara soporte para él sin superar antes el mismo login bloqueado.
+
+Decisión provisional:
+
+- no contratar Business Standard/Plus sólo por expectativa de soporte;
+- primero exigir evidencia de que el plan cubre el perfil Facebook afectado y no depende del mismo checkpoint roto;
+- no interpretar beneficios de mayor exposición como solución al incidente de autenticación;
+- no confundir soporte para Instagram/WhatsApp con soporte garantizado para el perfil Facebook restringido.
+
+## Mapa consolidado de rutas intentadas
+
+```text
+FACEBOOK_WEB                  = FAIL_ERR_TOO_MANY_REDIRECTS
+FACEBOOK_MOBILE_FLOW          = FAIL_CHECKPOINT_LOOP
+FACEBOOK_PASSKEY              = AUTH_PASS / POST_LOGIN_FAIL
+META_BUSINESS_SUITE_FACEBOOK  = FAIL
+META_BUSINESS_SUITE_INSTAGRAM = FAIL
+INSTAGRAM_APP                 = PASS
+INSTAGRAM_ACCOUNTS_CENTER     = PASS_PARTIAL
+INSTAGRAM_AD_TOOLS            = NO_REAL_META_ADS_ACCOUNT_VISIBLE
+META_AI_HELP_ASSISTANT        = INFORMATION_ONLY / NO_CASE
+INSTAGRAM_TECH_BUG_REPORT     = SENT / NO_INDIVIDUAL_RESPONSE
+META_HELP_INBOX               = NOT_TRACKER_FOR_TECH_BUG
+META_BUSINESS_STANDARD        = SUPPORT_OFFER_VISIBLE / ACCESS_NOT_VALIDATED
+META_BUSINESS_PLUS            = SUPPORT_OFFER_VISIBLE / ACCESS_NOT_VALIDATED
+PAID_SUPPORT_FLOW             = BLOCKED_BY_FACEBOOK_AUTH_LOOP
+```
+
+## Problema comercial asociado
+
+La cuenta publicitaria opera con fondos limitados/prepagados. Al cierre:
+
+- el saldo se habría agotado recientemente;
+- el objetivo de Misael es mantener la campaña generando leads;
+- la necesidad inmediata no es pausar gasto, sino poder **agregar fondos / mantener continuidad comercial**;
+- Instagram personal no expone la cuenta publicitaria standalone real;
+- el acceso a Ads Manager/facturación sigue bloqueado por el perfil restringido.
+
+Antes de cualquier pago futuro:
+
+```text
+VERIFY_AD_ACCOUNT=...2327
+VERIFY_CAMPAIGN_INVENTORY=V3
+VERIFY_STATUS=ACTIVE|ENDED|OTHER
+VERIFY_PREPAID_BALANCE
+THEN_ADD_FUNDS_IF_AUTHORIZED
+```
+
+No transferir dinero usando datos bancarios/referencias históricas fuera de una superficie oficial y validada de la cuenta correcta.
+
+## Hipótesis y hechos separados
+
+### Hechos verificados
+
+- Facebook muestra el perfil como `Restringido`.
+- Meta exige control de seguridad.
+- El flujo oficial `IR A FACEBOOK` termina en bucle.
+- La passkey existente autentica correctamente al usuario.
+- 2FA y dispositivo de confianza están activos.
+- Instagram funciona.
+- Ads Manager/Business Suite no son utilizables por el bloqueo.
+- El reporte técnico por Instagram fue enviado.
+- Meta indicó que ese tipo de reporte no genera respuesta individual.
+- Las ofertas Business Standard/Plus muestran soporte mejorado, pero el flujo observado vuelve a requerir Facebook.
+
+### No demostrado todavía
+
+- causa raíz interna exacta del checkpoint;
+- que Meta haya abierto un ticket técnico individual;
+- que Business Standard o Plus permitan soporte humano para el Facebook restringido sin autenticarse primero en ese Facebook;
+- que otro administrador autorizado tenga acceso a la cuenta publicitaria standalone;
+- estado vivo actual de campaña/saldo después del bloqueo;
+- que la restricción tenga relación causal con algún cambio previo de seguridad.
+
+## Estado de continuidad recomendado
+
+```text
+INCIDENT_OPEN=YES
+TECH_REPORT_SENT=YES
+INDIVIDUAL_META_REPLY_EXPECTED=NO
+PAID_SUPPORT_AVAILABLE_IN_UI=YES
+PAID_SUPPORT_USABLE_FOR_BLOCKED_FACEBOOK=NOT_VERIFIED
+ADS_ADMIN_ACCESS=BLOCKED
+COMMERCIAL_CONTINUITY_RISK=YES
+```
+
+Siguiente investigación útil al retomar:
+
+1. identificar una vía de soporte humano que no requiera el mismo login Facebook bloqueado;
+2. verificar si existe otro administrador real de la cuenta publicitaria standalone;
+3. verificar si una superficie comercial/partner/agency puede abrir caso por esa cuenta sin compartir credenciales;
+4. recuperar acceso o un fallback seguro antes de rediseñar ownership;
+5. una vez estable, reducir dependencia de un único perfil personal para administración y facturación.
