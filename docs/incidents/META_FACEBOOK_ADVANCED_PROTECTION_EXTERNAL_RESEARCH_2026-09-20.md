@@ -154,3 +154,52 @@ READ_ONLY_INSPECTION_INSTAGRAM_ADVANCED_PROTECTION
 ```
 
 Sólo si esa ruta no resuelve y la interfaz de Meta Verified es utilizable sin Facebook, evaluar el piloto pagado mediante gate humano.
+
+
+## Resultado del micro-check gratuito desde Instagram — 2026-09-20
+
+Evidencia visual revisada desde la app oficial de Instagram / Centro de cuentas, sin subir capturas ni PII al repo.
+
+Hallazgos:
+
+```text
+INSTAGRAM_ACCOUNTS_CENTER=PASS
+FACEBOOK_PROFILE_STATUS=RESTRICTED
+INSTAGRAM_PROFILE_STATUS=NORMAL
+THREADS_PROFILE_STATUS=NORMAL
+FACEBOOK_STILL_LINKED_TO_META_ACCOUNT=YES
+FACEBOOK_PAGES_ADMIN_RELATIONSHIP_VISIBLE=YES
+SECURITY_CHECKUP_RECOMMENDATION=CREATE_PASSKEY_ONLY
+EXISTING_PASSKEY_ALREADY_CONFIRMED=YES
+ADVANCED_PROTECTION_CONTROL_VISIBLE_IN_IG_ACCOUNTS_CENTER=NO
+FREE_IG_ADVANCED_PROTECTION_ROUTE=NOT_EXPOSED
+```
+
+La pantalla de seguridad muestra como controles visibles:
+
+- comprobación rápida de seguridad;
+- información de contacto;
+- contraseña;
+- autenticación en dos pasos;
+- selfie de verificación;
+- inicio de sesión guardado;
+- llave de acceso;
+- dónde iniciaste sesión;
+- correos electrónicos de Meta.
+
+No aparece un control separado de `Protección avanzada / Advanced Protection / Facebook Protect`.
+
+La comprobación rápida de seguridad propone únicamente crear una nueva llave de acceso. Esa acción no se ejecuta porque ya existe una passkey funcional y el incidente falla después de autenticar.
+
+Además, el perfil Facebook sigue administrando páginas dentro del Centro de cuentas. No ejecutar `Quitar de esta cuenta de Meta`, `Desactivación o eliminación` ni cambios de vínculo durante el incidente.
+
+### Decisión del delta
+
+```text
+READ_ONLY_INSPECTION_INSTAGRAM_ADVANCED_PROTECTION=COMPLETE
+RESULT=NO_ADVANCED_PROTECTION_CONTROL_EXPOSED
+NEXT_CANDIDATE=IG_META_VERIFIED_ADVANCED_PROTECTION_RESYNC
+STATUS=PROPOSED_NOT_AUTHORIZED
+```
+
+La ruta gratuita específica de Protección avanzada desde Instagram queda agotada con la interfaz actual. El siguiente candidato, si Misael decide continuar, es revisar la elegibilidad/flujo de Meta Verified desde Instagram **hasta antes de confirmar cualquier pago o cambio de seguridad**.
