@@ -1,5 +1,29 @@
 # Estado de Tareas
 
+## Incidente activo — Meta/Facebook restringido (2026-09-19)
+
+Estado:
+
+```text
+PROFILE_STATUS=RESTRICTED
+SECURITY_CHECK_REQUIRED=YES
+CHECKPOINT_PATH=/checkpoint/advanced_protection/
+ERR_TOO_MANY_REDIRECTS=REPRODUCIBLE
+PASSKEY_ACCEPTED=YES
+INSTAGRAM_ACCESS=PASS
+META_BUSINESS_SUITE=BLOCKED
+INSTAGRAM_BUG_REPORT=SENT
+META_RESPONSE=PENDING
+ADS_WRITES=0
+PAYMENT_WRITES=0
+```
+
+Canónico del incidente:
+
+`docs/incidents/META_FACEBOOK_RESTRICTED_ADVANCED_PROTECTION_LOOP_2026-09-19.md`
+
+Regla al retomar: no reiniciar diagnóstico de contraseña/2FA/cookies. Leer primero el incidente, revisar respuesta de Meta y validar sólo el delta. La cuenta Meta Ads operativa sigue identificándose por `docs/meta-ads/META_ADS_ACCOUNT_ROUTING.md`.
+
 Fecha de revisión: 2026-09-06
 
 ## Frente P0 — Content Growth: diagnóstico → contenido → curso
