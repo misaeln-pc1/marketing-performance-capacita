@@ -18,6 +18,7 @@ Registro mínimo de riesgos transversales. Los riesgos específicos permanecen e
 | MKT-R10 | Sobreanálisis, exceso de herramientas o demora en publicar/aprender | Amarillo | consultar sólo fuentes pertinentes; detener por bajo beneficio marginal; prueba mínima reversible | control obligatorio |
 | MKT-R11 | Recomendación de keywords negativas elimina intención válida | Amarillo | aplicar política canónica de intención y diferenciar Ads de SEO/canibalización | vigente |
 | MKT-R12 | Dependencia de planes, conectores o herramientas no disponibles | Verde/Amarillo | registrar `NO_ACCESS/PLAN_LIMIT`; mantener fallback validado; no inventar datos | vigente |
+| MKT-R13 | Dependencia operacional de un perfil Facebook personal restringido para administrar la cuenta Meta Ads standalone | Amarillo/Rojo | recuperar checkpoint con soporte Meta; no tocar permisos/propiedad durante incidente; después evaluar fallback administrativo separado y reversible | incidente abierto 2026-09-19 |
 
 ## Riesgo de visibilidad del repositorio
 
