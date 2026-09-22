@@ -246,3 +246,66 @@ THEN=docs/incidents/META_FACEBOOK_RESTRICTED_ADVANCED_PROTECTION_LOOP_2026-09-19
 THEN_THIS_FILE=YES
 ASK_USER_TO_REPEAT_PRIOR_NAVIGATION=NO
 ```
+
+
+## Resolución final — 2026-09-21
+
+Misael confirma recuperación efectiva del acceso y cuenta activa después de usar Meta Verified Business Standard desde Instagram y acceder a soporte humano de Meta.
+
+Secuencia útil observada:
+
+```text
+INSTAGRAM_BUSINESS=OPERATIVO
+→ META_VERIFIED_BUSINESS_STANDARD=CONTRATADO
+→ SOPORTE_HUMANO_INSTAGRAM=ACCESIBLE
+→ PRIMER_ESPECIALISTA=TRANSFERENCIA
+→ SEGUNDO_ESPECIALISTA=CONTINUA_CASO
+→ SOPORTE_ENTREGA_INSTRUCCIONES
+→ FACEBOOK_ACCESS=RECOVERED
+→ ACCOUNT_ACTIVE=YES
+```
+
+### Ruta entregada por soporte para identificar la cuenta publicitaria
+
+URL oficial indicada por soporte:
+
+```text
+https://www.facebook.com/adsmanager
+```
+
+Instrucción recibida:
+
+1. abrir Ads Manager;
+2. revisar la zona superior izquierda;
+3. allí aparece el nombre y el identificador de la cuenta publicitaria.
+
+Regla de privacidad:
+
+- no registrar el ID completo en GitHub;
+- mantener sólo la referencia sanitizada vigente `...2327`;
+- validar siempre por inventario real de campañas antes de operar.
+
+### Aprendizaje reutilizable
+
+Para incidentes futuros con:
+
+```text
+PROFILE_RESTRICTED
++ AUTHENTICATION_PASS
++ CHECKPOINT_ADVANCED_PROTECTION_LOOP
++ INSTAGRAM_STILL_WORKS
+```
+
+la ruta con mejor evidencia local quedó:
+
+```text
+Instagram operativo
+→ Meta Verified Business Standard
+→ soporte humano
+→ escalamiento/transferencia a especialista
+→ instrucciones oficiales de recuperación
+→ validar acceso Facebook
+→ validar Ads Manager
+```
+
+No reiniciar automáticamente contraseña, cookies, 2FA, passkeys o dispositivos si ya están validados.
