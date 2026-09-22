@@ -435,3 +435,81 @@ Siguiente investigación útil al retomar:
 3. verificar si una superficie comercial/partner/agency puede abrir caso por esa cuenta sin compartir credenciales;
 4. recuperar acceso o un fallback seguro antes de rediseñar ownership;
 5. una vez estable, reducir dependencia de un único perfil personal para administración y facturación.
+
+
+## Control anti-bucle — actualización 2026-09-20
+
+El incidente acumuló varias rondas de diagnóstico. Antes de pedir una acción manual nueva, leer primero el issue canónico `#108` y verificar que la ruta no esté ya agotada.
+
+### Ya probado / no repetir sin evidencia nueva
+
+```text
+PASSWORD_CHANGE=ALREADY_DONE_NO_FIX
+COOKIES_INCOGNITO=ALREADY_TRIED_NO_FIX
+2FA=ACTIVE_DO_NOT_RESET
+PASSKEY=EXISTS_AND_AUTHENTICATES_DO_NOT_RECREATE
+TRUSTED_DEVICE=RECOGNIZED_DO_NOT_REMOVE
+FACEBOOK_WEB=CHECKPOINT_LOOP
+FACEBOOK_MOBILE=CHECKPOINT_LOOP
+INSTAGRAM_ACCOUNTS_CENTER=PASS_PARTIAL
+INSTAGRAM_SECURITY_CHECKUP=PASSKEY_RECOMMENDATION_ONLY
+INSTAGRAM_ADVANCED_PROTECTION_CONTROL=NOT_EXPOSED
+META_VERIFIED_LOCATION=ALREADY_FOUND
+BUSINESS_STANDARD=ALREADY_REVIEWED
+BUSINESS_PLUS=ALREADY_REVIEWED
+TECH_BUG_REPORT=SENT_NO_PERSONAL_REPLY
+PAID_SUPPORT_FLOW=BLOCKED_BY_FACEBOOK_AUTH_LOOP
+```
+
+### Evidencia visual ya revisada
+
+Desde Instagram se confirmó:
+
+- `Facebook • Restringido`;
+- Instagram y Threads operativos;
+- Facebook permanece vinculado a la misma cuenta Meta;
+- páginas administradas siguen visibles;
+- la comprobación rápida de seguridad sólo ofrece crear una nueva llave de acceso;
+- no aparece un control separado de `Protección avanzada / Advanced Protection / Facebook Protect`;
+- `Meta Verified` ya está localizado en Ayuda y soporte técnico;
+- Business Standard está visible desde CLP 5.600/mes por perfil;
+- Business Plus está visible desde CLP 18.990/mes por perfil;
+- ambos anuncian ayuda mejorada y acceso a representantes por chat/correo según la interfaz observada;
+- el asistente de Meta confirma que `Reportar un problema` técnico no genera respuesta individual ni correo de confirmación.
+
+Las capturas contienen información personal y no se almacenan en GitHub.
+
+### Regla dura para futuros chats/agentes
+
+```text
+READ_FIRST=ISSUE_108
+ASK_USER_TO_REPEAT_PRIOR_NAVIGATION=NO
+REPEAT_ONLY_IF=NEW_OBJECTIVE_EVIDENCE
+```
+
+Nueva evidencia válida incluye: cambio de estado del perfil, mensaje distinto de Meta, interfaz nueva, administrador adicional verificado, soporte humano realmente accesible o documentación oficial nueva.
+
+
+## Cierre operativo — 2026-09-21
+
+Misael confirma:
+
+```text
+FACEBOOK_ACCESS=RESTORED
+PROFILE_STATUS=ACTIVE
+META_VERIFIED_BUSINESS_STANDARD=USED
+HUMAN_SUPPORT=USED
+INCIDENT_RESOLVED=YES
+```
+
+La vía efectiva fue Meta Verified Business Standard desde Instagram, que habilitó soporte humano. El caso fue transferido entre especialistas hasta entregar una ruta funcional de recuperación.
+
+Soporte indicó además usar:
+
+```text
+https://www.facebook.com/adsmanager
+```
+
+para visualizar, en la zona superior izquierda, el nombre e identificador de la cuenta publicitaria. El ID completo no debe versionarse; conservar referencia sanitizada `...2327`.
+
+Este cierre satisface el DoD del incidente por recuperación efectiva de acceso. PR #111 consolida el aprendizaje y permanece pendiente de merge explícito.
