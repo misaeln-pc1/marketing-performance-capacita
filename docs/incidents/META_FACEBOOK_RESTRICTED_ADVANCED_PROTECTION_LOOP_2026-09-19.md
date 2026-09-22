@@ -488,3 +488,28 @@ REPEAT_ONLY_IF=NEW_OBJECTIVE_EVIDENCE
 ```
 
 Nueva evidencia válida incluye: cambio de estado del perfil, mensaje distinto de Meta, interfaz nueva, administrador adicional verificado, soporte humano realmente accesible o documentación oficial nueva.
+
+
+## Cierre operativo — 2026-09-21
+
+Misael confirma:
+
+```text
+FACEBOOK_ACCESS=RESTORED
+PROFILE_STATUS=ACTIVE
+META_VERIFIED_BUSINESS_STANDARD=USED
+HUMAN_SUPPORT=USED
+INCIDENT_RESOLVED=YES
+```
+
+La vía efectiva fue Meta Verified Business Standard desde Instagram, que habilitó soporte humano. El caso fue transferido entre especialistas hasta entregar una ruta funcional de recuperación.
+
+Soporte indicó además usar:
+
+```text
+https://www.facebook.com/adsmanager
+```
+
+para visualizar, en la zona superior izquierda, el nombre e identificador de la cuenta publicitaria. El ID completo no debe versionarse; conservar referencia sanitizada `...2327`.
+
+Este cierre satisface el DoD del incidente por recuperación efectiva de acceso. PR #111 consolida el aprendizaje y permanece pendiente de merge explícito.
